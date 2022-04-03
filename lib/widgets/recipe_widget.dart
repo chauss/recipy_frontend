@@ -9,12 +9,13 @@ class RecipeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 200,
-        margin: const EdgeInsets.all(10),
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.blueAccent),
-            borderRadius: const BorderRadius.all(Radius.circular(4))),
-        child: Text(recipe.name));
+      width: 200,
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.blueAccent),
+          borderRadius: const BorderRadius.all(Radius.circular(4))),
+      child: Text(recipe.name),
+    );
   }
 }
