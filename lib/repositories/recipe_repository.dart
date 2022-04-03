@@ -13,7 +13,7 @@ class RecipeRepository {
     var response = await http.get(uri);
 
     if (response.statusCode == 200) {
-      Iterable l = json.decode(response.body);
+      Iterable l = json.decode(utf8.decode(response.bodyBytes));
       List<Recipe> recipes =
           List<Recipe>.from(l.map((json) => Recipe.fromJson(json)));
       return recipes;
@@ -25,12 +25,12 @@ class RecipeRepository {
   static Future<bool> addRecipe(String name) async {
     var uri = Uri.parse(APIConfiguration.backendBaseUri + "/recipe");
     var response = await http.post(uri,
-        body: jsonEncode(<String, String>{"name": name}),
+        body: json.encode(<String, String>{"name": name}),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         });
 
-    if (!is2xx(response.statusCode)) {
+    if (is2xx(response.statusCode)) {
       return true;
     } else {
       log.warning('Failed to add recipe (${response.statusCode})');
