@@ -1,24 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:recipy_frontend/models/recipe.dart';
-import 'package:recipy_frontend/pages/add_recipe_page.dart';
+import 'package:recipy_frontend/pages/recipe/add_recipe_page.dart';
 import 'package:recipy_frontend/repositories/recipe_repository.dart';
+import 'package:recipy_frontend/widgets/nav_drawer.dart';
 import 'package:recipy_frontend/widgets/recipe_widget.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  final String title = "Recipy";
+class RecipeOverviewPage extends StatefulWidget {
+  const RecipeOverviewPage({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<RecipeOverviewPage> createState() => _RecipeOverviewPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class _RecipeOverviewPageState extends State<RecipeOverviewPage> {
   Future<List<Recipe>> _fetchRecipeList() {
     return RecipeRepository.fetchRecipes();
   }
@@ -27,8 +21,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text("All recipes"),
       ),
+      drawer: const NavDrawer(),
       body: Center(
         child: ListView(
           children: [

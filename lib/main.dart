@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipy_frontend/pages/home_page.dart';
+import 'package:recipy_frontend/pages/recipe/recipe_overview_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: const RecipeOverviewPage(),
     );
   }
 }
