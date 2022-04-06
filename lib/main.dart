@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart' as intl_initializer;
 import 'package:recipy_frontend/pages/recipe/recipe_overview_page.dart';
 
 void main() {
@@ -11,6 +13,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    Intl.defaultLocale = 'de';
+    intl_initializer.initializeDateFormatting();
+
     return MaterialApp(
       title: 'Recipy',
       theme: ThemeData(

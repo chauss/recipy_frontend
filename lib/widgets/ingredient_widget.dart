@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:recipy_frontend/models/ingredient.dart';
 
 class IngredientWidget extends StatelessWidget {
@@ -19,7 +20,8 @@ class IngredientWidget extends StatelessWidget {
       child: Column(
         children: [
           Text(ingredient.name),
-          Text(ingredient.created.toIso8601String()),
+          Text(DateFormat.Hm().format(ingredient.created)),
+          Text(DateFormat.yMMMd().format(ingredient.created)),
         ],
       ),
     );

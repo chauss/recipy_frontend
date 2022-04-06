@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:recipy_frontend/models/recipe.dart';
 
 class RecipeWidget extends StatelessWidget {
@@ -15,7 +16,13 @@ class RecipeWidget extends StatelessWidget {
       decoration: BoxDecoration(
           border: Border.all(color: Colors.blueAccent),
           borderRadius: const BorderRadius.all(Radius.circular(4))),
-      child: Text(recipe.name),
+      child: Column(
+        children: [
+          Text(recipe.name),
+          Text(DateFormat.Hm().format(recipe.created)),
+          Text(DateFormat.yMMMd().format(recipe.created)),
+        ],
+      ),
     );
   }
 }

@@ -9,9 +9,7 @@ class Ingredient {
     return Ingredient(
       id: json['ingredientId'],
       name: json['name'],
-      created: DateTime.fromMillisecondsSinceEpoch(
-        (json['created'] * 1000).round(),
-      ),
+      created: DateTime.fromMillisecondsSinceEpoch(json['created']),
     );
   }
 }
