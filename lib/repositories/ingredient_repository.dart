@@ -4,6 +4,7 @@ import 'package:logging/logging.dart';
 import 'package:recipy_frontend/config/api_config.dart';
 import 'package:recipy_frontend/helpers/http_helper.dart';
 import 'package:recipy_frontend/models/ingredient.dart';
+import 'package:recipy_frontend/models/ingredient_unit.dart';
 
 class IngredientRepository {
   static final log = Logger('IngredientsRepository');
@@ -38,6 +39,21 @@ class IngredientRepository {
       log.warning(
           'Failed to add ingredient $errorMessage (${response.statusCode})');
       return false;
+    }
+  }
+
+  static Future<List<IngredientUnit>> fetchIngredientUnits() async {
+    var uri =
+        Uri.parse(APIConfiguration.backendBaseUri + "/v1/ingredient/units");
+    var response = await http.get(uri);
+
+    if (response.statusCode == 200) {
+      Iterable l = json.decode(utf8.decode(response.bodyBytes));
+      List<IngredientUnit> ingredientUnits = List<IngredientUnit>.from(
+          l.map((json) => IngredientUnit.fromJson(json)));
+      return ingredientUnits;
+    } else {
+      throw Exception('Failed to load ingredientUnits');
     }
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart' as intl_initializer;
-import 'package:recipy_frontend/pages/recipe/recipe_overview_page.dart';
+import 'package:recipy_frontend/pages/ingredient/ingredients_control_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const RecipeOverviewPage(),
+      home: const IngredientsControlPage(),
     );
   }
 }
