@@ -12,12 +12,15 @@ class RecipeRepository {
     var uri = Uri.parse(APIConfiguration.backendBaseUri + "/v1/recipes");
     var response = await http.get(uri);
 
-    if (response.statusCode == 200) {
+    if (is2xx(response.statusCode)) {
       Iterable l = json.decode(utf8.decode(response.bodyBytes));
       List<Recipe> recipes =
           List<Recipe>.from(l.map((json) => Recipe.fromJson(json)));
+      log.fine("Fetched ${recipes.length} recipes");
+
       return recipes;
     } else {
+      log.warning('Failed to load recipes (${response.statusCode})');
       throw Exception('Failed to load recipes');
     }
   }

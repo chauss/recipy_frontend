@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:recipy_frontend/models/ingredient.dart';
 import 'package:recipy_frontend/models/ingredient_unit.dart';
 import 'package:recipy_frontend/repositories/ingredient_repository.dart';
+import 'package:recipy_frontend/repositories/ingredient_unit_repository.dart';
 import 'package:recipy_frontend/widgets/executive_textfield.dart';
 import 'package:recipy_frontend/widgets/future_list_widget.dart';
 import 'package:recipy_frontend/widgets/ingredient_unit_widget.dart';
 import 'package:recipy_frontend/widgets/ingredient_widget.dart';
+import 'package:recipy_frontend/widgets/nav_drawer.dart';
 
 class IngredientsControlPage extends StatefulWidget {
   const IngredientsControlPage({Key? key}) : super(key: key);
@@ -21,6 +23,7 @@ class _IngredientsControlPageState extends State<IngredientsControlPage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        drawer: const NavDrawer(),
         appBar: AppBar(
           title: const Text("Zutaten Control Center"),
           bottom: TabBar(
@@ -50,7 +53,7 @@ class _IngredientsControlPageState extends State<IngredientsControlPage> {
         ),
         body: TabBarView(children: [
           buildIngredientsTab(),
-          buildIngredientUnitsList(),
+          buildIngredientUnitsTab(),
         ]),
       ),
     );
@@ -62,6 +65,7 @@ class _IngredientsControlPageState extends State<IngredientsControlPage> {
           ExecutiveTextfield(
             addFunction: IngredientRepository.addIngredient,
             resultCallback: (success) => {if (success) setState(() {})},
+            hintText: 'Füge eine neue Zutat hinzu',
           ),
         ],
       );
@@ -73,9 +77,20 @@ class _IngredientsControlPageState extends State<IngredientsControlPage> {
     );
   }
 
+  Widget buildIngredientUnitsTab() => Column(
+        children: [
+          Expanded(child: buildIngredientUnitsList()),
+          ExecutiveTextfield(
+            addFunction: IngredientUnitRepository.addIngredientUnit,
+            resultCallback: (success) => {if (success) setState(() {})},
+            hintText: 'Füge eine neue Einheit hinzu',
+          ),
+        ],
+      );
+
   FutureListWidget<IngredientUnit> buildIngredientUnitsList() {
     return FutureListWidget<IngredientUnit>(
-      fetch: IngredientRepository.fetchIngredientUnits,
+      fetch: IngredientUnitRepository.fetchIngredientUnits,
       widgetBuilder: (ingredientUnit) =>
           IngredientUnitWidget(ingredientUnit: ingredientUnit),
     );

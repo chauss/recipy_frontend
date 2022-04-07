@@ -8,11 +8,13 @@ class ExecutiveTextfield<T> extends StatelessWidget {
   final TextEditingController controller = TextEditingController();
   final AddFunction<T> addFunction;
   final AddFunctionCalback? resultCallback;
+  final String? hintText;
 
   ExecutiveTextfield({
     Key? key,
     required this.addFunction,
     this.resultCallback,
+    this.hintText,
   }) : super(key: key);
 
   @override
@@ -27,12 +29,12 @@ class ExecutiveTextfield<T> extends StatelessWidget {
               child: TextField(
                 controller: controller,
                 onSubmitted: (_) => safeCallAddFunction(),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   fillColor: Colors.white,
                   filled: true,
-                  border: OutlineInputBorder(
+                  border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30))),
-                  hintText: 'Füge eine neue Zutat hinzu',
+                  hintText: hintText,
                 ),
               ),
             ),
