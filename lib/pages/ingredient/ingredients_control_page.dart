@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recipy_frontend/models/ingredient.dart';
 import 'package:recipy_frontend/models/ingredient_unit.dart';
 import 'package:recipy_frontend/repositories/ingredient_repository.dart';
+import 'package:recipy_frontend/widgets/executive_textfield.dart';
 import 'package:recipy_frontend/widgets/future_list_widget.dart';
 import 'package:recipy_frontend/widgets/ingredient_unit_widget.dart';
 import 'package:recipy_frontend/widgets/ingredient_widget.dart';
@@ -21,36 +23,51 @@ class _IngredientsControlPageState extends State<IngredientsControlPage> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Zutaten Control Center"),
-          bottom: const TabBar(
+          bottom: TabBar(
             tabs: [
-              Tab(icon: Icon(Icons.local_pizza)),
-              Tab(icon: Icon(Icons.receipt)),
+              Tab(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(CupertinoIcons.barcode),
+                    SizedBox(width: 4),
+                    Text("Zutaten")
+                  ],
+                ),
+              ),
+              Tab(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(CupertinoIcons.greaterthan_square),
+                    SizedBox(width: 4),
+                    Text("Einheiten")
+                  ],
+                ),
+              ),
             ],
           ),
         ),
         body: TabBarView(children: [
-          buildIngredientsList(),
+          buildIngredientsTab(),
           buildIngredientUnitsList(),
         ]),
       ),
     );
-    // FloatingActionButton(
-    //   onPressed: () => Navigator.push(
-    //     context,
-    //     MaterialPageRoute(builder: (context) => const AddIngredientPage()),
-    //   ).then((addedNewIngredient) {
-    //     if (addedNewIngredient == true) {
-    //       setState(() {});
-    //     }
-    //   }),
-    //   tooltip: 'Add new ingredient',
-    //   child: const Icon(Icons.add),
-    // )
   }
+
+  Widget buildIngredientsTab() => Column(
+        children: [
+          Expanded(child: buildIngredientsList()),
+          ExecutiveTextfield(
+            addFunction: IngredientRepository.addIngredient,
+            resultCallback: (success) => {if (success) setState(() {})},
+          ),
+        ],
+      );
 
   FutureListWidget<Ingredient> buildIngredientsList() {
     return FutureListWidget<Ingredient>(
-      heading: "Zutaten",
       fetch: IngredientRepository.fetchIngredients,
       widgetBuilder: (ingredient) => IngredientWidget(ingredient: ingredient),
     );
@@ -58,7 +75,6 @@ class _IngredientsControlPageState extends State<IngredientsControlPage> {
 
   FutureListWidget<IngredientUnit> buildIngredientUnitsList() {
     return FutureListWidget<IngredientUnit>(
-      heading: "Einheiten",
       fetch: IngredientRepository.fetchIngredientUnits,
       widgetBuilder: (ingredientUnit) =>
           IngredientUnitWidget(ingredientUnit: ingredientUnit),
