@@ -19,7 +19,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.home),
-            title: const Text('Recipe Overview'),
+            title: const Text('Rezeptübersicht'),
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -28,7 +28,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.settings),
-            title: const Text('Ingredients Control Center'),
+            title: const Text('Rezept Kontroll Center'),
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(

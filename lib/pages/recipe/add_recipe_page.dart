@@ -16,7 +16,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add new recipe"),
+        title: const Text("Rezept hinzufügen"),
       ),
       body: Form(
         key: _formKey,
@@ -27,14 +27,14 @@ class _AddRecipePageState extends State<AddRecipePage> {
               child: TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a name for the new recipe';
+                    return 'Bitte gibt einen Namen für das neue Rezept ein';
                   }
                   return null;
                 },
                 controller: nameController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: 'Recipe name',
+                  hintText: 'Rezeptname',
                 ),
               ),
             ),
@@ -47,8 +47,8 @@ class _AddRecipePageState extends State<AddRecipePage> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(success
-                          ? 'Added new recipe!'
-                          : 'Failed to add new recipe!'),
+                          ? 'Neues Rezept hinzugefügt!'
+                          : 'Rezept konnte nicht hinzugefügt werden!'),
                     ),
                   );
 
@@ -57,7 +57,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
                   }
                 }
               },
-              child: const Text('Add new recipe'),
+              child: const Text('Rezept hinzufügen'),
             )
           ],
         ),

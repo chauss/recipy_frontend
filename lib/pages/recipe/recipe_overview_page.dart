@@ -21,7 +21,7 @@ class _RecipeOverviewPageState extends State<RecipeOverviewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("All recipes"),
+        title: const Text("Rezeptübersicht"),
       ),
       drawer: const NavDrawer(),
       body: Center(
@@ -34,7 +34,7 @@ class _RecipeOverviewPageState extends State<RecipeOverviewPage> {
                   return const CircularProgressIndicator();
                 } else if (snapshot.hasData) {
                   var recipeWidgets = snapshot.data!
-                      .map((recipe) => RecipeWidget(recipe: recipe))
+                      .map((recipe) => RecipeCardWidget(recipe: recipe))
                       .toList();
                   return Column(children: recipeWidgets);
                 } else if (snapshot.hasError) {
@@ -56,7 +56,7 @@ class _RecipeOverviewPageState extends State<RecipeOverviewPage> {
             setState(() {});
           }
         }),
-        tooltip: 'Add new recipe',
+        tooltip: 'Rezept hinzufügen',
         child: const Icon(Icons.add),
       ),
     );

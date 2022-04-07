@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart' as intl_initializer;
 import 'package:recipy_frontend/helpers/logging_helper.dart';
-import 'package:recipy_frontend/pages/ingredient/ingredients_control_page.dart';
+import 'package:recipy_frontend/pages/recipe/recipe_overview_page.dart';
+import 'package:recipy_frontend/storage/in_memory_storage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,6 +20,9 @@ class MyApp extends StatelessWidget {
 
     configureLogging();
 
+    RecipyInMemoryStorage().refetchIngredients();
+    RecipyInMemoryStorage().refetchIngredientUnits();
+
     return MaterialApp(
       title: 'Recipy',
       theme: ThemeData(
@@ -33,7 +37,8 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const IngredientsControlPage(),
+      // home: const IngredientsControlPage(),
+      home: const RecipeOverviewPage(),
     );
   }
 }

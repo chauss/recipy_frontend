@@ -39,17 +39,10 @@ class ExecutiveTextfield<T> extends StatelessWidget {
               ),
             ),
           ),
-          CupertinoButton(
-              child: Container(
-                height: 40,
-                width: 40,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  color: Colors.white,
-                ),
-                child: const Icon(CupertinoIcons.add),
-              ),
-              onPressed: safeCallAddFunction)
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: safeCallAddFunction,
+          ),
         ],
       ),
     );

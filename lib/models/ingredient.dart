@@ -12,4 +12,9 @@ class Ingredient {
       created: DateTime.fromMillisecondsSinceEpoch(json['created']),
     );
   }
+
+  @override
+  String toString() {
+    return "Ingredient(name=$name)";
+  }
 }

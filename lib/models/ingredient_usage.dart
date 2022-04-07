@@ -1,4 +1,4 @@
-class IngredientUnit {
+class IngredientUsage {
   final String id;
   final String ingredientId;
   final String ingredientUnitId;
@@ -6,7 +6,7 @@ class IngredientUnit {
   final double amount;
   final DateTime created;
 
-  IngredientUnit({
+  IngredientUsage({
     required this.id,
     required this.ingredientId,
     required this.ingredientUnitId,
@@ -15,14 +15,19 @@ class IngredientUnit {
     required this.created,
   });
 
-  factory IngredientUnit.fromJson(Map<String, dynamic> json) {
-    return IngredientUnit(
-      id: json['ingredientUnitId'],
+  factory IngredientUsage.fromJson(Map<String, dynamic> json) {
+    return IngredientUsage(
+      id: json['ingredientUsageId'],
       ingredientId: json['ingredientId'],
       ingredientUnitId: json['ingredientUnitId'],
       recipeId: json['recipeId'],
-      amount: double.parse(json['amount']),
+      amount: json['amount'],
       created: DateTime.fromMillisecondsSinceEpoch(json['created']),
     );
+  }
+
+  @override
+  String toString() {
+    return "IngredientUsage(id=$id, amount=$amount)";
   }
 }
