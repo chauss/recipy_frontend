@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'Recipy',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //

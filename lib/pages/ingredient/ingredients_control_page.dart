@@ -25,7 +25,7 @@ class _IngredientsControlPageState extends State<IngredientsControlPage> {
       child: Scaffold(
         drawer: const NavDrawer(),
         appBar: AppBar(
-          title: const Text("Zutaten Control Center"),
+          title: const Text("Zutaten Verwaltung"),
           bottom: TabBar(
             tabs: [
               Tab(

@@ -3,16 +3,34 @@ import 'package:recipy_frontend/models/ingredient_usage.dart';
 import 'package:recipy_frontend/models/recipe.dart';
 import 'package:recipy_frontend/widgets/ingredient_usage_widget.dart';
 
-class RecipeDetailPage extends StatelessWidget {
+class RecipeDetailPage extends StatefulWidget {
   final Recipe recipe;
 
   const RecipeDetailPage({Key? key, required this.recipe}) : super(key: key);
 
   @override
+  State<StatefulWidget> createState() => _RecipeDetailPageState();
+}
+
+class _RecipeDetailPageState extends State<RecipeDetailPage> {
+  bool isEditMode = false;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(recipe.name),
+        title: Text(widget.recipe.name),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: IconButton(
+              onPressed: () => setState(() => isEditMode = !isEditMode),
+              icon: isEditMode
+                  ? const Icon(Icons.edit_off)
+                  : const Icon(Icons.edit),
+            ),
+          )
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.only(left: 24, right: 24, top: 32),
@@ -22,7 +40,7 @@ class RecipeDetailPage extends StatelessWidget {
   }
 
   List<Widget> buildIngredientUsages() {
-    return recipe.ingredientUsages
+    return widget.recipe.ingredientUsages
         .map((usage) => buildIngredientUsage(usage))
         .toList();
   }
@@ -30,7 +48,10 @@ class RecipeDetailPage extends StatelessWidget {
   Widget buildIngredientUsage(IngredientUsage usage) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      child: IngredientUsageWidget(usage: usage),
+      child: IngredientUsageWidget(
+        usage: usage,
+        isEditMode: isEditMode,
+      ),
     );
   }
 }

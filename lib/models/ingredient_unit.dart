@@ -1,5 +1,3 @@
-import 'dart:html';
-
 class IngredientUnit {
   final String id;
   final String name;

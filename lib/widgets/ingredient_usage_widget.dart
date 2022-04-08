@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:recipy_frontend/helpers/in_memory.dart';
 import 'package:recipy_frontend/models/ingredient.dart';
 import 'package:recipy_frontend/models/ingredient_unit.dart';
 import 'package:recipy_frontend/models/ingredient_usage.dart';
 import 'package:recipy_frontend/storage/in_memory_storage.dart';
+import 'package:recipy_frontend/widgets/recipy_dropdown_widget.dart';
 
 class IngredientUsageWidget extends StatefulWidget {
   final IngredientUsage usage;
@@ -37,29 +39,32 @@ class _IngredientUsageWidgetState extends State<IngredientUsageWidget> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        widget.isEditMode ? buildAmountWidget() : Container(),
-        widget.isEditMode ? const SizedBox(width: 8) : Container(),
-        widget.isEditMode ? buildIngredientUnitWidget() : Container(),
-        !widget.isEditMode ? buildAmountUnitDisplay() : Container(),
+        widget.isEditMode
+            ? buildEditAmountUnitWidget()
+            : buildAmountUnitDisplay(),
         buildIngredientWidget(),
       ],
     );
   }
 
-  Widget buildAmountWidget() {
-    if (!widget.isEditMode) {
-      return SizedBox(
-        width: 40,
-        child: Text(
-          widget.usage.amount.toString(),
-          textAlign: TextAlign.end,
-        ),
-      );
-    }
+  Widget buildEditAmountUnitWidget() {
+    return Row(
+      children: [
+        buildEditAmountWidget(),
+        const SizedBox(width: 8),
+        buildEditIngredientUnitWidget(),
+      ],
+    );
+  }
+
+  Widget buildEditAmountWidget() {
     return SizedBox(
       width: 80,
       child: TextField(
         enabled: widget.isEditMode,
+        inputFormatters: [
+          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))
+        ],
         controller: amountController,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
@@ -68,13 +73,13 @@ class _IngredientUsageWidgetState extends State<IngredientUsageWidget> {
     );
   }
 
-  Widget buildIngredientWidget() {
-    return SizedBox(
-      width: 120,
-      child: Text(
-        widget.ingredient.name,
-        style: const TextStyle(fontSize: 18),
-      ),
+  Widget buildEditIngredientUnitWidget() {
+    return RecipyDropdownWidget<IngredientUnit>(
+      getDisplayName: (element) => element.name,
+      onSelection: (element) => print(element),
+      getAssortment: RecipyInMemoryStorage().getIngredientUnits,
+      preselection: widget.ingredientUnit,
+      hint: "Einheit auswählen",
     );
   }
 
@@ -109,35 +114,22 @@ class _IngredientUsageWidgetState extends State<IngredientUsageWidget> {
     );
   }
 
-  Widget buildIngredientUnitWidget() {
-    if (!widget.isEditMode) {
-      return SizedBox(
-        width: 60,
-        child: Text(widget.ingredientUnit.name),
+  Widget buildIngredientWidget() {
+    if (widget.isEditMode) {
+      return RecipyDropdownWidget<Ingredient>(
+        getDisplayName: (element) => element.name,
+        onSelection: (element) => print(element),
+        getAssortment: RecipyInMemoryStorage().getIngredients,
+        preselection: widget.ingredient,
+        hint: "Zutat auswählen",
       );
     }
-    return DropdownButton<IngredientUnit>(
-      value: widget.ingredientUnit,
-      icon: const Icon(Icons.arrow_downward),
-      elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
-      underline: Container(
-        height: 2,
-        color: Colors.deepPurpleAccent,
+    return SizedBox(
+      width: 120,
+      child: Text(
+        widget.ingredient.name,
+        style: const TextStyle(fontSize: 18),
       ),
-      onChanged: (IngredientUnit? newValue) {
-        print("New ingredientUnit: ${newValue?.name}");
-      },
-      items: RecipyInMemoryStorage()
-          .getIngredientUnits()
-          .map<DropdownMenuItem<IngredientUnit>>(
-        (IngredientUnit value) {
-          return DropdownMenuItem<IngredientUnit>(
-            value: value,
-            child: Text(value.name),
-          );
-        },
-      ).toList(),
     );
   }
 }
