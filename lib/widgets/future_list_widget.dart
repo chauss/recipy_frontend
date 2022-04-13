@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipy_frontend/widgets/process_indicator.dart';
 
 typedef FetchFunction<G> = Future<List<G>> Function();
 typedef WidgetBuilder<W> = Widget Function(W dataObject);
@@ -21,7 +22,7 @@ class FutureListWidget<T> extends StatelessWidget {
       future: fetch(),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
-          return processIndicator();
+          return const ProcessIndicator();
         } else if (snapshot.hasData) {
           var widgets = snapshot.data!
               .map((dataObject) => widgetBuilder(dataObject))
@@ -30,16 +31,8 @@ class FutureListWidget<T> extends StatelessWidget {
         } else if (snapshot.hasError) {
           return Text('${snapshot.error}');
         }
-        return processIndicator();
+        return const ProcessIndicator();
       },
     );
   }
-
-  Widget processIndicator() => const Center(
-        child: SizedBox(
-          height: 40,
-          width: 40,
-          child: CircularProgressIndicator(color: Colors.grey),
-        ),
-      );
 }

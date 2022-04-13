@@ -3,6 +3,7 @@ import 'package:recipy_frontend/models/recipe.dart';
 import 'package:recipy_frontend/pages/recipe/add_recipe_page.dart';
 import 'package:recipy_frontend/repositories/recipe_repository.dart';
 import 'package:recipy_frontend/widgets/nav_drawer.dart';
+import 'package:recipy_frontend/widgets/process_indicator.dart';
 import 'package:recipy_frontend/widgets/recipe_widget.dart';
 
 class RecipeOverviewPage extends StatefulWidget {
@@ -31,7 +32,7 @@ class _RecipeOverviewPageState extends State<RecipeOverviewPage> {
               future: _fetchRecipeList(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState != ConnectionState.done) {
-                  return const CircularProgressIndicator();
+                  return const ProcessIndicator();
                 } else if (snapshot.hasData) {
                   var recipeWidgets = snapshot.data!
                       .map((recipe) => RecipeCardWidget(recipe: recipe))
@@ -40,7 +41,7 @@ class _RecipeOverviewPageState extends State<RecipeOverviewPage> {
                 } else if (snapshot.hasError) {
                   return Text('${snapshot.error}');
                 }
-                return const CircularProgressIndicator();
+                return const ProcessIndicator();
               },
             ),
             const SizedBox(height: 24)

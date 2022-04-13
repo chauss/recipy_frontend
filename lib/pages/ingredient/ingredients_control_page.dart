@@ -18,13 +18,23 @@ class IngredientsControlPage extends StatefulWidget {
 }
 
 class _IngredientsControlPageState extends State<IngredientsControlPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        key: _scaffoldKey,
         drawer: const NavDrawer(),
         appBar: AppBar(
+          leading: InkWell(
+            child: const Image(
+              image: AssetImage('assets/burger-icon.png'),
+              width: 40,
+            ),
+            onTap: () => _scaffoldKey.currentState?.openDrawer(),
+          ),
           title: const Text("Zutaten Verwaltung"),
           bottom: TabBar(
             tabs: [
