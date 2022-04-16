@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipy_frontend/pages/ingredient/ingredients_control_page.dart';
+import 'package:recipy_frontend/pages/ingredient_control/ingredients_control_page.dart';
 import 'package:recipy_frontend/pages/recipe/recipe_overview_page.dart';
 
 class NavDrawer extends StatelessWidget {
@@ -31,8 +31,7 @@ class NavDrawer extends StatelessWidget {
             title: const Text('Rezept Kontroll Center'),
             onTap: () => Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => const IngredientsControlPage()),
+              MaterialPageRoute(builder: (context) => IngredientsControlPage()),
             ),
           ),
         ],

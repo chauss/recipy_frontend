@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-typedef AddFunction<G> = Future<bool> Function(String name);
+typedef AddFunction<G> = Future Function(String name);
 typedef AddFunctionCalback = Function(bool result);
 
 class ExecutiveTextfield<T> extends StatelessWidget {

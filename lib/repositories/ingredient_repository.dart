@@ -5,11 +5,13 @@ import 'package:logging/logging.dart';
 import 'package:recipy_frontend/config/api_config.dart';
 import 'package:recipy_frontend/helpers/http_helper.dart';
 import 'package:recipy_frontend/models/ingredient.dart';
+import 'package:recipy_frontend/pages/ingredient_control/ingredient_control_controller.dart';
 
-class IngredientRepository {
+class IngredientRepository extends IngredientControlRepository {
   static final log = Logger('IngredientsRepository');
 
-  static Future<List<Ingredient>> fetchIngredients() async {
+  @override
+  Future<List<Ingredient>> fetchIngredients() async {
     var uri = Uri.parse(APIConfiguration.backendBaseUri + "/v1/ingredients");
     var response = await http.get(uri);
 
@@ -26,7 +28,7 @@ class IngredientRepository {
     }
   }
 
-  static Future<bool> addIngredient(String name) async {
+  static Future addIngredient(String name) async {
     var uri = Uri.parse(APIConfiguration.backendBaseUri + "/v1/ingredient");
     var response = await http.post(uri,
         body: json.encode(<String, String>{"name": name}),
@@ -41,7 +43,10 @@ class IngredientRepository {
           json.decode(utf8.decode(response.bodyBytes))["error"];
       log.warning(
           'Failed to add ingredient $errorMessage (${response.statusCode})');
-      return false;
+      throw const HttpException('Failed to add ingredient');
     }
   }
+
+  @override
+  void dispose() {}
 }

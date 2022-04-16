@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:recipy_frontend/models/ingredient_usage.dart';
 
 class Recipe {
