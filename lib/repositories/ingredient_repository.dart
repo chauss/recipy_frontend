@@ -5,9 +5,11 @@ import 'package:logging/logging.dart';
 import 'package:recipy_frontend/config/api_config.dart';
 import 'package:recipy_frontend/helpers/http_helper.dart';
 import 'package:recipy_frontend/models/ingredient.dart';
-import 'package:recipy_frontend/pages/ingredient_control/ingredient_control_controller.dart';
+import 'package:recipy_frontend/pages/ingredients/add_ingredient_request.dart';
+import 'package:recipy_frontend/pages/ingredients/ingredients_controller.dart';
+import 'package:recipy_frontend/repositories/http_request_result.dart';
 
-class IngredientRepository extends IngredientControlRepository {
+class RecipyIngredientRepository extends IngredientRepository {
   static final log = Logger('IngredientsRepository');
 
   @override
@@ -28,25 +30,26 @@ class IngredientRepository extends IngredientControlRepository {
     }
   }
 
-  static Future addIngredient(String name) async {
+  @override
+  void dispose() {}
+
+  @override
+  Future<HttpPostResult> addIngredient(AddIngredientRequest request) async {
     var uri = Uri.parse(APIConfiguration.backendBaseUri + "/v1/ingredient");
     var response = await http.post(uri,
-        body: json.encode(<String, String>{"name": name}),
+        body: json.encode(<String, String>{"name": request.name}),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         });
 
     if (is2xx(response.statusCode)) {
-      return true;
+      return HttpPostResult(success: true);
     } else {
       String errorMessage =
           json.decode(utf8.decode(response.bodyBytes))["error"];
       log.warning(
           'Failed to add ingredient $errorMessage (${response.statusCode})');
-      throw const HttpException('Failed to add ingredient');
+      return HttpPostResult(success: false, error: errorMessage);
     }
   }
-
-  @override
-  void dispose() {}
 }

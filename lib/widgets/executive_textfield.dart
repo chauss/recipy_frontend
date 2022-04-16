@@ -8,12 +8,14 @@ class ExecutiveTextfield<T> extends StatelessWidget {
   final AddFunction<T> addFunction;
   final AddFunctionCalback? resultCallback;
   final String? hintText;
+  final bool enabled;
 
   ExecutiveTextfield({
     Key? key,
     required this.addFunction,
     this.resultCallback,
     this.hintText,
+    this.enabled = true,
   }) : super(key: key);
 
   @override
@@ -35,6 +37,7 @@ class ExecutiveTextfield<T> extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(30))),
                   hintText: hintText,
                 ),
+                enabled: enabled,
               ),
             ),
           ),

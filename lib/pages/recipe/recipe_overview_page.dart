@@ -5,6 +5,7 @@ import 'package:recipy_frontend/repositories/recipe_repository.dart';
 import 'package:recipy_frontend/widgets/nav_drawer.dart';
 import 'package:recipy_frontend/widgets/process_indicator.dart';
 import 'package:recipy_frontend/widgets/recipe_widget.dart';
+import 'package:recipy_frontend/widgets/recipy_app_bar.dart';
 
 class RecipeOverviewPage extends StatefulWidget {
   const RecipeOverviewPage({Key? key}) : super(key: key);
@@ -21,9 +22,7 @@ class _RecipeOverviewPageState extends State<RecipeOverviewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Rezeptübersicht"),
-      ),
+      appBar: const RecipyAppBar(title: "Rezeptübersicht"),
       drawer: const NavDrawer(),
       body: Center(
         child: ListView(

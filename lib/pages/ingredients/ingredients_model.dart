@@ -1,11 +1,11 @@
 import 'package:recipy_frontend/models/ingredient.dart';
 
-class IngredientControlModel {
+class IngredientsModel {
   List<Ingredient> ingredients;
   bool isLoading;
   String? error;
 
-  IngredientControlModel({
+  IngredientsModel({
     this.ingredients = const [],
     this.isLoading = false,
     this.error,

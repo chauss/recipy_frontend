@@ -1,6 +1,5 @@
 import 'package:recipy_frontend/models/ingredient.dart';
 import 'package:recipy_frontend/models/ingredient_unit.dart';
-import 'package:recipy_frontend/repositories/ingredient_unit_repository.dart';
 
 class RecipyInMemoryStorage {
   static final RecipyInMemoryStorage _instance =
@@ -28,6 +27,6 @@ class RecipyInMemoryStorage {
   List<IngredientUnit> getIngredientUnits() => _ingredientUnits;
 
   Future<void> refetchIngredientUnits() async {
-    _ingredientUnits = await IngredientUnitRepository.fetchIngredientUnits();
+    // _ingredientUnits = await IngredientUnitRepository.fetchIngredientUnits();
   }
 }
