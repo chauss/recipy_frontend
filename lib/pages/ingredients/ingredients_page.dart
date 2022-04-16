@@ -54,5 +54,5 @@ class IngredientsPage extends ConsumerWidget {
 abstract class IngredientsController extends StateNotifier<IngredientsModel> {
   IngredientsController(IngredientsModel state) : super(state);
 
-  Future addIngredient(AddIngredientRequest request);
+  Future<void> addIngredient(AddIngredientRequest request);
 }

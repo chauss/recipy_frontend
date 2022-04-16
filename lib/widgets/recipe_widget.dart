@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:recipy_frontend/models/recipe.dart';
-import 'package:recipy_frontend/pages/recipe/recipe_detail_page.dart';
+import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_page.dart';
 
 class RecipeCardWidget extends StatelessWidget {
   final Recipe recipe;
@@ -14,7 +14,7 @@ class RecipeCardWidget extends StatelessWidget {
       onPressed: () => Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => RecipeDetailPage(recipe: recipe)),
+            builder: (context) => RecipeDetailPage(recipeId: recipe.id)),
       ),
       child: Container(
         width: 300,

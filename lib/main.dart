@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart' as intl_initializer;
 import 'package:recipy_frontend/helpers/logging_helper.dart';
-import 'package:recipy_frontend/pages/recipe/recipe_overview_page.dart';
+import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_page.dart';
 import 'package:recipy_frontend/storage/in_memory_storage.dart';
 
 void main() {

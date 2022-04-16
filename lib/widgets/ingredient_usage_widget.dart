@@ -27,12 +27,16 @@ class IngredientUsageWidget extends StatefulWidget {
 
 class _IngredientUsageWidgetState extends State<IngredientUsageWidget> {
   late TextEditingController amountController;
+  late Ingredient selectedIngredient;
+  late IngredientUnit selectedIngredientUnit;
 
   @override
   void initState() {
     super.initState();
     amountController =
         TextEditingController(text: widget.usage.amount.toString());
+    selectedIngredient = widget.ingredient;
+    selectedIngredientUnit = widget.ingredientUnit;
   }
 
   @override
@@ -76,9 +80,10 @@ class _IngredientUsageWidgetState extends State<IngredientUsageWidget> {
   Widget buildEditIngredientUnitWidget() {
     return RecipyDropdownWidget<IngredientUnit>(
       getDisplayName: (element) => element.name,
-      onSelection: (element) => print(element),
+      onSelection: (element) =>
+          setState(() => selectedIngredientUnit = element!),
       getAssortment: RecipyInMemoryStorage().getIngredientUnits,
-      preselection: widget.ingredientUnit,
+      preselection: selectedIngredientUnit,
       hint: "Einheit auswählen",
     );
   }
@@ -118,9 +123,9 @@ class _IngredientUsageWidgetState extends State<IngredientUsageWidget> {
     if (widget.isEditMode) {
       return RecipyDropdownWidget<Ingredient>(
         getDisplayName: (element) => element.name,
-        onSelection: (element) => print(element),
+        onSelection: (element) => setState(() => selectedIngredient = element!),
         getAssortment: RecipyInMemoryStorage().getIngredients,
-        preselection: widget.ingredient,
+        preselection: selectedIngredient,
         hint: "Zutat auswählen",
       );
     }

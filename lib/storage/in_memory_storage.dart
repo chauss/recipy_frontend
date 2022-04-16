@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/ingredient.dart';
 import 'package:recipy_frontend/models/ingredient_unit.dart';
 
@@ -17,8 +19,9 @@ class RecipyInMemoryStorage {
   List<Ingredient> getIngredients() => _ingredients;
 
   Future<void> refetchIngredients() async {
-    // TODO fetch is not static anymore
-    //_ingredients = await IngredientRepository.fetchIngredients();
+    final container = ProviderContainer();
+    final repository = container.read(ingredientRepositoryProvider);
+    _ingredients = await repository.fetchIngredients();
   }
 
   // Ingredient Units
@@ -27,6 +30,8 @@ class RecipyInMemoryStorage {
   List<IngredientUnit> getIngredientUnits() => _ingredientUnits;
 
   Future<void> refetchIngredientUnits() async {
-    // _ingredientUnits = await IngredientUnitRepository.fetchIngredientUnits();
+    final container = ProviderContainer();
+    final repository = container.read(ingredientUnitRepositoryProvider);
+    _ingredientUnits = await repository.fetchIngredientUnits();
   }
 }

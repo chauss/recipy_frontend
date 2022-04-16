@@ -51,7 +51,4 @@ class RecipyIngredientUnitRepository extends IngredientUnitRepository {
       return HttpPostResult(success: false, error: errorMessage);
     }
   }
-
-  @override
-  void dispose() {}
 }

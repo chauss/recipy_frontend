@@ -19,7 +19,7 @@ class IngredientUnitsControllerImpl extends IngredientUnitsController {
     await _fetchIngredients();
   }
 
-  Future _fetchIngredients() async {
+  Future<void> _fetchIngredients() async {
     try {
       state = IngredientUnitsModel(
         isLoading: true,
@@ -38,7 +38,7 @@ class IngredientUnitsControllerImpl extends IngredientUnitsController {
   }
 
   @override
-  Future addIngredientUnit(AddIngredientUnitRequest request) async {
+  Future<void> addIngredientUnit(AddIngredientUnitRequest request) async {
     try {
       await _repository.addIngredientUnit(request);
       await _fetchIngredients();
@@ -53,5 +53,4 @@ class IngredientUnitsControllerImpl extends IngredientUnitsController {
 abstract class IngredientUnitRepository {
   Future<List<IngredientUnit>> fetchIngredientUnits();
   Future<HttpPostResult> addIngredientUnit(AddIngredientUnitRequest request);
-  void dispose();
 }

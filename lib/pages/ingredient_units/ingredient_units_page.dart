@@ -57,5 +57,5 @@ abstract class IngredientUnitsController
     extends StateNotifier<IngredientUnitsModel> {
   IngredientUnitsController(IngredientUnitsModel state) : super(state);
 
-  Future addIngredientUnit(AddIngredientUnitRequest request);
+  Future<void> addIngredientUnit(AddIngredientUnitRequest request);
 }

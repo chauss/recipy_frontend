@@ -31,9 +31,6 @@ class RecipyIngredientRepository extends IngredientRepository {
   }
 
   @override
-  void dispose() {}
-
-  @override
   Future<HttpPostResult> addIngredient(AddIngredientRequest request) async {
     var uri = Uri.parse(APIConfiguration.backendBaseUri + "/v1/ingredient");
     var response = await http.post(uri,
