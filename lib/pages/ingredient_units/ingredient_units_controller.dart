@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/ingredient_unit.dart';
-import 'package:recipy_frontend/pages/units/add_unit_request.dart';
-import 'package:recipy_frontend/pages/units/ingredient_units_model.dart';
-import 'package:recipy_frontend/pages/units/ingredient_units_page.dart';
+import 'package:recipy_frontend/pages/ingredient_units/add_unit_request.dart';
+import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_model.dart';
+import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_page.dart';
 import 'package:recipy_frontend/repositories/http_request_result.dart';
 
 class IngredientUnitsControllerImpl extends IngredientUnitsController {

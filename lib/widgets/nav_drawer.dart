@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_page.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_page.dart';
-import 'package:recipy_frontend/pages/recipe/recipe_overview_page.dart';
-import 'package:recipy_frontend/pages/units/ingredient_units_page.dart';
+import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_page.dart';
 
 class NavDrawer extends StatelessWidget {
   const NavDrawer({Key? key}) : super(key: key);
@@ -33,7 +33,7 @@ class NavDrawer extends StatelessWidget {
             title: const Text('Zutaten'),
             onTap: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => IngredientsPage()),
+              MaterialPageRoute(builder: (context) => const IngredientsPage()),
             ),
           ),
           ListTile(
@@ -41,7 +41,8 @@ class NavDrawer extends StatelessWidget {
             title: const Text('Einheiten'),
             onTap: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => IngredientUnitsPage()),
+              MaterialPageRoute(
+                  builder: (context) => const IngredientUnitsPage()),
             ),
           ),
         ],
