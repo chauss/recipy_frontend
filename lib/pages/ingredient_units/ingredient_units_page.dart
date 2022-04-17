@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/pages/ingredient_units/add_unit_request.dart';
@@ -59,7 +60,7 @@ class IngredientUnitsPage extends ConsumerWidget {
         title: "Fehler",
         info: model.error!,
       );
-      Future.delayed(Duration.zero, () {
+      SchedulerBinding.instance!.addPostFrameCallback((_) {
         dialog.show().then((_) => controller.dismissError());
       });
     }

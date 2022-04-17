@@ -101,7 +101,27 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
 
   @override
   Future<HttpPostResult> updateIngredientUsage(
-      UpdateIngredientUsageRequest request) {
-    return Future.delayed(Duration.zero, () => HttpPostResult(success: true));
+      UpdateIngredientUsageRequest request) async {
+    var uri = Uri.parse(APIConfiguration.backendBaseUri +
+        "/v1/ingredient/usage/${request.ingredientUsageId}");
+    var response = await http.put(uri,
+        body: json.encode(<String, Object>{
+          "ingredientId": request.ingredientId,
+          "ingredientUnitId": request.ingredientUnitId,
+          "amount": request.amount,
+        }),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
+
+    if (is2xx(response.statusCode)) {
+      return HttpPostResult(success: true);
+    } else {
+      String errorMessage =
+          json.decode(utf8.decode(response.bodyBytes))["message"];
+      log.warning(
+          'Failed to update ingredientUsage $errorMessage (${response.statusCode})');
+      return HttpPostResult(success: false, error: errorMessage);
+    }
   }
 }
