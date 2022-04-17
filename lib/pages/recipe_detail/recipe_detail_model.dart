@@ -1,4 +1,5 @@
 import 'package:recipy_frontend/models/recipe.dart';
+import 'package:recipy_frontend/pages/recipe_detail/editable_ingredient_usage.dart';
 
 class RecipeDetailModel {
   String recipeId;
@@ -6,6 +7,7 @@ class RecipeDetailModel {
   String? error;
   Recipe? recipe;
   bool isEditMode;
+  List<EditableIngredientUsage> editableUsages;
 
   RecipeDetailModel({
     required this.recipeId,
@@ -13,5 +15,6 @@ class RecipeDetailModel {
     this.error,
     this.recipe,
     this.isEditMode = false,
+    this.editableUsages = const [],
   });
 }

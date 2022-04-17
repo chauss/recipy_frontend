@@ -1,10 +1,10 @@
-class AddIngredientUsageRequest {
+class CreateIngredientUsageRequest {
   final String recipeId;
   final String ingredientId;
   final String ingredientUnitId;
   final double amount;
 
-  AddIngredientUsageRequest({
+  CreateIngredientUsageRequest({
     required this.recipeId,
     required this.ingredientId,
     required this.ingredientUnitId,

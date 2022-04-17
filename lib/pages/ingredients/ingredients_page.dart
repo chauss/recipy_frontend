@@ -32,7 +32,7 @@ class IngredientsPage extends ConsumerWidget {
               Expanded(
                 child: Container(
                   color: Colors.white,
-                  child: getBody(context, model, controller),
+                  child: buildBody(context, model, controller),
                 ),
               ),
               ExecutiveTextfield(
@@ -48,7 +48,7 @@ class IngredientsPage extends ConsumerWidget {
     );
   }
 
-  Widget getBody(BuildContext context, IngredientsModel model,
+  Widget buildBody(BuildContext context, IngredientsModel model,
       IngredientsController controller) {
     if (model.isLoading) {
       return const ProcessIndicator();

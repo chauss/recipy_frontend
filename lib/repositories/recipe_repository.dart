@@ -4,7 +4,9 @@ import 'package:logging/logging.dart';
 import 'package:recipy_frontend/config/api_config.dart';
 import 'package:recipy_frontend/helpers/http_helper.dart';
 import 'package:recipy_frontend/models/recipe.dart';
+import 'package:recipy_frontend/pages/recipe_detail/add_ingredient_usage_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_controller.dart';
+import 'package:recipy_frontend/pages/recipe_detail/update_ingredient_usage_request.dart';
 import 'package:recipy_frontend/pages/recipe_overview/add_recipe_request.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_controller.dart';
 import 'package:recipy_frontend/repositories/http_request_result.dart';
@@ -68,5 +70,38 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
           'Failed to fetch recipe by id $errorMessage (${response.statusCode})');
       return null;
     }
+  }
+
+  @override
+  Future<HttpPostResult> createIngredientUsage(
+      CreateIngredientUsageRequest request) async {
+    var uri =
+        Uri.parse(APIConfiguration.backendBaseUri + "/v1/ingredient/usage");
+    var response = await http.post(uri,
+        body: json.encode(<String, Object>{
+          "recipeId": request.recipeId,
+          "ingredientId": request.ingredientId,
+          "ingredientUnitId": request.ingredientUnitId,
+          "amount": request.amount,
+        }),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
+
+    if (is2xx(response.statusCode)) {
+      return HttpPostResult(success: true);
+    } else {
+      String errorMessage =
+          json.decode(utf8.decode(response.bodyBytes))["message"];
+      log.warning(
+          'Failed to add ingredientUsage $errorMessage (${response.statusCode})');
+      return HttpPostResult(success: false, error: errorMessage);
+    }
+  }
+
+  @override
+  Future<HttpPostResult> updateIngredientUsage(
+      UpdateIngredientUsageRequest request) {
+    return Future.delayed(Duration.zero, () => HttpPostResult(success: true));
   }
 }

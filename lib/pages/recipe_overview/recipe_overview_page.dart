@@ -24,7 +24,7 @@ class RecipeOverviewPage extends ConsumerWidget {
     return Scaffold(
       appBar: const RecipyAppBar(title: "Rezeptübersicht"),
       drawer: const NavDrawer(),
-      body: getBody(context, model, controller),
+      body: buildBody(context, model, controller),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           var dialog = TextfieldDialog(
@@ -42,7 +42,7 @@ class RecipeOverviewPage extends ConsumerWidget {
     );
   }
 
-  Widget getBody(
+  Widget buildBody(
     BuildContext context,
     RecipeOverviewModel model,
     RecipeOverviewController controller,

@@ -1,98 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:recipy_frontend/helpers/in_memory.dart';
 import 'package:recipy_frontend/models/ingredient.dart';
 import 'package:recipy_frontend/models/ingredient_unit.dart';
 import 'package:recipy_frontend/models/ingredient_usage.dart';
-import 'package:recipy_frontend/storage/in_memory_storage.dart';
-import 'package:recipy_frontend/widgets/recipy_dropdown_widget.dart';
 
-class IngredientUsageWidget extends StatefulWidget {
+class IngredientUsageWidget extends StatelessWidget {
   final IngredientUsage usage;
   final Ingredient ingredient;
   final IngredientUnit ingredientUnit;
-  final bool isEditMode;
 
   IngredientUsageWidget({
     Key? key,
     required this.usage,
-    this.isEditMode = true,
-  })  : ingredient = ingredientFor(usage.ingredientId),
-        ingredientUnit = ingredientUnitFor(usage.ingredientUnitId),
+  })  : ingredient = ingredientFor(usage.ingredientId)!,
+        ingredientUnit = ingredientUnitFor(usage.ingredientUnitId)!,
         super(key: key);
-
-  @override
-  State<IngredientUsageWidget> createState() => _IngredientUsageWidgetState();
-}
-
-class _IngredientUsageWidgetState extends State<IngredientUsageWidget> {
-  late TextEditingController amountController;
-  late Ingredient selectedIngredient;
-  late IngredientUnit selectedIngredientUnit;
-
-  @override
-  void initState() {
-    super.initState();
-    amountController =
-        TextEditingController(text: widget.usage.amount.toString());
-    selectedIngredient = widget.ingredient;
-    selectedIngredientUnit = widget.ingredientUnit;
-  }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        widget.isEditMode
-            ? buildEditAmountUnitWidget()
-            : buildAmountUnitDisplay(),
+        buildAmountUnitDisplay(),
         buildIngredientWidget(),
       ],
     );
   }
 
-  Widget buildEditAmountUnitWidget() {
-    return Row(
-      children: [
-        buildEditAmountWidget(),
-        const SizedBox(width: 8),
-        buildEditIngredientUnitWidget(),
-      ],
-    );
-  }
-
-  Widget buildEditAmountWidget() {
-    return SizedBox(
-      width: 80,
-      child: TextField(
-        enabled: widget.isEditMode,
-        inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))
-        ],
-        controller: amountController,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-        ),
-      ),
-    );
-  }
-
-  Widget buildEditIngredientUnitWidget() {
-    return RecipyDropdownWidget<IngredientUnit>(
-      getDisplayName: (element) => element.name,
-      onSelection: (element) =>
-          setState(() => selectedIngredientUnit = element!),
-      getAssortment: RecipyInMemoryStorage().getIngredientUnits,
-      preselection: selectedIngredientUnit,
-      hint: "Einheit auswählen",
-    );
-  }
-
   Widget buildAmountUnitDisplay() {
-    Text(
-      "${widget.usage.amount} ${widget.ingredientUnit.name}",
-      textAlign: TextAlign.end,
-    );
     return Padding(
       padding: const EdgeInsets.only(right: 6),
       child: SizedBox(
@@ -106,10 +40,10 @@ class _IngredientUsageWidgetState extends State<IngredientUsageWidget> {
             ),
             children: <TextSpan>[
               TextSpan(
-                text: "${widget.usage.amount} ",
+                text: "${usage.amount} ",
               ),
               TextSpan(
-                text: widget.ingredientUnit.name,
+                text: ingredientUnit.name,
                 style: const TextStyle(fontSize: 13),
               ),
             ],
@@ -120,19 +54,10 @@ class _IngredientUsageWidgetState extends State<IngredientUsageWidget> {
   }
 
   Widget buildIngredientWidget() {
-    if (widget.isEditMode) {
-      return RecipyDropdownWidget<Ingredient>(
-        getDisplayName: (element) => element.name,
-        onSelection: (element) => setState(() => selectedIngredient = element!),
-        getAssortment: RecipyInMemoryStorage().getIngredients,
-        preselection: selectedIngredient,
-        hint: "Zutat auswählen",
-      );
-    }
     return SizedBox(
       width: 120,
       child: Text(
-        widget.ingredient.name,
+        ingredient.name,
         style: const TextStyle(fontSize: 18),
       ),
     );

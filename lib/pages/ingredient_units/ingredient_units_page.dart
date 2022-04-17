@@ -29,7 +29,7 @@ class IngredientUnitsPage extends ConsumerWidget {
             Expanded(
               child: Container(
                 color: Colors.white,
-                child: getBody(context, model, controller),
+                child: buildBody(context, model, controller),
               ),
             ),
             ExecutiveTextfield(
@@ -44,7 +44,7 @@ class IngredientUnitsPage extends ConsumerWidget {
     );
   }
 
-  Widget getBody(
+  Widget buildBody(
     BuildContext context,
     IngredientUnitsModel model,
     IngredientUnitsController controller,
