@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/ingredient_usage.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_model.dart';
-import 'package:recipy_frontend/widgets/ingredient_usage_widget.dart';
+import 'package:recipy_frontend/pages/recipe_detail/ingredient_usage_widget.dart';
 
 class RecipeDetailPage extends ConsumerWidget {
   final String recipeId;

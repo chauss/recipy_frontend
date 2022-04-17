@@ -25,8 +25,9 @@ class RecipyIngredientUnitRepository extends IngredientUnitRepository {
 
       return ingredientUnits;
     } else {
-      log.warning('Failed to load ingredientUnits (${response.statusCode})');
-      throw Exception('Failed to load ingredientUnits');
+      String error = 'Failed to load ingredientUnits (${response.statusCode})';
+      log.warning(error);
+      throw Exception(error);
     }
   }
 
@@ -45,7 +46,7 @@ class RecipyIngredientUnitRepository extends IngredientUnitRepository {
       return HttpPostResult(success: true);
     } else {
       String errorMessage =
-          json.decode(utf8.decode(response.bodyBytes))["error"];
+          json.decode(utf8.decode(response.bodyBytes))["message"];
       log.warning(
           'Failed to add ingredientUnit $errorMessage (${response.statusCode})');
       return HttpPostResult(success: false, error: errorMessage);

@@ -5,12 +5,13 @@ import 'package:recipy_frontend/config/api_config.dart';
 import 'package:recipy_frontend/helpers/http_helper.dart';
 import 'package:recipy_frontend/models/ingredient_unit.dart';
 import 'package:recipy_frontend/models/ingredient_usage.dart';
+import 'package:recipy_frontend/pages/recipe_detail/add_ingredient_usage_request.dart';
+import 'package:recipy_frontend/repositories/http_request_result.dart';
 
 class IngredientUsageRepository {
-  static final log = Logger('IngredientUsageRepository');
+  final log = Logger('IngredientUsageRepository');
 
-  static Future<List<IngredientUsage>> fetchIngredientUnits(
-      String recipeId) async {
+  Future<List<IngredientUsage>> fetchIngredientUnits(String recipeId) async {
     var uri = Uri.parse(APIConfiguration.backendBaseUri +
         "/v1/ingredient/usages?recipeId=$recipeId");
     var response = await http.get(uri);
@@ -23,38 +24,36 @@ class IngredientUsageRepository {
 
       return ingredientUsages;
     } else {
-      log.warning('Failed to load ingredientUsages (${response.statusCode})');
-      throw Exception('Failed to load ingredientUsages');
+      String error =
+          'Failed to load ingredientUsages for recipe ($recipeId) (${response.statusCode})';
+      log.warning(error);
+      throw Exception(error);
     }
   }
 
-  static Future<bool> addIngredientUsage(
-    String recipeId,
-    String ingredientId,
-    String ingredientUnitId,
-    double amount,
-  ) async {
+  Future<HttpPostResult> addIngredientUsage(
+      AddIngredientUsageRequest request) async {
     var uri =
         Uri.parse(APIConfiguration.backendBaseUri + "/v1/ingredient/usage");
     var response = await http.post(uri,
         body: json.encode(<String, Object>{
-          "recipeId": recipeId,
-          "ingredientId": ingredientId,
-          "ingredientUnitId": ingredientUnitId,
-          "amount": amount,
+          "recipeId": request.recipeId,
+          "ingredientId": request.ingredientId,
+          "ingredientUnitId": request.ingredientUnitId,
+          "amount": request.amount,
         }),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         });
 
     if (is2xx(response.statusCode)) {
-      return true;
+      return HttpPostResult(success: true);
     } else {
       String errorMessage =
-          json.decode(utf8.decode(response.bodyBytes))["error"];
+          json.decode(utf8.decode(response.bodyBytes))["message"];
       log.warning(
           'Failed to add ingredientUsage $errorMessage (${response.statusCode})');
-      return false;
+      return HttpPostResult(success: false, error: errorMessage);
     }
   }
 }

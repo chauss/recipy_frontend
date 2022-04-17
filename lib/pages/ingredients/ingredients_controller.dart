@@ -5,6 +5,7 @@ import 'package:recipy_frontend/pages/ingredients/add_ingredient_request.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_model.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_page.dart';
 import 'package:recipy_frontend/repositories/http_request_result.dart';
+import 'package:recipy_frontend/storage/in_memory_storage.dart';
 
 class IngredintsControllerImpl extends IngredientsController {
   late IngredientRepository _repository;
@@ -24,9 +25,11 @@ class IngredintsControllerImpl extends IngredientsController {
       state = IngredientsModel(
         isLoading: true,
       );
-      var ingredients = await _repository.fetchIngredients();
+      var storage = RecipyInMemoryStorage();
+      await storage.refetchIngredients();
+
       state = IngredientsModel(
-        ingredients: ingredients,
+        ingredients: storage.getIngredients(),
         isLoading: false,
       );
     } catch (e) {
@@ -40,13 +43,36 @@ class IngredintsControllerImpl extends IngredientsController {
   @override
   Future<void> addIngredient(AddIngredientRequest request) async {
     try {
-      await _repository.addIngredient(request);
-      await _fetchIngredients();
+      state = IngredientsModel(
+        ingredients: state.ingredients,
+        isLoading: true,
+      );
+      var result = await _repository.addIngredient(request);
+      if (result.success) {
+        await _fetchIngredients();
+      } else {
+        state = IngredientsModel(
+          ingredients: state.ingredients,
+          error: result.error,
+          isLoading: false,
+        );
+      }
     } catch (e) {
       state = IngredientsModel(
+        ingredients: state.ingredients,
         error: e.toString(),
+        isLoading: false,
       );
     }
+  }
+
+  @override
+  void dismissError() {
+    state = IngredientsModel(
+      isLoading: state.isLoading,
+      ingredients: state.ingredients,
+      error: null,
+    );
   }
 }
 

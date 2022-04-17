@@ -25,25 +25,28 @@ class RecipyIngredientRepository extends IngredientRepository {
 
       return ingredients;
     } else {
-      log.warning('Failed to load ingredients (${response.statusCode})');
-      throw const HttpException('Failed to load ingredients');
+      String error = 'Failed to load ingredients (${response.statusCode})';
+      log.warning(error);
+      throw HttpException(error);
     }
   }
 
   @override
   Future<HttpPostResult> addIngredient(AddIngredientRequest request) async {
     var uri = Uri.parse(APIConfiguration.backendBaseUri + "/v1/ingredient");
-    var response = await http.post(uri,
-        body: json.encode(<String, String>{"name": request.name}),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        });
+    var response = await http.post(
+      uri,
+      body: json.encode(<String, String>{"name": request.name}),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
 
     if (is2xx(response.statusCode)) {
       return HttpPostResult(success: true);
     } else {
       String errorMessage =
-          json.decode(utf8.decode(response.bodyBytes))["error"];
+          json.decode(utf8.decode(response.bodyBytes))["message"];
       log.warning(
           'Failed to add ingredient $errorMessage (${response.statusCode})');
       return HttpPostResult(success: false, error: errorMessage);

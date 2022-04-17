@@ -5,6 +5,7 @@ import 'package:recipy_frontend/pages/ingredient_units/add_unit_request.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_model.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_page.dart';
 import 'package:recipy_frontend/repositories/http_request_result.dart';
+import 'package:recipy_frontend/storage/in_memory_storage.dart';
 
 class IngredientUnitsControllerImpl extends IngredientUnitsController {
   late IngredientUnitRepository _repository;
@@ -16,17 +17,19 @@ class IngredientUnitsControllerImpl extends IngredientUnitsController {
   }
 
   void _init() async {
-    await _fetchIngredients();
+    await _fetchIngredientUnits();
   }
 
-  Future<void> _fetchIngredients() async {
+  Future<void> _fetchIngredientUnits() async {
     try {
       state = IngredientUnitsModel(
         isLoading: true,
       );
-      var units = await _repository.fetchIngredientUnits();
+      var storage = RecipyInMemoryStorage();
+      await storage.refetchIngredientUnits();
+
       state = IngredientUnitsModel(
-        units: units,
+        units: storage.getIngredientUnits(),
         isLoading: false,
       );
     } catch (e) {
@@ -39,14 +42,37 @@ class IngredientUnitsControllerImpl extends IngredientUnitsController {
 
   @override
   Future<void> addIngredientUnit(AddIngredientUnitRequest request) async {
+    state = IngredientUnitsModel(
+      units: state.units,
+      isLoading: true,
+    );
     try {
-      await _repository.addIngredientUnit(request);
-      await _fetchIngredients();
+      var result = await _repository.addIngredientUnit(request);
+      if (result.success) {
+        await _fetchIngredientUnits();
+      } else {
+        state = IngredientUnitsModel(
+          units: state.units,
+          error: result.error,
+          isLoading: false,
+        );
+      }
     } catch (e) {
       state = IngredientUnitsModel(
+        units: state.units,
         error: e.toString(),
+        isLoading: false,
       );
     }
+  }
+
+  @override
+  void dismissError() {
+    state = IngredientUnitsModel(
+      units: state.units,
+      isLoading: state.isLoading,
+      error: null,
+    );
   }
 }
 

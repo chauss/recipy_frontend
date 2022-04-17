@@ -11,12 +11,12 @@ class RecipyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: InkWell(
-        child: const Image(
-          image: AssetImage('assets/burger-icon.png'),
-          width: 40,
+      leading: Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: InkWell(
+          child: Image.asset('assets/icons/burger-smile.png'),
+          onTap: () => Scaffold.of(context).openDrawer(),
         ),
-        onTap: () => Scaffold.of(context).openDrawer(),
       ),
       title: Text(title),
     );

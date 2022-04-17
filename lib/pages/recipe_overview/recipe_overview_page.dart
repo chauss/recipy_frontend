@@ -5,7 +5,7 @@ import 'package:recipy_frontend/pages/recipe_overview/add_recipe_request.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_model.dart';
 import 'package:recipy_frontend/widgets/nav_drawer.dart';
 import 'package:recipy_frontend/widgets/process_indicator.dart';
-import 'package:recipy_frontend/widgets/recipe_widget.dart';
+import 'package:recipy_frontend/pages/recipe_overview/recipe_widget.dart';
 import 'package:recipy_frontend/widgets/recipy_app_bar.dart';
 import 'package:recipy_frontend/widgets/text_field_dialog.dart';
 

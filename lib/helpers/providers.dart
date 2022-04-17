@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipy_frontend/models/recipe.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_controller.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_model.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_page.dart';

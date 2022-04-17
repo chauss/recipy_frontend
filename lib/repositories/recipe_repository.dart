@@ -44,7 +44,7 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
       return HttpPostResult(success: true);
     } else {
       String errorMessage =
-          json.decode(utf8.decode(response.bodyBytes))["error"];
+          json.decode(utf8.decode(response.bodyBytes))["message"];
       log.warning(
           'Failed to add recipe $errorMessage (${response.statusCode})');
       return HttpPostResult(success: false, error: errorMessage);
@@ -63,7 +63,7 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
       return Recipe.fromJson(recipeJson);
     } else {
       String errorMessage =
-          json.decode(utf8.decode(response.bodyBytes))["error"];
+          json.decode(utf8.decode(response.bodyBytes))["message"];
       log.warning(
           'Failed to fetch recipe by id $errorMessage (${response.statusCode})');
       return null;
