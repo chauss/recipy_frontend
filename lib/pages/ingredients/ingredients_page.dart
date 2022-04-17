@@ -24,16 +24,26 @@ class IngredientsPage extends ConsumerWidget {
     return Scaffold(
       drawer: const NavDrawer(),
       appBar: const RecipyAppBar(title: "Zutaten"),
-      body: Column(
-        children: [
-          Expanded(child: getBody(context, model, controller)),
-          ExecutiveTextfield(
-            addFunction: (name) =>
-                controller.addIngredient(AddIngredientRequest(name: name)),
-            hintText: 'Füge eine neue Zutat hinzu',
-            enabled: !model.isLoading,
+      body: Container(
+        color: Colors.grey,
+        child: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  color: Colors.white,
+                  child: getBody(context, model, controller),
+                ),
+              ),
+              ExecutiveTextfield(
+                addFunction: (name) =>
+                    controller.addIngredient(AddIngredientRequest(name: name)),
+                hintText: 'Füge eine neue Zutat hinzu',
+                enabled: !model.isLoading,
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -55,10 +65,13 @@ class IngredientsPage extends ConsumerWidget {
       });
     }
 
-    return ListView(
-      children: model.ingredients
-          .map((ingredient) => IngredientWidget(ingredient: ingredient))
-          .toList(),
+    return RefreshIndicator(
+      onRefresh: controller.refetchIngredients,
+      child: ListView(
+        children: model.ingredients
+            .map((ingredient) => IngredientWidget(ingredient: ingredient))
+            .toList(),
+      ),
     );
   }
 }
@@ -66,6 +79,7 @@ class IngredientsPage extends ConsumerWidget {
 abstract class IngredientsController extends StateNotifier<IngredientsModel> {
   IngredientsController(IngredientsModel state) : super(state);
 
+  Future<void> refetchIngredients();
   Future<void> addIngredient(AddIngredientRequest request);
   void dismissError();
 }

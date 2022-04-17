@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipy_frontend/helpers/error_mapping.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/recipe.dart';
 import 'package:recipy_frontend/pages/recipe_overview/add_recipe_request.dart';
@@ -31,11 +32,17 @@ class RecipeOverviewControllerImpl extends RecipeOverviewController {
         isLoading: false,
       );
     } catch (e) {
+      String errorMessage = errorMessageFor(e.toString());
       state = RecipeOverviewModel(
-        error: e.toString(),
+        error: errorMessage,
         isLoading: false,
       );
     }
+  }
+
+  @override
+  Future<void> refetchRecipes() async {
+    await _fetchRecipes();
   }
 
   @override
@@ -48,6 +55,15 @@ class RecipeOverviewControllerImpl extends RecipeOverviewController {
         error: e.toString(),
       );
     }
+  }
+
+  @override
+  void dismissError() {
+    state = RecipeOverviewModel(
+      isLoading: state.isLoading,
+      recipes: state.recipes,
+      error: null,
+    );
   }
 }
 

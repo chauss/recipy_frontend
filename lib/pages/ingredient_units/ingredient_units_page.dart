@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/pages/ingredient_units/add_unit_request.dart';
@@ -23,18 +22,24 @@ class IngredientUnitsPage extends ConsumerWidget {
     return Scaffold(
       drawer: const NavDrawer(),
       appBar: const RecipyAppBar(title: "Zutaten"),
-      body: Column(
-        children: [
-          Expanded(
-            child: getBody(context, model, controller),
-          ),
-          ExecutiveTextfield(
-            addFunction: (name) => controller
-                .addIngredientUnit(AddIngredientUnitRequest(name: name)),
-            hintText: 'Füge eine neue Einheit hinzu',
-            enabled: !model.isLoading,
-          ),
-        ],
+      body: Container(
+        color: Colors.grey,
+        child: Column(
+          children: [
+            Expanded(
+              child: Container(
+                color: Colors.white,
+                child: getBody(context, model, controller),
+              ),
+            ),
+            ExecutiveTextfield(
+              addFunction: (name) => controller
+                  .addIngredientUnit(AddIngredientUnitRequest(name: name)),
+              hintText: 'Füge eine neue Einheit hinzu',
+              enabled: !model.isLoading,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -59,11 +64,14 @@ class IngredientUnitsPage extends ConsumerWidget {
       });
     }
 
-    return ListView(
-      children: model.units
-          .map((ingredientUnit) =>
-              IngredientUnitWidget(ingredientUnit: ingredientUnit))
-          .toList(),
+    return RefreshIndicator(
+      onRefresh: controller.refetchIngredientUnits,
+      child: ListView(
+        children: model.units
+            .map((ingredientUnit) =>
+                IngredientUnitWidget(ingredientUnit: ingredientUnit))
+            .toList(),
+      ),
     );
   }
 }
@@ -72,6 +80,7 @@ abstract class IngredientUnitsController
     extends StateNotifier<IngredientUnitsModel> {
   IngredientUnitsController(IngredientUnitsModel state) : super(state);
 
+  Future<void> refetchIngredientUnits();
   Future<void> addIngredientUnit(AddIngredientUnitRequest request);
   void dismissError();
 }

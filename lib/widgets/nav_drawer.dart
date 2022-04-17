@@ -13,11 +13,23 @@ class NavDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          const DrawerHeader(
-            decoration: BoxDecoration(
+          DrawerHeader(
+            decoration: const BoxDecoration(
               color: Colors.blue,
             ),
-            child: Center(child: Text('Recipy')),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/icons/burger-smile.png',
+                    width: 80,
+                  ),
+                  const SizedBox(height: 8),
+                  const Text('Recipy'),
+                ],
+              ),
+            ),
           ),
           ListTile(
             leading: const Icon(Icons.home),

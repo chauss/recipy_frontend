@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipy_frontend/helpers/error_mapping.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/ingredient_unit.dart';
 import 'package:recipy_frontend/pages/ingredient_units/add_unit_request.dart';
@@ -33,11 +34,17 @@ class IngredientUnitsControllerImpl extends IngredientUnitsController {
         isLoading: false,
       );
     } catch (e) {
+      String errorMessage = errorMessageFor(e.toString());
       state = IngredientUnitsModel(
-        error: e.toString(),
+        error: errorMessage,
         isLoading: false,
       );
     }
+  }
+
+  @override
+  Future<void> refetchIngredientUnits() async {
+    await _fetchIngredientUnits();
   }
 
   @override

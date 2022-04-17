@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/pages/recipe_overview/add_recipe_request.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_model.dart';
+import 'package:recipy_frontend/widgets/info_dialog.dart';
 import 'package:recipy_frontend/widgets/nav_drawer.dart';
 import 'package:recipy_frontend/widgets/process_indicator.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_widget.dart';
@@ -22,7 +24,7 @@ class RecipeOverviewPage extends ConsumerWidget {
     return Scaffold(
       appBar: const RecipyAppBar(title: "Rezeptübersicht"),
       drawer: const NavDrawer(),
-      body: getBody(model),
+      body: getBody(context, model, controller),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           var dialog = TextfieldDialog(
@@ -40,18 +42,33 @@ class RecipeOverviewPage extends ConsumerWidget {
     );
   }
 
-  Widget getBody(RecipeOverviewModel model) {
+  Widget getBody(
+    BuildContext context,
+    RecipeOverviewModel model,
+    RecipeOverviewController controller,
+  ) {
     if (model.isLoading) {
       return const ProcessIndicator();
-    } else if (model.error != null) {
-      return Text(model.error!);
-    } else {
-      return ListView(
+    }
+
+    if (model.error != null) {
+      var dialog = InfoDialog(
+        context: context,
+        title: "Fehler",
+        info: model.error!,
+      );
+      SchedulerBinding.instance!.addPostFrameCallback((_) {
+        dialog.show().then((_) => controller.dismissError());
+      });
+    }
+    return RefreshIndicator(
+      onRefresh: controller.refetchRecipes,
+      child: ListView(
         children: model.recipes
             .map((recipe) => RecipeCardWidget(recipe: recipe))
             .toList(),
-      );
-    }
+      ),
+    );
   }
 }
 
@@ -59,5 +76,7 @@ abstract class RecipeOverviewController
     extends StateNotifier<RecipeOverviewModel> {
   RecipeOverviewController(RecipeOverviewModel state) : super(state);
 
+  Future<void> refetchRecipes();
   Future<void> addRecipe(AddRecipeRequest request);
+  void dismissError();
 }
