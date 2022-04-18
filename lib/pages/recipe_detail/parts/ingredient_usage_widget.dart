@@ -40,7 +40,7 @@ class IngredientUsageWidget extends StatelessWidget {
             ),
             children: <TextSpan>[
               TextSpan(
-                text: "${usage.amount} ",
+                text: getAmountAsString() + " ",
               ),
               TextSpan(
                 text: ingredientUnit.name,
@@ -61,5 +61,12 @@ class IngredientUsageWidget extends StatelessWidget {
         style: const TextStyle(fontSize: 18),
       ),
     );
+  }
+
+  String getAmountAsString() {
+    if (usage.amount == usage.amount.roundToDouble()) {
+      return usage.amount.round().toString();
+    }
+    return usage.amount.toString();
   }
 }

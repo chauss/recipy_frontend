@@ -22,7 +22,7 @@ class IngredientUnitsPage extends ConsumerWidget {
 
     return Scaffold(
       drawer: const NavDrawer(),
-      appBar: const RecipyAppBar(title: "Zutaten"),
+      appBar: const RecipyAppBar(title: "Einheiten"),
       body: Container(
         color: Colors.grey,
         child: Column(
