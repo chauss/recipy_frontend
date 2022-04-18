@@ -52,6 +52,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   @override
   Future<void> saveChanges() async {
     for (var editableUsage in state.editableUsages) {
+      // Check if information is valid
       if (editableUsage.amount == null ||
           editableUsage.ingredientId == null ||
           editableUsage.ingredientUnitId == null) {
@@ -65,9 +66,18 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
         );
         return;
       }
+
       try {
         var existingIngredientUsage = state.recipe!.ingredientUsages.firstWhere(
             (ingredientUsage) => ingredientUsage.id == editableUsage.id);
+        // Check if information changed
+        if (editableUsage.amount == existingIngredientUsage.amount &&
+            editableUsage.ingredientId ==
+                existingIngredientUsage.ingredientId &&
+            editableUsage.ingredientUnitId ==
+                existingIngredientUsage.ingredientUnitId) {
+          continue;
+        }
         var result = await _repository
             .updateIngredientUsage(UpdateIngredientUsageRequest(
           ingredientUsageId: existingIngredientUsage.id,
