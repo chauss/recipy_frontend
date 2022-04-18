@@ -5,7 +5,7 @@ import 'package:logging/logging.dart';
 import 'package:recipy_frontend/config/api_config.dart';
 import 'package:recipy_frontend/helpers/http_helper.dart';
 import 'package:recipy_frontend/models/ingredient.dart';
-import 'package:recipy_frontend/pages/ingredients/add_ingredient_request.dart';
+import 'package:recipy_frontend/pages/ingredients/parts/add_ingredient_request.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_controller.dart';
 import 'package:recipy_frontend/repositories/http_request_result.dart';
 

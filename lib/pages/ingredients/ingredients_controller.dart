@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/error_mapping.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/ingredient.dart';
-import 'package:recipy_frontend/pages/ingredients/add_ingredient_request.dart';
+import 'package:recipy_frontend/pages/ingredients/parts/add_ingredient_request.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_model.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_page.dart';
 import 'package:recipy_frontend/repositories/http_request_result.dart';

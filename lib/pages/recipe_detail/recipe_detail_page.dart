@@ -3,10 +3,10 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/ingredient_usage.dart';
-import 'package:recipy_frontend/pages/recipe_detail/edit_ingredient_usage_widget.dart';
-import 'package:recipy_frontend/pages/recipe_detail/editable_ingredient_usage.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/edit_ingredient_usage_widget.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/editable_ingredient_usage.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_model.dart';
-import 'package:recipy_frontend/pages/recipe_detail/ingredient_usage_widget.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage_widget.dart';
 import 'package:recipy_frontend/widgets/info_dialog.dart';
 import 'package:recipy_frontend/widgets/process_indicator.dart';
 

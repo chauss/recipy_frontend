@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:recipy_frontend/helpers/in_memory.dart';
 import 'package:recipy_frontend/models/ingredient.dart';
 import 'package:recipy_frontend/models/ingredient_unit.dart';
-import 'package:recipy_frontend/pages/recipe_detail/editable_ingredient_usage.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/editable_ingredient_usage.dart';
 import 'package:recipy_frontend/storage/in_memory_storage.dart';
 import 'package:recipy_frontend/widgets/recipy_dropdown_widget.dart';
 

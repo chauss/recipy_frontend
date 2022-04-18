@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/error_mapping.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
-import 'package:recipy_frontend/models/recipe.dart';
-import 'package:recipy_frontend/pages/recipe_overview/add_recipe_request.dart';
+import 'package:recipy_frontend/models/recipe_overview.dart';
+import 'package:recipy_frontend/pages/recipe_overview/parts/add_recipe_request.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_model.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_page.dart';
 import 'package:recipy_frontend/repositories/http_request_result.dart';
@@ -26,9 +26,9 @@ class RecipeOverviewControllerImpl extends RecipeOverviewController {
       state = RecipeOverviewModel(
         isLoading: true,
       );
-      var recipes = await _recipeRepository.fetchRecipes();
+      var recipeOverviews = await _recipeRepository.fetchRecipesAsOverview();
       state = RecipeOverviewModel(
-        recipes: recipes,
+        recipeOverviews: recipeOverviews,
         isLoading: false,
       );
     } catch (e) {
@@ -61,13 +61,13 @@ class RecipeOverviewControllerImpl extends RecipeOverviewController {
   void dismissError() {
     state = RecipeOverviewModel(
       isLoading: state.isLoading,
-      recipes: state.recipes,
+      recipeOverviews: state.recipeOverviews,
       error: null,
     );
   }
 }
 
 abstract class RecipeOverviewRepository {
-  Future<List<Recipe>> fetchRecipes();
+  Future<List<RecipeOverview>> fetchRecipesAsOverview();
   Future<HttpPostResult> addRecipe(AddRecipeRequest request);
 }

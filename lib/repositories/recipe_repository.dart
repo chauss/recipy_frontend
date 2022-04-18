@@ -4,10 +4,11 @@ import 'package:logging/logging.dart';
 import 'package:recipy_frontend/config/api_config.dart';
 import 'package:recipy_frontend/helpers/http_helper.dart';
 import 'package:recipy_frontend/models/recipe.dart';
-import 'package:recipy_frontend/pages/recipe_detail/add_ingredient_usage_request.dart';
+import 'package:recipy_frontend/models/recipe_overview.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/add_ingredient_usage_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_controller.dart';
-import 'package:recipy_frontend/pages/recipe_detail/update_ingredient_usage_request.dart';
-import 'package:recipy_frontend/pages/recipe_overview/add_recipe_request.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/update_ingredient_usage_request.dart';
+import 'package:recipy_frontend/pages/recipe_overview/parts/add_recipe_request.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_controller.dart';
 import 'package:recipy_frontend/repositories/http_request_result.dart';
 
@@ -16,20 +17,22 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
   static final log = Logger('RecipeRepository');
 
   @override
-  Future<List<Recipe>> fetchRecipes() async {
-    var uri = Uri.parse(APIConfiguration.backendBaseUri + "/v1/recipes");
+  Future<List<RecipeOverview>> fetchRecipesAsOverview() async {
+    var uri =
+        Uri.parse(APIConfiguration.backendBaseUri + "/v1/recipes/overview");
     var response = await http.get(uri);
 
     if (is2xx(response.statusCode)) {
       Iterable l = json.decode(utf8.decode(response.bodyBytes));
-      List<Recipe> recipes =
-          List<Recipe>.from(l.map((json) => Recipe.fromJson(json)));
-      log.fine("Fetched ${recipes.length} recipes");
+      List<RecipeOverview> recipes = List<RecipeOverview>.from(
+          l.map((json) => RecipeOverview.fromJson(json)));
+      log.fine("Fetched ${recipes.length} recipeOverviews");
 
       return recipes;
     } else {
-      log.warning('Failed to load recipes (${response.statusCode})');
-      throw Exception('Failed to load recipes');
+      String error = 'Failed to load recipeOverviews (${response.statusCode})';
+      log.warning(error);
+      throw Exception(error);
     }
   }
 

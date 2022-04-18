@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
-import 'package:recipy_frontend/pages/recipe_overview/add_recipe_request.dart';
+import 'package:recipy_frontend/pages/recipe_overview/parts/add_recipe_request.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_model.dart';
 import 'package:recipy_frontend/widgets/info_dialog.dart';
 import 'package:recipy_frontend/widgets/nav_drawer.dart';
 import 'package:recipy_frontend/widgets/process_indicator.dart';
-import 'package:recipy_frontend/pages/recipe_overview/recipe_widget.dart';
+import 'package:recipy_frontend/pages/recipe_overview/parts/recipe_overview_widget.dart';
 import 'package:recipy_frontend/widgets/recipy_app_bar.dart';
 import 'package:recipy_frontend/widgets/text_field_dialog.dart';
 
@@ -64,8 +64,9 @@ class RecipeOverviewPage extends ConsumerWidget {
     return RefreshIndicator(
       onRefresh: controller.refetchRecipes,
       child: ListView(
-        children: model.recipes
-            .map((recipe) => RecipeCardWidget(recipe: recipe))
+        children: model.recipeOverviews
+            .map((recipeOverview) =>
+                RecipeOverviewWidget(recipeOverview: recipeOverview))
             .toList(),
       ),
     );

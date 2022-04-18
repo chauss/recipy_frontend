@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/recipe.dart';
-import 'package:recipy_frontend/pages/recipe_detail/add_ingredient_usage_request.dart';
-import 'package:recipy_frontend/pages/recipe_detail/editable_ingredient_usage.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/add_ingredient_usage_request.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/editable_ingredient_usage.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_model.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_page.dart';
-import 'package:recipy_frontend/pages/recipe_detail/update_ingredient_usage_request.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/update_ingredient_usage_request.dart';
 import 'package:recipy_frontend/repositories/http_request_result.dart';
 
 class RecipeDetailControllerImpl extends RecipeDetailController {
@@ -41,16 +41,18 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   @override
   void enterEditMode() {
     state = RecipeDetailModel(
-        recipeId: state.recipeId,
-        recipe: state.recipe,
-        isEditMode: true,
-        editableUsages: (state.recipe?.ingredientUsages ?? [])
-            .map((usage) => EditableIngredientUsage.fromIngredientUsage(usage))
-            .toList());
+      recipeId: state.recipeId,
+      recipe: state.recipe,
+      isEditMode: true,
+      editableUsages: (state.recipe?.ingredientUsages ?? [])
+          .map((usage) => EditableIngredientUsage.fromIngredientUsage(usage))
+          .toList(),
+    );
   }
 
   @override
   Future<void> saveChanges() async {
+    bool somethingChanged = false;
     for (var editableUsage in state.editableUsages) {
       // Check if information is valid
       if (editableUsage.amount == null ||
@@ -78,6 +80,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
                 existingIngredientUsage.ingredientUnitId) {
           continue;
         }
+        somethingChanged = true;
         var result = await _repository
             .updateIngredientUsage(UpdateIngredientUsageRequest(
           ingredientUsageId: existingIngredientUsage.id,
@@ -97,6 +100,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
           return;
         }
       } on StateError catch (_) {
+        somethingChanged = true;
         var result = await _repository
             .createIngredientUsage(CreateIngredientUsageRequest(
           recipeId: state.recipeId,
@@ -117,7 +121,18 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
         }
       }
     }
-    await _fetchRecipe();
+    if (somethingChanged) {
+      await _fetchRecipe();
+    } else {
+      state = RecipeDetailModel(
+        recipeId: state.recipeId,
+        recipe: state.recipe,
+        isEditMode: false,
+        editableUsages: state.editableUsages,
+        isLoading: state.isLoading,
+        error: state.error,
+      );
+    }
   }
 
   @override

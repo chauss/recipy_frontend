@@ -4,7 +4,7 @@ import 'package:logging/logging.dart';
 import 'package:recipy_frontend/config/api_config.dart';
 import 'package:recipy_frontend/helpers/http_helper.dart';
 import 'package:recipy_frontend/models/ingredient_unit.dart';
-import 'package:recipy_frontend/pages/ingredient_units/add_unit_request.dart';
+import 'package:recipy_frontend/pages/ingredient_units/parts/add_unit_request.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_controller.dart';
 import 'package:recipy_frontend/repositories/http_request_result.dart';
 

@@ -1,5 +1,5 @@
 import 'package:recipy_frontend/models/recipe.dart';
-import 'package:recipy_frontend/pages/recipe_detail/editable_ingredient_usage.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/editable_ingredient_usage.dart';
 
 class RecipeDetailModel {
   String recipeId;

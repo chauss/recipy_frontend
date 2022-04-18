@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
-import 'package:recipy_frontend/pages/ingredient_units/add_unit_request.dart';
+import 'package:recipy_frontend/pages/ingredient_units/parts/add_unit_request.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_model.dart';
 import 'package:recipy_frontend/widgets/info_dialog.dart';
 import 'package:recipy_frontend/widgets/process_indicator.dart';
 import 'package:recipy_frontend/widgets/recipy_app_bar.dart';
 import 'package:recipy_frontend/widgets/executive_textfield.dart';
-import 'package:recipy_frontend/pages/ingredient_units/ingredient_unit_widget.dart';
+import 'package:recipy_frontend/pages/ingredient_units/parts/ingredient_unit_widget.dart';
 import 'package:recipy_frontend/widgets/nav_drawer.dart';
 
 class IngredientUnitsPage extends ConsumerWidget {

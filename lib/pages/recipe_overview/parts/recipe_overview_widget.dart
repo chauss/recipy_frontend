@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:recipy_frontend/models/recipe.dart';
+import 'package:recipy_frontend/models/recipe_overview.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_page.dart';
 
-class RecipeCardWidget extends StatelessWidget {
-  final Recipe recipe;
+class RecipeOverviewWidget extends StatelessWidget {
+  final RecipeOverview recipeOverview;
 
-  const RecipeCardWidget({Key? key, required this.recipe}) : super(key: key);
+  const RecipeOverviewWidget({Key? key, required this.recipeOverview})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,8 @@ class RecipeCardWidget extends StatelessWidget {
       onPressed: () => Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => RecipeDetailPage(recipeId: recipe.id)),
+            builder: (context) =>
+                RecipeDetailPage(recipeId: recipeOverview.id)),
       ),
       child: Container(
         width: 300,
@@ -24,9 +26,9 @@ class RecipeCardWidget extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(4))),
         child: Column(
           children: [
-            Text(recipe.name),
-            Text(DateFormat.Hm().format(recipe.created)),
-            Text(DateFormat.yMMMd().format(recipe.created)),
+            Text(recipeOverview.name),
+            Text(DateFormat.Hm().format(recipeOverview.created)),
+            Text(DateFormat.yMMMd().format(recipeOverview.created)),
           ],
         ),
       ),
