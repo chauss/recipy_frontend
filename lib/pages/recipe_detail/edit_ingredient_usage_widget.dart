@@ -56,8 +56,7 @@ class EditIngredientUsageWidget extends StatelessWidget {
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))
         ],
-        onEditingComplete: () =>
-            onAmountChanged(double.parse(amountController.text)),
+        onChanged: (_) => onAmountChanged(double.parse(amountController.text)),
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
         ),
