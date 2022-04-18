@@ -43,6 +43,7 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
         });
 
     if (is2xx(response.statusCode)) {
+      log.fine("Added recipe \"${request.name}\"");
       return HttpPostResult(success: true);
     } else {
       String errorMessage =
@@ -62,7 +63,10 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
     if (is2xx(response.statusCode)) {
       Map<String, dynamic> recipeJson =
           json.decode(utf8.decode(response.bodyBytes));
-      return Recipe.fromJson(recipeJson);
+      Recipe recipe = Recipe.fromJson(recipeJson);
+      log.fine("Fetched recipe \"${recipe.name}\"");
+
+      return recipe;
     } else {
       String errorMessage =
           json.decode(utf8.decode(response.bodyBytes))["message"];
@@ -89,6 +93,7 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
         });
 
     if (is2xx(response.statusCode)) {
+      log.fine("Create ingredientUsage for recipe ${request.recipeId}");
       return HttpPostResult(success: true);
     } else {
       String errorMessage =
@@ -115,6 +120,7 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
         });
 
     if (is2xx(response.statusCode)) {
+      log.fine("Updated ingredientUsage ${request.ingredientUsageId}");
       return HttpPostResult(success: true);
     } else {
       String errorMessage =
