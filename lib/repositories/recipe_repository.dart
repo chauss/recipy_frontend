@@ -171,4 +171,30 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
       return HttpWriteResult(success: false, error: errorMessage);
     }
   }
+
+  @override
+  Future<HttpWriteResult> deleteIngredientUsage(
+      String ingredientUsageId) async {
+    var uri = Uri.parse(APIConfiguration.backendBaseUri +
+        "/v1/ingredient/usage/$ingredientUsageId");
+    http.Response response;
+    try {
+      response = await http.delete(uri);
+    } on SocketException catch (_) {
+      String error = "Der Server konnte nicht erreicht werden";
+      log.warning("Could not delete ingredientUsage by id: $error");
+      return HttpWriteResult(success: false, error: error);
+    }
+
+    if (is2xx(response.statusCode)) {
+      log.fine("Deleted ingredientUsage $ingredientUsageId");
+      return HttpWriteResult(success: true);
+    } else {
+      String errorMessage =
+          json.decode(utf8.decode(response.bodyBytes))["message"];
+      log.warning(
+          'Failed to delete ingredientUsage $errorMessage (${response.statusCode})');
+      return HttpWriteResult(success: false, error: errorMessage);
+    }
+  }
 }

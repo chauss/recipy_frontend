@@ -12,6 +12,7 @@ class EditIngredientUsageWidget extends StatelessWidget {
   final Function(double) onAmountChanged;
   final Function(String?) onIngredientChanged;
   final Function(String?) onIngredientUnitChanged;
+  final Function()? onDeleteIngredientUsageCallback;
 
   final Ingredient? ingredient;
   final IngredientUnit? ingredientUnit;
@@ -23,6 +24,7 @@ class EditIngredientUsageWidget extends StatelessWidget {
     required this.onAmountChanged,
     required this.onIngredientChanged,
     required this.onIngredientUnitChanged,
+    this.onDeleteIngredientUsageCallback,
   })  : ingredient = ingredientFor(usage.ingredientId ?? ""),
         ingredientUnit = ingredientUnitFor(usage.ingredientUnitId ?? ""),
         amountController = TextEditingController(text: usage.amount.toString()),
@@ -32,18 +34,25 @@ class EditIngredientUsageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        buildEditAmountUnitWidget(),
-        buildIngredientWidget(),
-      ],
-    );
-  }
-
-  Widget buildEditAmountUnitWidget() {
-    return Row(
-      children: [
         buildEditAmountWidget(),
-        const SizedBox(width: 8),
-        buildEditIngredientUsageWidget(),
+        const SizedBox(width: 12),
+        SizedBox(
+          width: 160,
+          child: Column(
+            children: [
+              buildEditIngredientUsageWidget(),
+              buildIngredientWidget(),
+            ],
+          ),
+        ),
+        Expanded(child: Container()),
+        InkWell(
+          child: Image.asset(
+            'assets/icons/trash.png',
+            width: 28,
+          ),
+          onTap: onDeleteIngredientUsageCallback,
+        ),
       ],
     );
   }

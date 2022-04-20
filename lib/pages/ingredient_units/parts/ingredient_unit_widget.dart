@@ -4,12 +4,12 @@ import 'package:recipy_frontend/models/ingredient_unit.dart';
 
 class IngredientUnitWidget extends StatelessWidget {
   final IngredientUnit ingredientUnit;
-  final Function()? onDeleteIngredientCallback;
+  final Function()? onDeleteIngredientUnitCallback;
 
   const IngredientUnitWidget({
     Key? key,
     required this.ingredientUnit,
-    this.onDeleteIngredientCallback,
+    this.onDeleteIngredientUnitCallback,
   }) : super(key: key);
 
   @override
@@ -37,7 +37,7 @@ class IngredientUnitWidget extends StatelessWidget {
               'assets/icons/trash.png',
               width: 28,
             ),
-            onTap: onDeleteIngredientCallback,
+            onTap: onDeleteIngredientUnitCallback,
           ),
         ],
       ),

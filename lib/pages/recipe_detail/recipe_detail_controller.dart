@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/recipe.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/add_ingredient_usage_request.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/delete_ingredient_usage_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/editable_ingredient_usage.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_model.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_page.dart';
@@ -95,6 +96,13 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
         }
       }
     }
+    // Check if existing usages have been deleted
+    var originalUsageCount = state.recipe?.ingredientUsages.length ?? 0;
+    var currentUsageCount =
+        state.editableUsages.where((usage) => usage.id != null).length;
+    if (originalUsageCount != currentUsageCount) {
+      somethingChanged = true;
+    }
     if (somethingChanged) {
       await _fetchRecipe();
     } else {
@@ -149,6 +157,21 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   void dismissError() {
     state = state.copyWith(error: null);
   }
+
+  @override
+  void deleteIngredientUsage(DeleteIngredientUsageRequest request) async {
+    if (request.ingredientUsage.id != null) {
+      var result =
+          await _repository.deleteIngredientUsage(request.ingredientUsage.id!);
+      if (!result.success) {
+        state = state.copyWith(error: result.error);
+      }
+    }
+
+    var newUsages = [...state.editableUsages];
+    newUsages.remove(request.ingredientUsage);
+    state = state.copyWith(editableUsages: newUsages);
+  }
 }
 
 abstract class RecipeDetailRepository {
@@ -157,4 +180,5 @@ abstract class RecipeDetailRepository {
       UpdateIngredientUsageRequest request);
   Future<HttpWriteResult> createIngredientUsage(
       CreateIngredientUsageRequest request);
+  Future<HttpWriteResult> deleteIngredientUsage(String ingredientUsageId);
 }

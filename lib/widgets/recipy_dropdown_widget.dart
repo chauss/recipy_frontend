@@ -23,6 +23,7 @@ class RecipyDropdownWidget<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButton<T>(
+      isExpanded: true,
       value: preselection,
       hint: Text(hint ?? ""),
       icon: const Icon(Icons.arrow_drop_down_rounded),

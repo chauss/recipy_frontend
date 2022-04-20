@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/ingredient_usage.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/delete_ingredient_usage_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/edit_ingredient_usage_widget.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/editable_ingredient_usage.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_model.dart';
@@ -117,6 +118,10 @@ class RecipeDetailPage extends ConsumerWidget {
               controller.updateUsageIngredient(usage, ingredientId),
           onIngredientUnitChanged: (ingredientUsageId) =>
               controller.updateUsageIngredientUnit(usage, ingredientUsageId),
+          onDeleteIngredientUsageCallback: () =>
+              controller.deleteIngredientUsage(DeleteIngredientUsageRequest(
+            ingredientUsage: usage,
+          )),
         ));
   }
 
@@ -140,6 +145,7 @@ abstract class RecipeDetailController extends StateNotifier<RecipeDetailModel> {
       EditableIngredientUsage usage, String? ingredientId);
   void updateUsageIngredientUnit(
       EditableIngredientUsage usage, String? ingredientUnitId);
+  void deleteIngredientUsage(DeleteIngredientUsageRequest request);
 
   void dismissError();
 }

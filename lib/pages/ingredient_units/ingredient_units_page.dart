@@ -73,7 +73,7 @@ class IngredientUnitsPage extends ConsumerWidget {
             .map(
               (ingredientUnit) => IngredientUnitWidget(
                 ingredientUnit: ingredientUnit,
-                onDeleteIngredientCallback: () =>
+                onDeleteIngredientUnitCallback: () =>
                     controller.deleteIngredientUnit(
                   DeleteIngredientUnitRequest(
                       ingredientUnitId: ingredientUnit.id),
