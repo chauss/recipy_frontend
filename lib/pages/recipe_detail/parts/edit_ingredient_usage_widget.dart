@@ -43,7 +43,7 @@ class EditIngredientUsageWidget extends StatelessWidget {
       children: [
         buildEditAmountWidget(),
         const SizedBox(width: 8),
-        buildEditIngredientUnitWidget(),
+        buildEditIngredientUsageWidget(),
       ],
     );
   }
@@ -64,7 +64,7 @@ class EditIngredientUsageWidget extends StatelessWidget {
     );
   }
 
-  Widget buildEditIngredientUnitWidget() {
+  Widget buildEditIngredientUsageWidget() {
     return RecipyDropdownWidget<IngredientUnit>(
       getDisplayName: (ingredientUnit) => ingredientUnit.name,
       onSelection: (ingredientUnit) =>

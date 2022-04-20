@@ -32,11 +32,12 @@ class IngredientWidget extends StatelessWidget {
               Text(DateFormat.yMMMd().format(ingredient.created)),
             ],
           ),
-          IconButton(
-            onPressed: onDeleteIngredientCallback,
-            icon: const Icon(
-              Icons.delete,
+          InkWell(
+            child: Image.asset(
+              'assets/icons/trash.png',
+              width: 28,
             ),
+            onTap: onDeleteIngredientCallback,
           ),
         ],
       ),

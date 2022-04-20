@@ -4,6 +4,7 @@ import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/pages/ingredient_units/parts/add_unit_request.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_model.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_page.dart';
+import 'package:recipy_frontend/pages/ingredient_units/parts/delete_ingredient_unit_request.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
 import 'package:recipy_frontend/storage/in_memory_storage.dart';
 
@@ -60,8 +61,22 @@ class IngredientUnitsControllerImpl extends IngredientUnitsController {
   void dismissError() {
     state = state.copyWith(error: null);
   }
+
+  @override
+  void deleteIngredientUnit(DeleteIngredientUnitRequest request) async {
+    state = state.copyWith(isLoading: true);
+
+    final result = await _repository.deleteIngredientUnitById(request);
+    if (result.success) {
+      await _fetchIngredientUnits();
+    } else {
+      state = state.copyWith(error: result.error, isLoading: false);
+    }
+  }
 }
 
 abstract class IngredientUnitRepository {
   Future<HttpWriteResult> addIngredientUnit(AddIngredientUnitRequest request);
+  Future<HttpWriteResult> deleteIngredientUnitById(
+      DeleteIngredientUnitRequest request);
 }

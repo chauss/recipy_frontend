@@ -7,6 +7,7 @@ import 'package:recipy_frontend/helpers/http_helper.dart';
 import 'package:recipy_frontend/models/ingredient_unit.dart';
 import 'package:recipy_frontend/pages/ingredient_units/parts/add_unit_request.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_controller.dart';
+import 'package:recipy_frontend/pages/ingredient_units/parts/delete_ingredient_unit_request.dart';
 import 'package:recipy_frontend/repositories/http_read_result.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
 import 'package:recipy_frontend/storage/in_memory_storage.dart';
@@ -67,6 +68,32 @@ class RecipyIngredientUnitRepository extends IngredientUnitRepository
           json.decode(utf8.decode(response.bodyBytes))["message"];
       log.warning(
           'Failed to add ingredientUnit $errorMessage (${response.statusCode})');
+      return HttpWriteResult(success: false, error: errorMessage);
+    }
+  }
+
+  @override
+  Future<HttpWriteResult> deleteIngredientUnitById(
+      DeleteIngredientUnitRequest request) async {
+    var uri = Uri.parse(APIConfiguration.backendBaseUri +
+        "/v1/ingredient/unit/${request.ingredientUnitId}");
+    http.Response response;
+    try {
+      response = await http.delete(uri);
+    } on SocketException catch (_) {
+      String error = "Der Server konnte nicht erreicht werden";
+      log.warning("Could not delete ingredientUnit by id: $error");
+      return HttpWriteResult(success: false, error: error);
+    }
+
+    if (is2xx(response.statusCode)) {
+      log.fine("Deleted ingredientUnit ${request.ingredientUnitId}");
+      return HttpWriteResult(success: true);
+    } else {
+      String errorMessage =
+          json.decode(utf8.decode(response.bodyBytes))["message"];
+      log.warning(
+          'Failed to delete ingredientUnit $errorMessage (${response.statusCode})');
       return HttpWriteResult(success: false, error: errorMessage);
     }
   }
