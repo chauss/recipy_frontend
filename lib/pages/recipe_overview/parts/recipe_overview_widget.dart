@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:recipy_frontend/models/recipe_overview.dart';
-import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_page.dart';
 
 class RecipeOverviewWidget extends StatelessWidget {
   final RecipeOverview recipeOverview;
+  final Function()? onClick;
 
-  const RecipeOverviewWidget({Key? key, required this.recipeOverview})
+  const RecipeOverviewWidget(
+      {Key? key, required this.recipeOverview, this.onClick})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                RecipeDetailPage(recipeId: recipeOverview.id)),
-      ),
+      onPressed: onClick,
       child: Container(
         width: 300,
         padding: const EdgeInsets.all(20),

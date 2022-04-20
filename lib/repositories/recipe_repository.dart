@@ -7,6 +7,7 @@ import 'package:recipy_frontend/helpers/http_helper.dart';
 import 'package:recipy_frontend/models/recipe.dart';
 import 'package:recipy_frontend/models/recipe_overview.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/add_ingredient_usage_request.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/delete_recipe_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_controller.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/update_ingredient_usage_request.dart';
 import 'package:recipy_frontend/pages/recipe_overview/parts/add_recipe_request.dart';
@@ -188,6 +189,31 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
 
     if (is2xx(response.statusCode)) {
       log.fine("Deleted ingredientUsage $ingredientUsageId");
+      return HttpWriteResult(success: true);
+    } else {
+      String errorMessage =
+          json.decode(utf8.decode(response.bodyBytes))["message"];
+      log.warning(
+          'Failed to delete ingredientUsage $errorMessage (${response.statusCode})');
+      return HttpWriteResult(success: false, error: errorMessage);
+    }
+  }
+
+  @override
+  Future<HttpWriteResult> deleteRecipeById(DeleteRecipeRequest request) async {
+    var uri = Uri.parse(
+        APIConfiguration.backendBaseUri + "/v1/recipe/${request.recipeId}");
+    http.Response response;
+    try {
+      response = await http.delete(uri);
+    } on SocketException catch (_) {
+      String error = "Der Server konnte nicht erreicht werden";
+      log.warning("Could not delete recipe by id: $error");
+      return HttpWriteResult(success: false, error: error);
+    }
+
+    if (is2xx(response.statusCode)) {
+      log.fine("Deleted recipe ${request.recipeId}");
       return HttpWriteResult(success: true);
     } else {
       String errorMessage =

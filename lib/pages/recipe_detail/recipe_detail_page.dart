@@ -4,12 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/ingredient_usage.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/delete_ingredient_usage_request.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/delete_recipe_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/edit_ingredient_usage_widget.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/editable_ingredient_usage.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_model.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage_widget.dart';
 import 'package:recipy_frontend/widgets/info_dialog.dart';
 import 'package:recipy_frontend/widgets/process_indicator.dart';
+import 'package:recipy_frontend/widgets/yes_no_dialog.dart';
 
 class RecipeDetailPage extends ConsumerWidget {
   final String recipeId;
@@ -27,20 +29,7 @@ class RecipeDetailPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(model.recipe?.name ?? ""),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: model.isEditMode
-                ? IconButton(
-                    onPressed: controller.saveChanges,
-                    icon: const Icon(Icons.check),
-                  )
-                : IconButton(
-                    onPressed: controller.enterEditMode,
-                    icon: const Icon(Icons.edit),
-                  ),
-          )
-        ],
+        actions: buildAppBarActions(controller, model),
       ),
       body: buildBody(controller, model, context),
     );
@@ -131,6 +120,78 @@ class RecipeDetailPage extends ConsumerWidget {
       child: IngredientUsageWidget(usage: usage),
     );
   }
+
+  List<Widget> buildAppBarActions(
+    RecipeDetailController controller,
+    RecipeDetailModel model,
+  ) {
+    if (model.isEditMode) {
+      return [
+        Padding(
+          padding: const EdgeInsets.only(right: 8),
+          child: IconButton(
+            onPressed: controller.saveChanges,
+            icon: const Icon(Icons.check),
+          ),
+        )
+      ];
+    }
+    return [
+      PopupMenuButton(
+        icon: const Icon(Icons.more_vert),
+        // color: Colors.blue,
+        itemBuilder: (context) => [
+          PopupMenuItem<Function>(
+            value: controller.enterEditMode,
+            child: Row(
+              children: const [
+                Icon(Icons.edit, color: Colors.black),
+                SizedBox(width: 12),
+                Text(
+                  "Bearbeiten",
+                ),
+              ],
+            ),
+          ),
+          PopupMenuItem<Function>(
+            value: () => showDeleteRecipeDialog(context, controller),
+            child: Row(
+              children: [
+                Image.asset(
+                  "assets/icons/trash.png",
+                  width: 24,
+                ),
+                const SizedBox(width: 12),
+                const Text(
+                  "Löschen",
+                ),
+              ],
+            ),
+          ),
+        ],
+        onSelected: (Function action) => action(),
+      ),
+    ];
+  }
+
+  void showDeleteRecipeDialog(
+    BuildContext context,
+    RecipeDetailController controller,
+  ) {
+    var dialog = YesNoDialog(
+        context: context,
+        title: "Rezept löschen",
+        info:
+            "Bist du dir sicher, dass du das Rezept komplett löschen möchtest?",
+        onYesCallback: () async {
+          var success = await controller
+              .deleteRecipe(DeleteRecipeRequest(recipeId: recipeId));
+          if (success) {
+            Navigator.pop(context);
+          }
+        });
+    dialog.show();
+  }
 }
 
 abstract class RecipeDetailController extends StateNotifier<RecipeDetailModel> {
@@ -146,6 +207,7 @@ abstract class RecipeDetailController extends StateNotifier<RecipeDetailModel> {
   void updateUsageIngredientUnit(
       EditableIngredientUsage usage, String? ingredientUnitId);
   void deleteIngredientUsage(DeleteIngredientUsageRequest request);
+  Future<bool> deleteRecipe(DeleteRecipeRequest request);
 
   void dismissError();
 }

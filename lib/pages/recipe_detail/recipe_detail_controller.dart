@@ -3,6 +3,7 @@ import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/recipe.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/add_ingredient_usage_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/delete_ingredient_usage_request.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/delete_recipe_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/editable_ingredient_usage.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_model.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_page.dart';
@@ -172,6 +173,24 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
     newUsages.remove(request.ingredientUsage);
     state = state.copyWith(editableUsages: newUsages);
   }
+
+  @override
+  Future<bool> deleteRecipe(DeleteRecipeRequest request) async {
+    state = state.copyWith(isLoading: true);
+    var result = await _repository.deleteRecipeById(request);
+    if (result.success) {
+      state = state.copyWith(
+        recipe: null,
+        isLoading: false,
+      );
+    } else {
+      state = state.copyWith(
+        error: result.error,
+        isLoading: false,
+      );
+    }
+    return result.success;
+  }
 }
 
 abstract class RecipeDetailRepository {
@@ -181,4 +200,5 @@ abstract class RecipeDetailRepository {
   Future<HttpWriteResult> createIngredientUsage(
       CreateIngredientUsageRequest request);
   Future<HttpWriteResult> deleteIngredientUsage(String ingredientUsageId);
+  Future<HttpWriteResult> deleteRecipeById(DeleteRecipeRequest request);
 }
