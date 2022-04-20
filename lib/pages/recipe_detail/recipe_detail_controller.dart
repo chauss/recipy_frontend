@@ -6,7 +6,7 @@ import 'package:recipy_frontend/pages/recipe_detail/parts/editable_ingredient_us
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_model.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_page.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/update_ingredient_usage_request.dart';
-import 'package:recipy_frontend/repositories/http_request_result.dart';
+import 'package:recipy_frontend/repositories/http_write_result.dart';
 
 class RecipeDetailControllerImpl extends RecipeDetailController {
   late RecipeDetailRepository _repository;
@@ -221,8 +221,8 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
 
 abstract class RecipeDetailRepository {
   Future<Recipe?> fetchRecipeById(String recipeId);
-  Future<HttpPostResult> updateIngredientUsage(
+  Future<HttpWriteResult> updateIngredientUsage(
       UpdateIngredientUsageRequest request);
-  Future<HttpPostResult> createIngredientUsage(
+  Future<HttpWriteResult> createIngredientUsage(
       CreateIngredientUsageRequest request);
 }

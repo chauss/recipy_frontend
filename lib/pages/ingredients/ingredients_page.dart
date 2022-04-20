@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/pages/ingredients/parts/add_ingredient_request.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_model.dart';
+import 'package:recipy_frontend/pages/ingredients/parts/delete_ingredient_request.dart';
 import 'package:recipy_frontend/widgets/executive_textfield.dart';
 import 'package:recipy_frontend/pages/ingredients/parts/ingredient_widget.dart';
 import 'package:recipy_frontend/widgets/info_dialog.dart';
@@ -69,7 +70,14 @@ class IngredientsPage extends ConsumerWidget {
       onRefresh: controller.refetchIngredients,
       child: ListView(
         children: model.ingredients
-            .map((ingredient) => IngredientWidget(ingredient: ingredient))
+            .map(
+              (ingredient) => IngredientWidget(
+                ingredient: ingredient,
+                onDeleteIngredientCallback: () => controller.deleteIngredient(
+                  DeleteIngredientRequest(ingredientId: ingredient.id),
+                ),
+              ),
+            )
             .toList(),
       ),
     );
@@ -81,5 +89,6 @@ abstract class IngredientsController extends StateNotifier<IngredientsModel> {
 
   Future<void> refetchIngredients();
   Future<void> addIngredient(AddIngredientRequest request);
+  void deleteIngredient(DeleteIngredientRequest request);
   void dismissError();
 }

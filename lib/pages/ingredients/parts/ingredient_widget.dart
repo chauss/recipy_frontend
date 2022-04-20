@@ -4,9 +4,13 @@ import 'package:recipy_frontend/models/ingredient.dart';
 
 class IngredientWidget extends StatelessWidget {
   final Ingredient ingredient;
+  final Function()? onDeleteIngredientCallback;
 
-  const IngredientWidget({Key? key, required this.ingredient})
-      : super(key: key);
+  const IngredientWidget({
+    Key? key,
+    required this.ingredient,
+    this.onDeleteIngredientCallback,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +21,23 @@ class IngredientWidget extends StatelessWidget {
       decoration: BoxDecoration(
           border: Border.all(color: Colors.blueAccent),
           borderRadius: const BorderRadius.all(Radius.circular(4))),
-      child: Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(ingredient.name),
-          Text(DateFormat.Hm().format(ingredient.created)),
-          Text(DateFormat.yMMMd().format(ingredient.created)),
+          Container(),
+          Column(
+            children: [
+              Text(ingredient.name),
+              Text(DateFormat.Hm().format(ingredient.created)),
+              Text(DateFormat.yMMMd().format(ingredient.created)),
+            ],
+          ),
+          IconButton(
+            onPressed: onDeleteIngredientCallback,
+            icon: const Icon(
+              Icons.delete,
+            ),
+          ),
         ],
       ),
     );

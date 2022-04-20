@@ -5,7 +5,7 @@ import 'package:recipy_frontend/models/ingredient_unit.dart';
 import 'package:recipy_frontend/pages/ingredient_units/parts/add_unit_request.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_model.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_page.dart';
-import 'package:recipy_frontend/repositories/http_request_result.dart';
+import 'package:recipy_frontend/repositories/http_write_result.dart';
 import 'package:recipy_frontend/storage/in_memory_storage.dart';
 
 class IngredientUnitsControllerImpl extends IngredientUnitsController {
@@ -85,5 +85,5 @@ class IngredientUnitsControllerImpl extends IngredientUnitsController {
 
 abstract class IngredientUnitRepository {
   Future<List<IngredientUnit>> fetchIngredientUnits();
-  Future<HttpPostResult> addIngredientUnit(AddIngredientUnitRequest request);
+  Future<HttpWriteResult> addIngredientUnit(AddIngredientUnitRequest request);
 }

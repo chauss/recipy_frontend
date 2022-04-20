@@ -5,7 +5,7 @@ import 'package:recipy_frontend/models/recipe_overview.dart';
 import 'package:recipy_frontend/pages/recipe_overview/parts/add_recipe_request.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_model.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_page.dart';
-import 'package:recipy_frontend/repositories/http_request_result.dart';
+import 'package:recipy_frontend/repositories/http_write_result.dart';
 
 class RecipeOverviewControllerImpl extends RecipeOverviewController {
   late RecipeOverviewRepository _recipeRepository;
@@ -69,5 +69,5 @@ class RecipeOverviewControllerImpl extends RecipeOverviewController {
 
 abstract class RecipeOverviewRepository {
   Future<List<RecipeOverview>> fetchRecipesAsOverview();
-  Future<HttpPostResult> addRecipe(AddRecipeRequest request);
+  Future<HttpWriteResult> addRecipe(AddRecipeRequest request);
 }

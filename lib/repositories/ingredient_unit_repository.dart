@@ -6,7 +6,7 @@ import 'package:recipy_frontend/helpers/http_helper.dart';
 import 'package:recipy_frontend/models/ingredient_unit.dart';
 import 'package:recipy_frontend/pages/ingredient_units/parts/add_unit_request.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_controller.dart';
-import 'package:recipy_frontend/repositories/http_request_result.dart';
+import 'package:recipy_frontend/repositories/http_write_result.dart';
 
 class RecipyIngredientUnitRepository extends IngredientUnitRepository {
   static final log = Logger('IngredientUnitRepository');
@@ -32,7 +32,7 @@ class RecipyIngredientUnitRepository extends IngredientUnitRepository {
   }
 
   @override
-  Future<HttpPostResult> addIngredientUnit(
+  Future<HttpWriteResult> addIngredientUnit(
       AddIngredientUnitRequest request) async {
     var uri =
         Uri.parse(APIConfiguration.backendBaseUri + "/v1/ingredient/unit");
@@ -43,13 +43,13 @@ class RecipyIngredientUnitRepository extends IngredientUnitRepository {
         });
 
     if (is2xx(response.statusCode)) {
-      return HttpPostResult(success: true);
+      return HttpWriteResult(success: true);
     } else {
       String errorMessage =
           json.decode(utf8.decode(response.bodyBytes))["message"];
       log.warning(
           'Failed to add ingredientUnit $errorMessage (${response.statusCode})');
-      return HttpPostResult(success: false, error: errorMessage);
+      return HttpWriteResult(success: false, error: errorMessage);
     }
   }
 }

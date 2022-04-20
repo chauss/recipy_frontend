@@ -10,7 +10,7 @@ import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_controller.dar
 import 'package:recipy_frontend/pages/recipe_detail/parts/update_ingredient_usage_request.dart';
 import 'package:recipy_frontend/pages/recipe_overview/parts/add_recipe_request.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_controller.dart';
-import 'package:recipy_frontend/repositories/http_request_result.dart';
+import 'package:recipy_frontend/repositories/http_write_result.dart';
 
 class RecipyRecipeRepository extends RecipeOverviewRepository
     with RecipeDetailRepository {
@@ -37,7 +37,7 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
   }
 
   @override
-  Future<HttpPostResult> addRecipe(AddRecipeRequest request) async {
+  Future<HttpWriteResult> addRecipe(AddRecipeRequest request) async {
     var uri = Uri.parse(APIConfiguration.backendBaseUri + "/v1/recipe");
     var response = await http.post(uri,
         body: json.encode(<String, String>{"name": request.name}),
@@ -47,13 +47,13 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
 
     if (is2xx(response.statusCode)) {
       log.fine("Added recipe \"${request.name}\"");
-      return HttpPostResult(success: true);
+      return HttpWriteResult(success: true);
     } else {
       String errorMessage =
           json.decode(utf8.decode(response.bodyBytes))["message"];
       log.warning(
           'Failed to add recipe $errorMessage (${response.statusCode})');
-      return HttpPostResult(success: false, error: errorMessage);
+      return HttpWriteResult(success: false, error: errorMessage);
     }
   }
 
@@ -80,7 +80,7 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
   }
 
   @override
-  Future<HttpPostResult> createIngredientUsage(
+  Future<HttpWriteResult> createIngredientUsage(
       CreateIngredientUsageRequest request) async {
     var uri =
         Uri.parse(APIConfiguration.backendBaseUri + "/v1/ingredient/usage");
@@ -97,18 +97,18 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
 
     if (is2xx(response.statusCode)) {
       log.fine("Create ingredientUsage for recipe ${request.recipeId}");
-      return HttpPostResult(success: true);
+      return HttpWriteResult(success: true);
     } else {
       String errorMessage =
           json.decode(utf8.decode(response.bodyBytes))["message"];
       log.warning(
           'Failed to add ingredientUsage $errorMessage (${response.statusCode})');
-      return HttpPostResult(success: false, error: errorMessage);
+      return HttpWriteResult(success: false, error: errorMessage);
     }
   }
 
   @override
-  Future<HttpPostResult> updateIngredientUsage(
+  Future<HttpWriteResult> updateIngredientUsage(
       UpdateIngredientUsageRequest request) async {
     var uri = Uri.parse(APIConfiguration.backendBaseUri +
         "/v1/ingredient/usage/${request.ingredientUsageId}");
@@ -124,13 +124,13 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
 
     if (is2xx(response.statusCode)) {
       log.fine("Updated ingredientUsage ${request.ingredientUsageId}");
-      return HttpPostResult(success: true);
+      return HttpWriteResult(success: true);
     } else {
       String errorMessage =
           json.decode(utf8.decode(response.bodyBytes))["message"];
       log.warning(
           'Failed to update ingredientUsage $errorMessage (${response.statusCode})');
-      return HttpPostResult(success: false, error: errorMessage);
+      return HttpWriteResult(success: false, error: errorMessage);
     }
   }
 }

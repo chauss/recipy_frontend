@@ -20,6 +20,6 @@ class RecipeOverview {
 
   @override
   String toString() {
-    return "Recipe(name=$name)";
+    return "RecipeOverview(name=$name)";
   }
 }

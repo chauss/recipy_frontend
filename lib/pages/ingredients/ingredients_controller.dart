@@ -5,7 +5,8 @@ import 'package:recipy_frontend/models/ingredient.dart';
 import 'package:recipy_frontend/pages/ingredients/parts/add_ingredient_request.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_model.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_page.dart';
-import 'package:recipy_frontend/repositories/http_request_result.dart';
+import 'package:recipy_frontend/pages/ingredients/parts/delete_ingredient_request.dart';
+import 'package:recipy_frontend/repositories/http_write_result.dart';
 import 'package:recipy_frontend/storage/in_memory_storage.dart';
 
 class IngredintsControllerImpl extends IngredientsController {
@@ -25,17 +26,21 @@ class IngredintsControllerImpl extends IngredientsController {
     try {
       state = IngredientsModel(
         isLoading: true,
+        ingredients: state.ingredients,
+        error: state.error,
       );
-      var storage = RecipyInMemoryStorage();
+      final storage = RecipyInMemoryStorage();
       await storage.refetchIngredients();
 
       state = IngredientsModel(
         ingredients: storage.getIngredients(),
         isLoading: false,
+        error: state.error,
       );
     } catch (e) {
       String errorMessage = errorMessageFor(e.toString());
       state = IngredientsModel(
+        ingredients: state.ingredients,
         error: errorMessage,
         isLoading: false,
       );
@@ -53,8 +58,9 @@ class IngredintsControllerImpl extends IngredientsController {
       state = IngredientsModel(
         ingredients: state.ingredients,
         isLoading: true,
+        error: state.error,
       );
-      var result = await _repository.addIngredient(request);
+      final result = await _repository.addIngredient(request);
       if (result.success) {
         await _fetchIngredients();
       } else {
@@ -81,9 +87,29 @@ class IngredintsControllerImpl extends IngredientsController {
       error: null,
     );
   }
+
+  @override
+  Future<void> deleteIngredient(DeleteIngredientRequest request) async {
+    state = IngredientsModel(
+      error: state.error,
+      ingredients: state.ingredients,
+      isLoading: true,
+    );
+    final result = await _repository.deleteIngredientById(request);
+    if (result.success) {
+      await _fetchIngredients();
+    } else {
+      state = IngredientsModel(
+        ingredients: state.ingredients,
+        error: result.error,
+        isLoading: false,
+      );
+    }
+  }
 }
 
 abstract class IngredientRepository {
+  Future<HttpWriteResult> deleteIngredientById(DeleteIngredientRequest request);
   Future<List<Ingredient>> fetchIngredients();
-  Future<HttpPostResult> addIngredient(AddIngredientRequest request);
+  Future<HttpWriteResult> addIngredient(AddIngredientRequest request);
 }
