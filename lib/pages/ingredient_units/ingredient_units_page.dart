@@ -26,21 +26,23 @@ class IngredientUnitsPage extends ConsumerWidget {
       appBar: const RecipyAppBar(title: "Einheiten"),
       body: Container(
         color: Colors.grey,
-        child: Column(
-          children: [
-            Expanded(
-              child: Container(
-                color: Colors.white,
-                child: buildBody(context, model, controller),
+        child: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  color: Colors.white,
+                  child: buildBody(context, model, controller),
+                ),
               ),
-            ),
-            ExecutiveTextfield(
-              addFunction: (name) => controller
-                  .addIngredientUnit(AddIngredientUnitRequest(name: name)),
-              hintText: 'Füge eine neue Einheit hinzu',
-              enabled: !model.isLoading,
-            ),
-          ],
+              ExecutiveTextfield(
+                addFunction: (name) => controller
+                    .addIngredientUnit(AddIngredientUnitRequest(name: name)),
+                hintText: 'Füge eine neue Einheit hinzu',
+                enabled: !model.isLoading,
+              ),
+            ],
+          ),
         ),
       ),
     );
