@@ -144,10 +144,13 @@ class RecipeDetailPage extends ConsumerWidget {
           PopupMenuItem<Function>(
             value: controller.enterEditMode,
             child: Row(
-              children: const [
-                Icon(Icons.edit, color: Colors.black),
-                SizedBox(width: 12),
-                Text(
+              children: [
+                Image.asset(
+                  "assets/icons/edit.png",
+                  width: 24,
+                ),
+                const SizedBox(width: 12),
+                const Text(
                   "Bearbeiten",
                 ),
               ],
