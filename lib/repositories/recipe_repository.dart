@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
 import 'package:recipy_frontend/config/api_config.dart';
@@ -10,6 +11,7 @@ import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_controller.dar
 import 'package:recipy_frontend/pages/recipe_detail/parts/update_ingredient_usage_request.dart';
 import 'package:recipy_frontend/pages/recipe_overview/parts/add_recipe_request.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_controller.dart';
+import 'package:recipy_frontend/repositories/http_read_result.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
 
 class RecipyRecipeRepository extends RecipeOverviewRepository
@@ -17,10 +19,17 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
   static final log = Logger('RecipeRepository');
 
   @override
-  Future<List<RecipeOverview>> fetchRecipesAsOverview() async {
+  Future<HttpReadResult<List<RecipeOverview>>> fetchRecipesAsOverview() async {
     var uri =
         Uri.parse(APIConfiguration.backendBaseUri + "/v1/recipes/overview");
-    var response = await http.get(uri);
+    http.Response response;
+    try {
+      response = await http.get(uri);
+    } on SocketException catch (_) {
+      String error = "Der Server konnte nicht erreicht werden";
+      log.warning("Could not fetch recipes: $error");
+      return HttpReadResult(success: false, error: error);
+    }
 
     if (is2xx(response.statusCode)) {
       Iterable l = json.decode(utf8.decode(response.bodyBytes));
@@ -28,22 +37,29 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
           l.map((json) => RecipeOverview.fromJson(json)));
       log.fine("Fetched ${recipes.length} recipeOverviews");
 
-      return recipes;
+      return HttpReadResult(success: true, data: recipes);
     } else {
       String error = 'Failed to load recipeOverviews (${response.statusCode})';
-      log.warning(error);
-      throw Exception(error);
+      log.warning("Could not fetch recipes: $error");
+      return HttpReadResult(success: false, error: error);
     }
   }
 
   @override
   Future<HttpWriteResult> addRecipe(AddRecipeRequest request) async {
     var uri = Uri.parse(APIConfiguration.backendBaseUri + "/v1/recipe");
-    var response = await http.post(uri,
-        body: json.encode(<String, String>{"name": request.name}),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        });
+    http.Response response;
+    try {
+      response = await http.post(uri,
+          body: json.encode(<String, String>{"name": request.name}),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          });
+    } on SocketException catch (_) {
+      String error = "Der Server konnte nicht erreicht werden";
+      log.warning("Could not add recipe \"${request.name}\": $error");
+      return HttpWriteResult(success: false, error: error);
+    }
 
     if (is2xx(response.statusCode)) {
       log.fine("Added recipe \"${request.name}\"");
@@ -58,10 +74,17 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
   }
 
   @override
-  Future<Recipe?> fetchRecipeById(String recipeId) async {
+  Future<HttpReadResult<Recipe>> fetchRecipeById(String recipeId) async {
     var uri =
         Uri.parse(APIConfiguration.backendBaseUri + "/v1/recipe/$recipeId");
-    var response = await http.get(uri);
+    http.Response response;
+    try {
+      response = await http.get(uri);
+    } on SocketException catch (_) {
+      String error = "Der Server konnte nicht erreicht werden";
+      log.warning("Could not fetch recipe by id: $error");
+      return HttpReadResult(success: false, error: error);
+    }
 
     if (is2xx(response.statusCode)) {
       Map<String, dynamic> recipeJson =
@@ -69,13 +92,13 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
       Recipe recipe = Recipe.fromJson(recipeJson);
       log.fine("Fetched recipe \"${recipe.name}\"");
 
-      return recipe;
+      return HttpReadResult(success: true, data: recipe);
     } else {
       String errorMessage =
           json.decode(utf8.decode(response.bodyBytes))["message"];
       log.warning(
           'Failed to fetch recipe by id $errorMessage (${response.statusCode})');
-      return null;
+      return HttpReadResult(success: false, error: errorMessage);
     }
   }
 
@@ -84,16 +107,23 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
       CreateIngredientUsageRequest request) async {
     var uri =
         Uri.parse(APIConfiguration.backendBaseUri + "/v1/ingredient/usage");
-    var response = await http.post(uri,
-        body: json.encode(<String, Object>{
-          "recipeId": request.recipeId,
-          "ingredientId": request.ingredientId,
-          "ingredientUnitId": request.ingredientUnitId,
-          "amount": request.amount,
-        }),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        });
+    http.Response response;
+    try {
+      response = await http.post(uri,
+          body: json.encode(<String, Object>{
+            "recipeId": request.recipeId,
+            "ingredientId": request.ingredientId,
+            "ingredientUnitId": request.ingredientUnitId,
+            "amount": request.amount,
+          }),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          });
+    } on SocketException catch (_) {
+      String error = "Der Server konnte nicht erreicht werden";
+      log.warning("Could not create ingredientUsage: $error");
+      return HttpWriteResult(success: false, error: error);
+    }
 
     if (is2xx(response.statusCode)) {
       log.fine("Create ingredientUsage for recipe ${request.recipeId}");
@@ -112,15 +142,23 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
       UpdateIngredientUsageRequest request) async {
     var uri = Uri.parse(APIConfiguration.backendBaseUri +
         "/v1/ingredient/usage/${request.ingredientUsageId}");
-    var response = await http.put(uri,
-        body: json.encode(<String, Object>{
-          "ingredientId": request.ingredientId,
-          "ingredientUnitId": request.ingredientUnitId,
-          "amount": request.amount,
-        }),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        });
+
+    http.Response response;
+    try {
+      response = await http.put(uri,
+          body: json.encode(<String, Object>{
+            "ingredientId": request.ingredientId,
+            "ingredientUnitId": request.ingredientUnitId,
+            "amount": request.amount,
+          }),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          });
+    } on SocketException catch (_) {
+      String error = "Der Server konnte nicht erreicht werden";
+      log.warning("Could not update ingredientUsage: $error");
+      return HttpWriteResult(success: false, error: error);
+    }
 
     if (is2xx(response.statusCode)) {
       log.fine("Updated ingredientUsage ${request.ingredientUsageId}");

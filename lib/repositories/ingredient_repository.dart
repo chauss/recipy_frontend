@@ -8,19 +8,24 @@ import 'package:recipy_frontend/models/ingredient.dart';
 import 'package:recipy_frontend/pages/ingredients/parts/add_ingredient_request.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_controller.dart';
 import 'package:recipy_frontend/pages/ingredients/parts/delete_ingredient_request.dart';
+import 'package:recipy_frontend/repositories/http_read_result.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
+import 'package:recipy_frontend/storage/in_memory_storage.dart';
 
-class RecipyIngredientRepository extends IngredientRepository {
+class RecipyIngredientRepository extends IngredientRepository
+    with InMemoryStorageIngredientRepository {
   static final log = Logger('IngredientsRepository');
 
   @override
-  Future<List<Ingredient>> fetchIngredients() async {
+  Future<HttpReadResult<List<Ingredient>>> fetchIngredients() async {
     var uri = Uri.parse(APIConfiguration.backendBaseUri + "/v1/ingredients");
     http.Response response;
     try {
       response = await http.get(uri);
     } on SocketException catch (_) {
-      throw const HttpException("Der Server konnte nicht erreicht werden");
+      String error = "Der Server konnte nicht erreicht werden";
+      log.warning("Could not fetch ingredients: $error");
+      return HttpReadResult(success: false, error: error);
     }
 
     if (is2xx(response.statusCode)) {
@@ -29,11 +34,11 @@ class RecipyIngredientRepository extends IngredientRepository {
           List<Ingredient>.from(l.map((json) => Ingredient.fromJson(json)));
       log.fine("Fetched ${ingredients.length} ingredients");
 
-      return ingredients;
+      return HttpReadResult(success: true, data: ingredients);
     } else {
       String error = 'Failed to load ingredients (${response.statusCode})';
       log.warning(error);
-      throw HttpException(error);
+      return HttpReadResult(success: false, error: error);
     }
   }
 
@@ -50,8 +55,9 @@ class RecipyIngredientRepository extends IngredientRepository {
         },
       );
     } on SocketException catch (_) {
-      return HttpWriteResult(
-          success: false, error: "Der Server konnte nicht erreicht werden");
+      String error = "Der Server konnte nicht erreicht werden";
+      log.warning("Could not add ingredient \"${request.name}\": $error");
+      return HttpWriteResult(success: false, error: error);
     }
 
     if (is2xx(response.statusCode)) {
@@ -75,8 +81,9 @@ class RecipyIngredientRepository extends IngredientRepository {
     try {
       response = await http.delete(uri);
     } on SocketException catch (_) {
-      return HttpWriteResult(
-          success: false, error: "Der Server konnte nicht erreicht werden");
+      String error = "Der Server konnte nicht erreicht werden";
+      log.warning("Could not delete ingredient by id: $error");
+      return HttpWriteResult(success: false, error: error);
     }
 
     if (is2xx(response.statusCode)) {

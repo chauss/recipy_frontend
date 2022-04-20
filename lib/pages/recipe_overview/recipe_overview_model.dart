@@ -1,13 +1,13 @@
 import 'package:recipy_frontend/models/recipe_overview.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class RecipeOverviewModel {
-  List<RecipeOverview> recipeOverviews;
-  bool isLoading;
-  String? error;
+part 'recipe_overview_model.freezed.dart';
 
-  RecipeOverviewModel({
-    this.recipeOverviews = const [],
-    this.isLoading = false,
-    this.error,
-  });
+@freezed
+class RecipeOverviewModel with _$RecipeOverviewModel {
+  const factory RecipeOverviewModel({
+    @Default([]) List<RecipeOverview> recipeOverviews,
+    @Default(false) bool isLoading,
+    String? error,
+  }) = _RecipeOverviewModel;
 }

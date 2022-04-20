@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/error_mapping.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
-import 'package:recipy_frontend/models/ingredient_unit.dart';
 import 'package:recipy_frontend/pages/ingredient_units/parts/add_unit_request.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_model.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_page.dart';
@@ -23,22 +22,16 @@ class IngredientUnitsControllerImpl extends IngredientUnitsController {
 
   Future<void> _fetchIngredientUnits() async {
     try {
-      state = IngredientUnitsModel(
-        isLoading: true,
-      );
+      state = state.copyWith(isLoading: true);
+
       var storage = RecipyInMemoryStorage();
       await storage.refetchIngredientUnits();
 
-      state = IngredientUnitsModel(
-        units: storage.getIngredientUnits(),
-        isLoading: false,
-      );
+      state =
+          state.copyWith(units: storage.getIngredientUnits(), isLoading: false);
     } catch (e) {
       String errorMessage = errorMessageFor(e.toString());
-      state = IngredientUnitsModel(
-        error: errorMessage,
-        isLoading: false,
-      );
+      state = state.copyWith(error: errorMessage, isLoading: false);
     }
   }
 
@@ -49,41 +42,26 @@ class IngredientUnitsControllerImpl extends IngredientUnitsController {
 
   @override
   Future<void> addIngredientUnit(AddIngredientUnitRequest request) async {
-    state = IngredientUnitsModel(
-      units: state.units,
-      isLoading: true,
-    );
+    state = state.copyWith(isLoading: true);
+
     try {
       var result = await _repository.addIngredientUnit(request);
       if (result.success) {
         await _fetchIngredientUnits();
       } else {
-        state = IngredientUnitsModel(
-          units: state.units,
-          error: result.error,
-          isLoading: false,
-        );
+        state = state.copyWith(error: result.error, isLoading: false);
       }
     } catch (e) {
-      state = IngredientUnitsModel(
-        units: state.units,
-        error: e.toString(),
-        isLoading: false,
-      );
+      state = state.copyWith(error: e.toString(), isLoading: false);
     }
   }
 
   @override
   void dismissError() {
-    state = IngredientUnitsModel(
-      units: state.units,
-      isLoading: state.isLoading,
-      error: null,
-    );
+    state = state.copyWith(error: null);
   }
 }
 
 abstract class IngredientUnitRepository {
-  Future<List<IngredientUnit>> fetchIngredientUnits();
   Future<HttpWriteResult> addIngredientUnit(AddIngredientUnitRequest request);
 }

@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/error_mapping.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
-import 'package:recipy_frontend/models/ingredient.dart';
 import 'package:recipy_frontend/pages/ingredients/parts/add_ingredient_request.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_model.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_page.dart';
@@ -24,26 +23,16 @@ class IngredintsControllerImpl extends IngredientsController {
 
   Future<void> _fetchIngredients() async {
     try {
-      state = IngredientsModel(
-        isLoading: true,
-        ingredients: state.ingredients,
-        error: state.error,
-      );
+      state = state.copyWith(isLoading: true);
+
       final storage = RecipyInMemoryStorage();
       await storage.refetchIngredients();
 
-      state = IngredientsModel(
-        ingredients: storage.getIngredients(),
-        isLoading: false,
-        error: state.error,
-      );
+      state = state.copyWith(
+          ingredients: storage.getIngredients(), isLoading: false);
     } catch (e) {
       String errorMessage = errorMessageFor(e.toString());
-      state = IngredientsModel(
-        ingredients: state.ingredients,
-        error: errorMessage,
-        isLoading: false,
-      );
+      state = state.copyWith(error: errorMessage, isLoading: false);
     }
   }
 
@@ -55,61 +44,36 @@ class IngredintsControllerImpl extends IngredientsController {
   @override
   Future<void> addIngredient(AddIngredientRequest request) async {
     try {
-      state = IngredientsModel(
-        ingredients: state.ingredients,
-        isLoading: true,
-        error: state.error,
-      );
+      state = state.copyWith(isLoading: true);
+
       final result = await _repository.addIngredient(request);
       if (result.success) {
         await _fetchIngredients();
       } else {
-        state = IngredientsModel(
-          ingredients: state.ingredients,
-          error: result.error,
-          isLoading: false,
-        );
+        state = state.copyWith(error: result.error, isLoading: false);
       }
     } catch (e) {
-      state = IngredientsModel(
-        ingredients: state.ingredients,
-        error: e.toString(),
-        isLoading: false,
-      );
+      state = state.copyWith(error: e.toString(), isLoading: false);
     }
   }
 
   @override
-  void dismissError() {
-    state = IngredientsModel(
-      isLoading: state.isLoading,
-      ingredients: state.ingredients,
-      error: null,
-    );
-  }
+  void dismissError() => state = state.copyWith(error: null);
 
   @override
   Future<void> deleteIngredient(DeleteIngredientRequest request) async {
-    state = IngredientsModel(
-      error: state.error,
-      ingredients: state.ingredients,
-      isLoading: true,
-    );
+    state = state.copyWith(isLoading: true);
+
     final result = await _repository.deleteIngredientById(request);
     if (result.success) {
       await _fetchIngredients();
     } else {
-      state = IngredientsModel(
-        ingredients: state.ingredients,
-        error: result.error,
-        isLoading: false,
-      );
+      state = state.copyWith(error: result.error, isLoading: false);
     }
   }
 }
 
 abstract class IngredientRepository {
   Future<HttpWriteResult> deleteIngredientById(DeleteIngredientRequest request);
-  Future<List<Ingredient>> fetchIngredients();
   Future<HttpWriteResult> addIngredient(AddIngredientRequest request);
 }

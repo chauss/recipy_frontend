@@ -14,6 +14,7 @@ import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_page.dart'
 import 'package:recipy_frontend/repositories/ingredient_repository.dart';
 import 'package:recipy_frontend/repositories/ingredient_unit_repository.dart';
 import 'package:recipy_frontend/repositories/recipe_repository.dart';
+import 'package:recipy_frontend/storage/in_memory_storage.dart';
 
 // #############################################################################
 // # Ingredients
@@ -27,7 +28,7 @@ final ingredientRepositoryProvider = Provider<IngredientRepository>((ref) {
 final StateNotifierProvider<IngredientsController, IngredientsModel>
     ingredientsControllerProvider =
     StateNotifierProvider<IngredientsController, IngredientsModel>(
-  (ref) => IngredintsControllerImpl(IngredientsModel()),
+  (ref) => IngredintsControllerImpl(const IngredientsModel()),
 );
 
 // #############################################################################
@@ -43,7 +44,7 @@ final ingredientUnitRepositoryProvider =
 final StateNotifierProvider<IngredientUnitsController, IngredientUnitsModel>
     ingredientUnitControllerProvider =
     StateNotifierProvider<IngredientUnitsController, IngredientUnitsModel>(
-  (ref) => IngredientUnitsControllerImpl(IngredientUnitsModel()),
+  (ref) => IngredientUnitsControllerImpl(const IngredientUnitsModel()),
 );
 
 // #############################################################################
@@ -78,3 +79,16 @@ final StateNotifierProviderFamily<RecipeDetailController, RecipeDetailModel,
   (ref, recipeId) =>
       RecipeDetailControllerImpl(RecipeDetailModel(recipeId: recipeId)),
 );
+
+// #############################################################################
+// # Storage
+// #############################################################################
+final inMemoryStorageIngredientRepositoryProvider =
+    Provider<InMemoryStorageIngredientRepository>((ref) {
+  return RecipyIngredientRepository();
+});
+
+final inMemoryStorageIngredientUnitRepositoryProvider =
+    Provider<InMemoryStorageIngredientUnitRepository>((ref) {
+  return RecipyIngredientUnitRepository();
+});

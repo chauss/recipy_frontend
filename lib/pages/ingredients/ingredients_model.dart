@@ -1,13 +1,13 @@
 import 'package:recipy_frontend/models/ingredient.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class IngredientsModel {
-  List<Ingredient> ingredients;
-  bool isLoading;
-  String? error;
+part 'ingredients_model.freezed.dart';
 
-  IngredientsModel({
-    this.ingredients = const [],
-    this.isLoading = false,
-    this.error,
-  });
+@freezed
+class IngredientsModel with _$IngredientsModel {
+  const factory IngredientsModel({
+    @Default([]) List<Ingredient> ingredients,
+    @Default(false) bool isLoading,
+    String? error,
+  }) = _IngredientsModel;
 }

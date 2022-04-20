@@ -1,20 +1,17 @@
 import 'package:recipy_frontend/models/recipe.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/editable_ingredient_usage.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class RecipeDetailModel {
-  String recipeId;
-  bool isLoading;
-  String? error;
-  Recipe? recipe;
-  bool isEditMode;
-  List<EditableIngredientUsage> editableUsages;
+part 'recipe_detail_model.freezed.dart';
 
-  RecipeDetailModel({
-    required this.recipeId,
-    this.isLoading = false,
-    this.error,
-    this.recipe,
-    this.isEditMode = false,
-    this.editableUsages = const [],
-  });
+@freezed
+class RecipeDetailModel with _$RecipeDetailModel {
+  const factory RecipeDetailModel({
+    required String recipeId,
+    @Default(false) bool isLoading,
+    @Default(false) bool isEditMode,
+    @Default([]) List<EditableIngredientUsage> editableUsages,
+    String? error,
+    Recipe? recipe,
+  }) = _RecipeDetailModel;
 }

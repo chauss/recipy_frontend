@@ -6,6 +6,7 @@ import 'package:recipy_frontend/pages/recipe_detail/parts/editable_ingredient_us
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_model.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_page.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/update_ingredient_usage_request.dart';
+import 'package:recipy_frontend/repositories/http_read_result.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
 
 class RecipeDetailControllerImpl extends RecipeDetailController {
@@ -22,16 +23,11 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   }
 
   Future<void> _fetchRecipe() async {
-    var recipe = await _repository.fetchRecipeById(state.recipeId);
-    String? error;
+    var result = await _repository.fetchRecipeById(state.recipeId);
 
-    if (recipe == null) {
-      error = "Rezept nicht gefunden";
-    }
-    state = RecipeDetailModel(
-      recipeId: state.recipeId,
-      recipe: recipe,
-      error: error,
+    state = state.copyWith(
+      recipe: result.data,
+      error: result.error,
       isLoading: false,
       isEditMode: false,
       editableUsages: [],
@@ -40,9 +36,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
 
   @override
   void enterEditMode() {
-    state = RecipeDetailModel(
-      recipeId: state.recipeId,
-      recipe: state.recipe,
+    state = state.copyWith(
       isEditMode: true,
       editableUsages: (state.recipe?.ingredientUsages ?? [])
           .map((usage) => EditableIngredientUsage.fromIngredientUsage(usage))
@@ -58,14 +52,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
       if (editableUsage.amount == null ||
           editableUsage.ingredientId == null ||
           editableUsage.ingredientUnitId == null) {
-        state = RecipeDetailModel(
-          recipeId: state.recipeId,
-          recipe: state.recipe,
-          isEditMode: true,
-          editableUsages: state.editableUsages,
-          isLoading: state.isLoading,
-          error: "Manche Felder sind nicht ausgefüllt!",
-        );
+        state = state.copyWith(error: "Manche Felder sind nicht ausgefüllt!");
         return;
       }
 
@@ -89,17 +76,11 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
           ingredientUnitId: editableUsage.ingredientUnitId!,
         ));
         if (!result.success) {
-          state = RecipeDetailModel(
-            recipeId: state.recipeId,
-            recipe: state.recipe,
-            isEditMode: true,
-            editableUsages: state.editableUsages,
-            isLoading: state.isLoading,
-            error: result.error,
-          );
+          state = state.copyWith(error: result.error);
           return;
         }
       } on StateError catch (_) {
+        // IngredientUsage is new
         somethingChanged = true;
         var result = await _repository
             .createIngredientUsage(CreateIngredientUsageRequest(
@@ -109,14 +90,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
           ingredientUnitId: editableUsage.ingredientUnitId!,
         ));
         if (!result.success) {
-          state = RecipeDetailModel(
-            recipeId: state.recipeId,
-            recipe: state.recipe,
-            isEditMode: true,
-            editableUsages: state.editableUsages,
-            isLoading: state.isLoading,
-            error: result.error,
-          );
+          state = state.copyWith(error: result.error);
           return;
         }
       }
@@ -124,30 +98,16 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
     if (somethingChanged) {
       await _fetchRecipe();
     } else {
-      state = RecipeDetailModel(
-        recipeId: state.recipeId,
-        recipe: state.recipe,
-        isEditMode: false,
-        editableUsages: state.editableUsages,
-        isLoading: state.isLoading,
-        error: state.error,
-      );
+      state = state.copyWith(isEditMode: false);
     }
   }
 
   @override
   void addNewIngredientUsage() {
-    state = RecipeDetailModel(
-      recipeId: state.recipeId,
-      recipe: state.recipe,
-      isEditMode: state.isEditMode,
-      editableUsages: [
-        ...state.editableUsages,
-        EditableIngredientUsage(amount: 1)
-      ],
-      error: state.error,
-      isLoading: state.isLoading,
-    );
+    state = state.copyWith(editableUsages: [
+      ...state.editableUsages,
+      EditableIngredientUsage(amount: 1)
+    ]);
   }
 
   @override
@@ -158,14 +118,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
       }
       return editableUsage;
     }).toList();
-    state = RecipeDetailModel(
-      recipeId: state.recipeId,
-      recipe: state.recipe,
-      isEditMode: state.isEditMode,
-      editableUsages: updatedUsages,
-      error: state.error,
-      isLoading: state.isLoading,
-    );
+    state = state.copyWith(editableUsages: updatedUsages);
   }
 
   @override
@@ -177,14 +130,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
       }
       return editableUsage;
     }).toList();
-    state = RecipeDetailModel(
-      recipeId: state.recipeId,
-      recipe: state.recipe,
-      isEditMode: state.isEditMode,
-      editableUsages: updatedUsages,
-      error: state.error,
-      isLoading: state.isLoading,
-    );
+    state = state.copyWith(editableUsages: updatedUsages);
   }
 
   @override
@@ -196,31 +142,17 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
       }
       return editableUsage;
     }).toList();
-    state = RecipeDetailModel(
-      recipeId: state.recipeId,
-      recipe: state.recipe,
-      isEditMode: state.isEditMode,
-      editableUsages: updatedUsages,
-      error: state.error,
-      isLoading: state.isLoading,
-    );
+    state = state.copyWith(editableUsages: updatedUsages);
   }
 
   @override
   void dismissError() {
-    state = RecipeDetailModel(
-      recipeId: state.recipeId,
-      recipe: state.recipe,
-      isEditMode: state.isEditMode,
-      editableUsages: state.editableUsages,
-      isLoading: state.isLoading,
-      error: null,
-    );
+    state = state.copyWith(error: null);
   }
 }
 
 abstract class RecipeDetailRepository {
-  Future<Recipe?> fetchRecipeById(String recipeId);
+  Future<HttpReadResult<Recipe>> fetchRecipeById(String recipeId);
   Future<HttpWriteResult> updateIngredientUsage(
       UpdateIngredientUsageRequest request);
   Future<HttpWriteResult> createIngredientUsage(

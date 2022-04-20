@@ -1,13 +1,13 @@
 import 'package:recipy_frontend/models/ingredient_unit.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class IngredientUnitsModel {
-  List<IngredientUnit> units;
-  bool isLoading;
-  String? error;
+part 'ingredient_units_model.freezed.dart';
 
-  IngredientUnitsModel({
-    this.units = const [],
-    this.isLoading = false,
-    this.error,
-  });
+@freezed
+class IngredientUnitsModel with _$IngredientUnitsModel {
+  const factory IngredientUnitsModel({
+    @Default([]) List<IngredientUnit> units,
+    @Default(false) bool isLoading,
+    String? error,
+  }) = _IngredientUnitsModel;
 }
