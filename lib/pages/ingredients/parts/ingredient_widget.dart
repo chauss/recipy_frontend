@@ -14,33 +14,40 @@ class IngredientWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 200,
-      margin: const EdgeInsets.all(10),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.blueAccent),
-          borderRadius: const BorderRadius.all(Radius.circular(4))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(),
-          Column(
+    return Card(
+      child: Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+              border: Border.all(
+                  color: Theme.of(context).primaryColorDark, width: 2),
+              borderRadius: const BorderRadius.all(Radius.circular(4))),
+          child: Stack(
             children: [
-              Text(ingredient.name),
-              Text(DateFormat.Hm().format(ingredient.created)),
-              Text(DateFormat.yMMMd().format(ingredient.created)),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: Text(
+                    ingredient.name,
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColorDark,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: InkWell(
+                  child: Image.asset(
+                    'assets/icons/trash.png',
+                    height: 24,
+                  ),
+                  onTap: onDeleteIngredientCallback,
+                ),
+              ),
             ],
-          ),
-          InkWell(
-            child: Image.asset(
-              'assets/icons/trash.png',
-              width: 28,
-            ),
-            onTap: onDeleteIngredientCallback,
-          ),
-        ],
-      ),
+          )),
     );
   }
 }

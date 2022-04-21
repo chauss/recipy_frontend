@@ -27,14 +27,20 @@ class YesNoDialog {
         content: Text(info, textAlign: TextAlign.center),
         actions: <Widget>[
           TextButton(
-            child: const Text("common.yes").tr(),
+            child: Text(
+              "common.no",
+              style: TextStyle(color: Theme.of(context).primaryColorDark),
+            ).tr(),
             onPressed: () {
               onNoCallback?.call();
               Navigator.pop(context);
             },
           ),
           TextButton(
-            child: const Text("common.no").tr(),
+            child: Text(
+              "common.yes",
+              style: TextStyle(color: Theme.of(context).primaryColorDark),
+            ).tr(),
             onPressed: () {
               onYesCallback?.call();
               Navigator.pop(context);

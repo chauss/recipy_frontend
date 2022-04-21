@@ -58,21 +58,28 @@ class RecipeDetailPage extends ConsumerWidget {
       children: [
         ...buildIngredientUsages(controller, model),
         model.isEditMode
-            ? ElevatedButton(
-                onPressed: controller.addNewIngredientUsage,
-                child: const Icon(Icons.add),
-                style: ButtonStyle(
-                  fixedSize: MaterialStateProperty.all(const Size.square(50)),
-                  backgroundColor: MaterialStateProperty.all(Colors.blue),
-                  foregroundColor: MaterialStateProperty.all(Colors.white),
-                  shape: MaterialStateProperty.all<CircleBorder>(
-                    const CircleBorder(
-                        side: BorderSide(color: Colors.blueGrey)),
-                  ),
-                ),
+            ? Padding(
+                padding: const EdgeInsets.only(bottom: 50),
+                child: buildAddUsageButton(controller, context),
               )
             : Container(),
       ],
+    );
+  }
+
+  ElevatedButton buildAddUsageButton(
+      RecipeDetailController controller, BuildContext context) {
+    return ElevatedButton(
+      onPressed: controller.addNewIngredientUsage,
+      child: const Icon(Icons.add),
+      style: ButtonStyle(
+        fixedSize: MaterialStateProperty.all(const Size.square(50)),
+        shape: MaterialStateProperty.all<CircleBorder>(
+          const CircleBorder(
+            side: BorderSide(color: Colors.transparent),
+          ),
+        ),
+      ),
     );
   }
 
@@ -140,7 +147,6 @@ class RecipeDetailPage extends ConsumerWidget {
     return [
       PopupMenuButton(
         icon: const Icon(Icons.more_vert),
-        // color: Colors.blue,
         itemBuilder: (context) => [
           PopupMenuItem<Function>(
             value: controller.enterEditMode,

@@ -14,18 +14,21 @@ class RecipeOverviewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: onClick,
-      child: Container(
-        width: 300,
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.blueAccent),
-            borderRadius: const BorderRadius.all(Radius.circular(4))),
-        child: Column(
-          children: [
-            Text(recipeOverview.name),
-            Text(DateFormat.Hm().format(recipeOverview.created)),
-            Text(DateFormat.yMMMd().format(recipeOverview.created)),
-          ],
+      child: Card(
+        child: Container(
+          width: 300,
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+              border: Border.all(
+                  color: Theme.of(context).colorScheme.primaryContainer),
+              borderRadius: const BorderRadius.all(Radius.circular(4))),
+          child: Column(
+            children: [
+              Text(recipeOverview.name),
+              Text(DateFormat.Hm().format(recipeOverview.created)),
+              Text(DateFormat.yMMMd().format(recipeOverview.created)),
+            ],
+          ),
         ),
       ),
     );

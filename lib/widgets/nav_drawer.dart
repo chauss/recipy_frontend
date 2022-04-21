@@ -14,7 +14,7 @@ class NavDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: <Widget>[
-          buildDrawerHeader(),
+          buildDrawerHeader(context),
           ListTile(
             leading: const Icon(Icons.home),
             title: const Text("recipe_overview.title").tr(),
@@ -54,10 +54,10 @@ class NavDrawer extends StatelessWidget {
     );
   }
 
-  DrawerHeader buildDrawerHeader() {
+  DrawerHeader buildDrawerHeader(BuildContext context) {
     return DrawerHeader(
-      decoration: const BoxDecoration(
-        color: Colors.blue,
+      decoration: BoxDecoration(
+        color: Theme.of(context).backgroundColor,
       ),
       child: Center(
         child: Column(
@@ -67,9 +67,14 @@ class NavDrawer extends StatelessWidget {
               'assets/icons/burger-smile.png',
               width: 80,
             ),
-            const SizedBox(height: 8),
-            // TODO replace text with logo image
-            const Text('Recipy'),
+            const SizedBox(height: 4),
+            Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: Image.asset(
+                'assets/logo.png',
+                width: 100,
+              ),
+            ),
           ],
         ),
       ),

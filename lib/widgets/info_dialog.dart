@@ -23,7 +23,10 @@ class InfoDialog {
         content: Text(info, textAlign: TextAlign.center),
         actions: <Widget>[
           TextButton(
-            child: const Text("common.ok").tr(),
+            child: Text(
+              "common.ok",
+              style: TextStyle(color: Theme.of(context).primaryColorDark),
+            ).tr(),
             onPressed: () => Navigator.pop(context),
           ),
         ],

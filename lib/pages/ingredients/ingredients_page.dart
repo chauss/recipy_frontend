@@ -70,6 +70,7 @@ class IngredientsPage extends ConsumerWidget {
     return RefreshIndicator(
       onRefresh: controller.refetchIngredients,
       child: ListView(
+        padding: const EdgeInsets.all(24),
         children: model.ingredients
             .map(
               (ingredient) => IngredientWidget(

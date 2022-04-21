@@ -28,10 +28,9 @@ class RecipyDropdownWidget<T> extends StatelessWidget {
       hint: Text(hint ?? ""),
       icon: const Icon(Icons.arrow_drop_down_rounded),
       elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
       underline: Container(
         height: 2,
-        color: Colors.deepPurpleAccent,
+        color: Theme.of(context).colorScheme.primary,
       ),
       onChanged: onSelection,
       items: getAssortment().map<DropdownMenuItem<T>>(
