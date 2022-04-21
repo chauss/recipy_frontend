@@ -11,6 +11,7 @@ import 'package:recipy_frontend/widgets/recipy_app_bar.dart';
 import 'package:recipy_frontend/widgets/executive_textfield.dart';
 import 'package:recipy_frontend/pages/ingredient_units/parts/ingredient_unit_widget.dart';
 import 'package:recipy_frontend/widgets/nav_drawer.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class IngredientUnitsPage extends ConsumerWidget {
   const IngredientUnitsPage({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class IngredientUnitsPage extends ConsumerWidget {
 
     return Scaffold(
       drawer: const NavDrawer(),
-      appBar: const RecipyAppBar(title: "Einheiten"),
+      appBar: RecipyAppBar(title: "ingredient_units.title".tr()),
       body: Container(
         color: Colors.grey,
         child: SafeArea(
@@ -38,7 +39,7 @@ class IngredientUnitsPage extends ConsumerWidget {
               ExecutiveTextfield(
                 addFunction: (name) => controller
                     .addIngredientUnit(AddIngredientUnitRequest(name: name)),
-                hintText: 'Füge eine neue Einheit hinzu',
+                hintText: 'ingredient_units.add.textfield.hint'.tr(),
                 enabled: !model.isLoading,
               ),
             ],
@@ -60,7 +61,7 @@ class IngredientUnitsPage extends ConsumerWidget {
     if (model.error != null) {
       var dialog = InfoDialog(
         context: context,
-        title: "Fehler",
+        title: "common.error".tr(),
         info: model.error!,
       );
       SchedulerBinding.instance!.addPostFrameCallback((_) {

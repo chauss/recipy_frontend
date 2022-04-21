@@ -60,7 +60,7 @@ final recipeOverviewRepositoryProvider =
 final StateNotifierProvider<RecipeOverviewController, RecipeOverviewModel>
     recipeOverviewControllerProvider =
     StateNotifierProvider<RecipeOverviewController, RecipeOverviewModel>(
-  (ref) => RecipeOverviewControllerImpl(RecipeOverviewModel()),
+  (ref) => RecipeOverviewControllerImpl(const RecipeOverviewModel()),
 );
 
 // #############################################################################

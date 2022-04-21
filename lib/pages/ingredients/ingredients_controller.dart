@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipy_frontend/helpers/error_mapping.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/pages/ingredients/parts/add_ingredient_request.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_model.dart';
@@ -22,17 +21,14 @@ class IngredintsControllerImpl extends IngredientsController {
   }
 
   Future<void> _fetchIngredients() async {
-    try {
-      state = state.copyWith(isLoading: true);
+    state = state.copyWith(isLoading: true);
 
-      final storage = RecipyInMemoryStorage();
-      await storage.refetchIngredients();
+    var result = await RecipyInMemoryStorage().refetchIngredients();
 
-      state = state.copyWith(
-          ingredients: storage.getIngredients(), isLoading: false);
-    } catch (e) {
-      String errorMessage = errorMessageFor(e.toString());
-      state = state.copyWith(error: errorMessage, isLoading: false);
+    if (result.success) {
+      state = state.copyWith(ingredients: result.data!, isLoading: false);
+    } else {
+      state = state.copyWith(error: result.error, isLoading: false);
     }
   }
 

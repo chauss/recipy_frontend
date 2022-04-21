@@ -1,0 +1,46 @@
+{
+  "common": {
+    "error": "Fehler",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "ok": "Ok",
+    "cancel": "Abbrechen",
+    "done": "Fertig",
+    "yes": "Ja",
+    "no": "Nein"
+  },
+  "recipe_overview": {
+    "title": "Rezeptübersicht",
+    "add": {
+      "dialog": {
+        "title": "Neues Rezept",
+        "textfield": { "hint": "Rezeptname" }
+      },
+      "button": { "hint": "Rezept hinzufügen" }
+    }
+  },
+  "recipe_details": {
+    "delete": {
+      "dialog": {
+        "title": "Rezept löschen",
+        "info": "Bist du dir sicher, dass du das Rezept komplett löschen möchtest?"
+      }
+    },
+    "edit_usage_widget": {
+      "ingredient_unit": { "dropdown": { "hint": "Einheit auswählen" } },
+      "ingredient": { "dropdown": { "hint": "Zutat auswählen" } }
+    }
+  },
+  "ingredients": {
+    "title": "Zutaten",
+    "add": {
+      "textfield": { "hint": "Füge eine neue Zutat hinzu" }
+    }
+  },
+  "ingredient_units": {
+    "title": "Einheiten",
+    "add": {
+      "textfield": { "hint": "Füge eine neue Einheit hinzu" }
+    }
+  }
+}

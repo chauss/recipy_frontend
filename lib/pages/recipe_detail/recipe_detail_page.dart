@@ -12,6 +12,7 @@ import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage_widge
 import 'package:recipy_frontend/widgets/info_dialog.dart';
 import 'package:recipy_frontend/widgets/process_indicator.dart';
 import 'package:recipy_frontend/widgets/yes_no_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RecipeDetailPage extends ConsumerWidget {
   final String recipeId;
@@ -44,7 +45,7 @@ class RecipeDetailPage extends ConsumerWidget {
     if (model.error != null) {
       var dialog = InfoDialog(
         context: context,
-        title: "Fehler",
+        title: "common.error".tr(),
         info: model.error!,
       );
       SchedulerBinding.instance!.addPostFrameCallback((_) {
@@ -150,9 +151,7 @@ class RecipeDetailPage extends ConsumerWidget {
                   width: 24,
                 ),
                 const SizedBox(width: 12),
-                const Text(
-                  "Bearbeiten",
-                ),
+                const Text("common.edit").tr(),
               ],
             ),
           ),
@@ -165,9 +164,7 @@ class RecipeDetailPage extends ConsumerWidget {
                   width: 24,
                 ),
                 const SizedBox(width: 12),
-                const Text(
-                  "Löschen",
-                ),
+                const Text("common.delete").tr(),
               ],
             ),
           ),
@@ -183,9 +180,8 @@ class RecipeDetailPage extends ConsumerWidget {
   ) {
     var dialog = YesNoDialog(
         context: context,
-        title: "Rezept löschen",
-        info:
-            "Bist du dir sicher, dass du das Rezept komplett löschen möchtest?",
+        title: "recipe_details.delete.dialog.title".tr(),
+        info: "recipe_details.delete.dialog.info".tr(),
         onYesCallback: () async {
           var success = await controller
               .deleteRecipe(DeleteRecipeRequest(recipeId: recipeId));

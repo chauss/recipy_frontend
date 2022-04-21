@@ -1,0 +1,46 @@
+{
+  "common": {
+    "error": "Error",
+    "edit": "Edit",
+    "delete": "Delete",
+    "ok": "Ok",
+    "cancel": "Cancel",
+    "done": "Done",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "recipe_overview": {
+    "title": "Recipe Overview",
+    "add": {
+      "dialog": {
+        "title": "New recipe",
+        "textfield": { "hint": "recipe name" }
+      },
+      "button": { "hint": "Add recipe" }
+    }
+  },
+  "recipe_details": {
+    "delete": {
+      "dialog": {
+        "title": "Delete recipe",
+        "info": "Are you sure that you want to delete the whole recipe?"
+      }
+    },
+    "edit_usage_widget": {
+      "ingredient_unit": { "dropdown": { "hint": "Select unit" } },
+      "ingredient": { "dropdown": { "hint": "Select ingredient" } }
+    }
+  },
+  "ingredients": {
+    "title": "Ingredients",
+    "add": {
+      "textfield": { "hint": "Add a new ingredient" }
+    }
+  },
+  "ingredient_units": {
+    "title": "Ingredient units",
+    "add": {
+      "textfield": { "hint": "Add a new unit" }
+    }
+  }
+}

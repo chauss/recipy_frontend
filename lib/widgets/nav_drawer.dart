@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_page.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_page.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_page.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:recipy_frontend/widgets/locale_switcher.dart';
 
 class NavDrawer extends StatelessWidget {
   const NavDrawer({Key? key}) : super(key: key);
@@ -10,30 +12,12 @@ class NavDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
+      child: Column(
         children: <Widget>[
-          DrawerHeader(
-            decoration: const BoxDecoration(
-              color: Colors.blue,
-            ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/icons/burger-smile.png',
-                    width: 80,
-                  ),
-                  const SizedBox(height: 8),
-                  const Text('Recipy'),
-                ],
-              ),
-            ),
-          ),
+          buildDrawerHeader(),
           ListTile(
             leading: const Icon(Icons.home),
-            title: const Text('Rezeptübersicht'),
+            title: const Text("recipe_overview.title").tr(),
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -42,7 +26,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(CupertinoIcons.barcode),
-            title: const Text('Zutaten'),
+            title: const Text("ingredients.title").tr(),
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const IngredientsPage()),
@@ -50,14 +34,44 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(CupertinoIcons.greaterthan_square),
-            title: const Text('Einheiten'),
+            title: const Text("ingredient_units.title").tr(),
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => const IngredientUnitsPage()),
             ),
           ),
+          Expanded(child: Container()),
+          const SafeArea(
+            top: false,
+            child: Padding(
+              padding: EdgeInsets.only(left: 16, bottom: 12),
+              child: LocaleSwitcher(),
+            ),
+          ),
         ],
+      ),
+    );
+  }
+
+  DrawerHeader buildDrawerHeader() {
+    return DrawerHeader(
+      decoration: const BoxDecoration(
+        color: Colors.blue,
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/icons/burger-smile.png',
+              width: 80,
+            ),
+            const SizedBox(height: 8),
+            // TODO replace text with logo image
+            const Text('Recipy'),
+          ],
+        ),
       ),
     );
   }

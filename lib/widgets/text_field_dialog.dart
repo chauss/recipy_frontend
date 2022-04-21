@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class TextfieldDialog {
   final TextEditingController _controller = TextEditingController();
@@ -29,14 +30,14 @@ class TextfieldDialog {
         ),
         actions: <Widget>[
           TextButton(
-            child: const Text('Abbrechen'),
+            child: const Text("common.cancel").tr(),
             onPressed: () {
               _canceled = true;
               Navigator.pop(context);
             },
           ),
           TextButton(
-              child: const Text('Fertig'),
+              child: const Text("common.done").tr(),
               onPressed: () {
                 _canceled = false;
                 Navigator.pop(context);

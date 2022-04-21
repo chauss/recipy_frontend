@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class YesNoDialog {
   final BuildContext context;
@@ -26,14 +27,14 @@ class YesNoDialog {
         content: Text(info, textAlign: TextAlign.center),
         actions: <Widget>[
           TextButton(
-            child: const Text('Nein'),
+            child: const Text("common.yes").tr(),
             onPressed: () {
               onNoCallback?.call();
               Navigator.pop(context);
             },
           ),
           TextButton(
-            child: const Text('Ja'),
+            child: const Text("common.no").tr(),
             onPressed: () {
               onYesCallback?.call();
               Navigator.pop(context);

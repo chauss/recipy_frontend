@@ -11,6 +11,7 @@ import 'package:recipy_frontend/widgets/info_dialog.dart';
 import 'package:recipy_frontend/widgets/nav_drawer.dart';
 import 'package:recipy_frontend/widgets/process_indicator.dart';
 import 'package:recipy_frontend/widgets/recipy_app_bar.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class IngredientsPage extends ConsumerWidget {
   const IngredientsPage({Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class IngredientsPage extends ConsumerWidget {
 
     return Scaffold(
       drawer: const NavDrawer(),
-      appBar: const RecipyAppBar(title: "Zutaten"),
+      appBar: RecipyAppBar(title: "ingredients.title".tr()),
       body: Container(
         color: Colors.grey,
         child: SafeArea(
@@ -39,7 +40,7 @@ class IngredientsPage extends ConsumerWidget {
               ExecutiveTextfield(
                 addFunction: (name) =>
                     controller.addIngredient(AddIngredientRequest(name: name)),
-                hintText: 'Füge eine neue Zutat hinzu',
+                hintText: 'ingredients.add.textfield.hint'.tr(),
                 enabled: !model.isLoading,
               ),
             ],
@@ -58,7 +59,7 @@ class IngredientsPage extends ConsumerWidget {
     if (model.error != null) {
       var dialog = InfoDialog(
         context: context,
-        title: "Fehler",
+        title: "common.error".tr(),
         info: model.error!,
       );
       SchedulerBinding.instance!.addPostFrameCallback((_) {

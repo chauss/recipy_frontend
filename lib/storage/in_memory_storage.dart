@@ -19,7 +19,7 @@ class RecipyInMemoryStorage {
 
   List<Ingredient> getIngredients() => _ingredients;
 
-  Future<void> refetchIngredients() async {
+  Future<HttpReadResult<List<Ingredient>>> refetchIngredients() async {
     final container = ProviderContainer();
     final repository =
         container.read(inMemoryStorageIngredientRepositoryProvider);
@@ -27,7 +27,7 @@ class RecipyInMemoryStorage {
     if (result.success) {
       _ingredients = result.data!;
     }
-    // TODO What to do when fetching fails?
+    return result;
   }
 
   // Ingredient Units
@@ -35,7 +35,7 @@ class RecipyInMemoryStorage {
 
   List<IngredientUnit> getIngredientUnits() => _ingredientUnits;
 
-  Future<void> refetchIngredientUnits() async {
+  Future<HttpReadResult<List<IngredientUnit>>> refetchIngredientUnits() async {
     final container = ProviderContainer();
     final repository =
         container.read(inMemoryStorageIngredientUnitRepositoryProvider);
@@ -43,7 +43,7 @@ class RecipyInMemoryStorage {
     if (result.success) {
       _ingredientUnits = result.data!;
     }
-    // TODO What to do when fetching fails?
+    return result;
   }
 }
 

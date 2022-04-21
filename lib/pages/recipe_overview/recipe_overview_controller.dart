@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipy_frontend/helpers/error_mapping.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/recipe_overview.dart';
 import 'package:recipy_frontend/pages/recipe_overview/parts/add_recipe_request.dart';
@@ -23,17 +22,12 @@ class RecipeOverviewControllerImpl extends RecipeOverviewController {
   }
 
   Future<void> _fetchRecipes() async {
-    try {
-      state = state.copyWith(isLoading: true);
-      var result = await _recipeRepository.fetchRecipesAsOverview();
-      if (result.success) {
-        state = state.copyWith(recipeOverviews: result.data!, isLoading: false);
-      } else {
-        state = state.copyWith(error: result.error, isLoading: false);
-      }
-    } catch (e) {
-      String errorMessage = errorMessageFor(e.toString());
-      state = state.copyWith(error: errorMessage, isLoading: false);
+    state = state.copyWith(isLoading: true);
+    var result = await _recipeRepository.fetchRecipesAsOverview();
+    if (result.success) {
+      state = state.copyWith(recipeOverviews: result.data!, isLoading: false);
+    } else {
+      state = state.copyWith(error: result.error, isLoading: false);
     }
   }
 

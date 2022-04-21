@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class InfoDialog {
   final BuildContext context;
@@ -22,7 +23,7 @@ class InfoDialog {
         content: Text(info, textAlign: TextAlign.center),
         actions: <Widget>[
           TextButton(
-            child: const Text('OK'),
+            child: const Text("common.ok").tr(),
             onPressed: () => Navigator.pop(context),
           ),
         ],

@@ -6,6 +6,7 @@ import 'package:recipy_frontend/models/ingredient_unit.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/editable_ingredient_usage.dart';
 import 'package:recipy_frontend/storage/in_memory_storage.dart';
 import 'package:recipy_frontend/widgets/recipy_dropdown_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class EditIngredientUsageWidget extends StatelessWidget {
   final EditableIngredientUsage usage;
@@ -80,7 +81,8 @@ class EditIngredientUsageWidget extends StatelessWidget {
           onIngredientUnitChanged(ingredientUnit?.id),
       getAssortment: RecipyInMemoryStorage().getIngredientUnits,
       preselection: ingredientUnit,
-      hint: "Einheit auswählen",
+      hint:
+          "recipe_details.edit_usage_widget.ingredient_unit.dropdown.hint".tr(),
     );
   }
 
@@ -90,7 +92,7 @@ class EditIngredientUsageWidget extends StatelessWidget {
       onSelection: (ingredient) => onIngredientChanged(ingredient?.id),
       getAssortment: RecipyInMemoryStorage().getIngredients,
       preselection: ingredient,
-      hint: "Zutat auswählen",
+      hint: "recipe_details.edit_usage_widget.ingredient.dropdown.hint".tr(),
     );
   }
 }

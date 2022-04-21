@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipy_frontend/helpers/error_mapping.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/pages/ingredient_units/parts/add_unit_request.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_model.dart';
@@ -22,17 +21,14 @@ class IngredientUnitsControllerImpl extends IngredientUnitsController {
   }
 
   Future<void> _fetchIngredientUnits() async {
-    try {
-      state = state.copyWith(isLoading: true);
+    state = state.copyWith(isLoading: true);
 
-      var storage = RecipyInMemoryStorage();
-      await storage.refetchIngredientUnits();
+    var result = await RecipyInMemoryStorage().refetchIngredientUnits();
 
-      state =
-          state.copyWith(units: storage.getIngredientUnits(), isLoading: false);
-    } catch (e) {
-      String errorMessage = errorMessageFor(e.toString());
-      state = state.copyWith(error: errorMessage, isLoading: false);
+    if (result.success) {
+      state = state.copyWith(units: result.data!, isLoading: false);
+    } else {
+      state = state.copyWith(error: result.error, isLoading: false);
     }
   }
 

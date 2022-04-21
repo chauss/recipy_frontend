@@ -11,6 +11,7 @@ import 'package:recipy_frontend/widgets/process_indicator.dart';
 import 'package:recipy_frontend/pages/recipe_overview/parts/recipe_overview_widget.dart';
 import 'package:recipy_frontend/widgets/recipy_app_bar.dart';
 import 'package:recipy_frontend/widgets/text_field_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RecipeOverviewPage extends ConsumerWidget {
   const RecipeOverviewPage({Key? key}) : super(key: key);
@@ -23,21 +24,21 @@ class RecipeOverviewPage extends ConsumerWidget {
     RecipeOverviewModel model = ref.watch(recipeOverviewControllerProvider);
 
     return Scaffold(
-      appBar: const RecipyAppBar(title: "Rezeptübersicht"),
+      appBar: RecipyAppBar(title: "recipe_overview.title".tr()),
       drawer: const NavDrawer(),
       body: buildBody(context, model, controller),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           var dialog = TextfieldDialog(
               context: context,
-              title: "Neues Rezept",
-              textfieldHint: "Rezeptname");
+              title: "recipe_overview.add.dialog.title".tr(),
+              textfieldHint: "recipe_overview.add.dialog.textfield.hint".tr());
           await dialog.show();
           if (!dialog.canceled && dialog.value != "") {
             controller.addRecipe(AddRecipeRequest(name: dialog.value));
           }
         },
-        tooltip: 'Rezept hinzufügen',
+        tooltip: "recipe_overview.add.button.hint".tr(),
         child: const Icon(Icons.add),
       ),
     );
@@ -55,7 +56,7 @@ class RecipeOverviewPage extends ConsumerWidget {
     if (model.error != null) {
       var dialog = InfoDialog(
         context: context,
-        title: "Fehler",
+        title: "common.error".tr(),
         info: model.error!,
       );
       SchedulerBinding.instance!.addPostFrameCallback((_) {
