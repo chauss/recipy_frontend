@@ -26,10 +26,16 @@ dev_dependencies:
   freezed: ^2.0.0
   json_serializable: ^6.1.6
   easy_localization: ^3.0.0
+  flutter_launcher_icons: ^0.9.2
 
 analyzer:
   errors:
     invalid_annotation_target: ignore
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/app_logo.png"
 
 flutter:
   uses-material-design: true
