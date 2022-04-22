@@ -14,6 +14,7 @@ class EditIngredientUsageWidget extends StatelessWidget {
   final Function(String?) onIngredientChanged;
   final Function(String?) onIngredientUnitChanged;
   final Function()? onDeleteIngredientUsageCallback;
+  final List<String> ingredientIdsToExclude;
 
   final Ingredient? ingredient;
   final IngredientUnit? ingredientUnit;
@@ -26,6 +27,7 @@ class EditIngredientUsageWidget extends StatelessWidget {
     required this.onIngredientChanged,
     required this.onIngredientUnitChanged,
     this.onDeleteIngredientUsageCallback,
+    this.ingredientIdsToExclude = const [],
   })  : ingredient = ingredientFor(usage.ingredientId ?? ""),
         ingredientUnit = ingredientUnitFor(usage.ingredientUnitId ?? ""),
         amountController = TextEditingController(text: usage.amount.toString()),
@@ -90,7 +92,14 @@ class EditIngredientUsageWidget extends StatelessWidget {
     return RecipyDropdownWidget<Ingredient>(
       getDisplayName: (ingredient) => ingredient.name,
       onSelection: (ingredient) => onIngredientChanged(ingredient?.id),
-      getAssortment: RecipyInMemoryStorage().getIngredients,
+      getAssortment: () => RecipyInMemoryStorage()
+          .getIngredients()
+          .where(
+            (ing) =>
+                !ingredientIdsToExclude.contains(ing.id) ||
+                ing.id == ingredient?.id,
+          )
+          .toList(),
       preselection: ingredient,
       hint: "recipe_details.edit_usage_widget.ingredient.dropdown.hint".tr(),
     );

@@ -116,9 +116,15 @@ class RecipeDetailPage extends ConsumerWidget {
           onIngredientUnitChanged: (ingredientUsageId) =>
               controller.updateUsageIngredientUnit(usage, ingredientUsageId),
           onDeleteIngredientUsageCallback: () =>
-              controller.deleteIngredientUsage(DeleteIngredientUsageRequest(
-            ingredientUsage: usage,
-          )),
+              controller.deleteIngredientUsage(
+            DeleteIngredientUsageRequest(
+              ingredientUsage: usage,
+            ),
+          ),
+          ingredientIdsToExclude: model.editableUsages
+              .where((usage) => usage.ingredientId != null)
+              .map((usage) => usage.ingredientId!)
+              .toList(),
         ));
   }
 
