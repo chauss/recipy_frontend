@@ -26,9 +26,12 @@
         "info": "Are you sure that you want to delete the whole recipe?"
       }
     },
-    "edit_usage_widget": {
+    "edit_usage": {
       "ingredient_unit": { "dropdown": { "hint": "Select unit" } },
-      "ingredient": { "dropdown": { "hint": "Select ingredient" } }
+      "ingredient": { "dropdown": { "hint": "Select ingredient" } },
+      "dialog": {
+        "info": "Some fields are not completed"
+      }
     }
   },
   "ingredients": {

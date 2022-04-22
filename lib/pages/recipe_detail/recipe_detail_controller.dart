@@ -10,6 +10,7 @@ import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_page.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/update_ingredient_usage_request.dart';
 import 'package:recipy_frontend/repositories/http_read_result.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RecipeDetailControllerImpl extends RecipeDetailController {
   late RecipeDetailRepository _repository;
@@ -54,7 +55,8 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
       if (editableUsage.amount == null ||
           editableUsage.ingredientId == null ||
           editableUsage.ingredientUnitId == null) {
-        state = state.copyWith(error: "Manche Felder sind nicht ausgefüllt!");
+        state =
+            state.copyWith(error: "recipe_details.edit_usage.dialog.info".tr());
         return;
       }
 

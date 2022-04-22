@@ -83,8 +83,7 @@ class EditIngredientUsageWidget extends StatelessWidget {
           onIngredientUnitChanged(ingredientUnit?.id),
       getAssortment: RecipyInMemoryStorage().getIngredientUnits,
       preselection: ingredientUnit,
-      hint:
-          "recipe_details.edit_usage_widget.ingredient_unit.dropdown.hint".tr(),
+      hint: "recipe_details.edit_usage.ingredient_unit.dropdown.hint".tr(),
     );
   }
 
@@ -101,7 +100,7 @@ class EditIngredientUsageWidget extends StatelessWidget {
           )
           .toList(),
       preselection: ingredient,
-      hint: "recipe_details.edit_usage_widget.ingredient.dropdown.hint".tr(),
+      hint: "recipe_details.edit_usage.ingredient.dropdown.hint".tr(),
     );
   }
 }

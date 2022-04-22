@@ -26,9 +26,12 @@
         "info": "¿Seguro que quieres eliminar la receta?"
       }
     },
-    "edit_usage_widget": {
+    "edit_usage": {
       "ingredient_unit": { "dropdown": { "hint": "Elegir la unidad" } },
-      "ingredient": { "dropdown": { "hint": "Elegir el ingrediente" } }
+      "ingredient": { "dropdown": { "hint": "Elegir el ingrediente" } },
+      "dialog": {
+        "info": "Algunos campos no están completos"
+      }
     }
   },
   "ingredients": {

@@ -26,9 +26,12 @@
         "info": "Bist du dir sicher, dass du das Rezept komplett löschen möchtest?"
       }
     },
-    "edit_usage_widget": {
+    "edit_usage": {
       "ingredient_unit": { "dropdown": { "hint": "Einheit auswählen" } },
-      "ingredient": { "dropdown": { "hint": "Zutat auswählen" } }
+      "ingredient": { "dropdown": { "hint": "Zutat auswählen" } },
+      "dialog": {
+        "info": "Manche Felder sind nicht ausgefüllt"
+      }
     }
   },
   "ingredients": {
