@@ -53,6 +53,10 @@ ThemeData appTheme = ThemeData(
       fontFamily: "IndieFlower",
       color: primaryColorSwatch.shade900,
     ),
+    headline4: TextStyle(
+      fontFamily: "IndieFlower",
+      color: primaryColorSwatch.shade900,
+    ),
     headline5: TextStyle(
       fontFamily: "IndieFlower",
       color: primaryColorSwatch.shade900,

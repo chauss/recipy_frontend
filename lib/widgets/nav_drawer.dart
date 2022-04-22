@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_page.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_page.dart';
@@ -22,7 +21,10 @@ class NavDrawer extends StatelessWidget {
             buildDrawerHeader(context),
             ListTile(
               leading: const Icon(Icons.home),
-              title: const Text("recipe_overview.title").tr(),
+              title: Text(
+                "recipe_overview.title",
+                style: Theme.of(context).textTheme.headline5,
+              ).tr(),
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -30,8 +32,11 @@ class NavDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: const Icon(CupertinoIcons.barcode),
-              title: const Text("ingredients.title").tr(),
+              leading: Image.asset("assets/icons/ingredients.png", width: 30),
+              title: Text(
+                "ingredients.title",
+                style: Theme.of(context).textTheme.headline5,
+              ).tr(),
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -39,8 +44,14 @@ class NavDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: const Icon(CupertinoIcons.greaterthan_square),
-              title: const Text("ingredient_units.title").tr(),
+              leading: Padding(
+                padding: const EdgeInsets.only(left: 4),
+                child: Image.asset("assets/icons/units.png", width: 24),
+              ),
+              title: Text(
+                "ingredient_units.title",
+                style: Theme.of(context).textTheme.headline5,
+              ).tr(),
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
