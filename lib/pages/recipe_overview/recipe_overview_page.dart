@@ -25,7 +25,7 @@ class RecipeOverviewPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: RecipyAppBar(title: "recipe_overview.title".tr()),
-      drawer: const NavDrawer(),
+      drawer: NavDrawer(),
       body: buildBody(context, model, controller),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {

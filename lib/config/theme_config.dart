@@ -33,6 +33,7 @@ var primaryColorSwatch = MaterialColor(
 );
 
 ThemeData appTheme = ThemeData(
+  fontFamily: "IndieFlower",
   primarySwatch: primaryColorSwatch,
   backgroundColor: accentColorSwatch,
   colorScheme: ColorScheme.fromSwatch(
@@ -44,9 +45,23 @@ ThemeData appTheme = ThemeData(
     brightness: Brightness.light,
   ),
   textTheme: TextTheme(
-    subtitle1: TextStyle(color: primaryColorSwatch.shade700),
-    button: TextStyle(color: primaryColorSwatch.shade900),
-    headline6: TextStyle(color: primaryColorSwatch.shade900, fontSize: 20),
+    subtitle1: TextStyle(
+      fontFamily: "IndieFlower",
+      color: primaryColorSwatch.shade700,
+    ),
+    button: TextStyle(
+      fontFamily: "IndieFlower",
+      color: primaryColorSwatch.shade900,
+    ),
+    headline5: TextStyle(
+      fontFamily: "IndieFlower",
+      color: primaryColorSwatch.shade900,
+    ),
+    headline6: TextStyle(
+      fontFamily: "IndieFlower",
+      color: primaryColorSwatch.shade900,
+      fontSize: 20,
+    ),
   ),
 );
 

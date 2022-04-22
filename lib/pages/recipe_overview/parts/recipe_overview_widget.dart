@@ -24,7 +24,8 @@ class RecipeOverviewWidget extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(4))),
           child: Column(
             children: [
-              Text(recipeOverview.name),
+              Text(recipeOverview.name,
+                  style: Theme.of(context).textTheme.headline5),
               Text(DateFormat.Hm().format(recipeOverview.created)),
               Text(DateFormat.yMMMd().format(recipeOverview.created)),
             ],

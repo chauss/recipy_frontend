@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipy_frontend/widgets/burger_icon.dart';
 
 class RecipyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -14,7 +15,7 @@ class RecipyAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: Padding(
         padding: const EdgeInsets.only(left: 8.0),
         child: InkWell(
-          child: Image.asset('assets/icons/burger-smile.png'),
+          child: const BurgerIcon(),
           onTap: () => Scaffold.of(context).openDrawer(),
         ),
       ),

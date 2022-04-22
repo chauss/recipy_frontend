@@ -23,7 +23,7 @@ class IngredientUnitsPage extends ConsumerWidget {
     IngredientUnitsModel model = ref.watch(ingredientUnitControllerProvider);
 
     return Scaffold(
-      drawer: const NavDrawer(),
+      drawer: NavDrawer(),
       appBar: RecipyAppBar(title: "ingredient_units.title".tr()),
       body: Container(
         color: Colors.grey,

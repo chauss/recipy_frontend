@@ -24,7 +24,7 @@ class IngredientsPage extends ConsumerWidget {
     IngredientsModel model = ref.watch(ingredientsControllerProvider);
 
     return Scaffold(
-      drawer: const NavDrawer(),
+      drawer: NavDrawer(),
       appBar: RecipyAppBar(title: "ingredients.title".tr()),
       body: Container(
         color: Colors.grey,

@@ -20,13 +20,13 @@ class IngredientUsageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        buildAmountUnitDisplay(),
+        buildAmountUnitDisplay(context),
         buildIngredientWidget(),
       ],
     );
   }
 
-  Widget buildAmountUnitDisplay() {
+  Widget buildAmountUnitDisplay(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 6),
       child: SizedBox(
@@ -34,17 +34,16 @@ class IngredientUsageWidget extends StatelessWidget {
         child: RichText(
           textAlign: TextAlign.end,
           text: TextSpan(
-            style: const TextStyle(
-              fontSize: 14.0,
-              color: Colors.black,
-            ),
+            style:
+                Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 18),
             children: <TextSpan>[
-              TextSpan(
-                text: getAmountAsString() + " ",
-              ),
+              TextSpan(text: getAmountAsString() + " "),
               TextSpan(
                 text: ingredientUnit.name,
-                style: const TextStyle(fontSize: 13),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    ?.copyWith(fontSize: 16),
               ),
             ],
           ),
