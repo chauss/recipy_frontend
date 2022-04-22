@@ -14,6 +14,7 @@ import 'package:recipy_frontend/pages/recipe_overview/parts/add_recipe_request.d
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_controller.dart';
 import 'package:recipy_frontend/repositories/http_read_result.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RecipyRecipeRepository extends RecipeOverviewRepository
     with RecipeDetailRepository {
@@ -27,7 +28,7 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
     try {
       response = await http.get(uri);
     } on SocketException catch (_) {
-      String error = "Der Server konnte nicht erreicht werden";
+      String error = "error_codes.server_unreachable".tr();
       log.warning("Could not fetch recipes: $error");
       return HttpReadResult(success: false, error: error);
     }
@@ -57,7 +58,7 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
             'Content-Type': 'application/json; charset=UTF-8',
           });
     } on SocketException catch (_) {
-      String error = "Der Server konnte nicht erreicht werden";
+      String error = "error_codes.server_unreachable".tr();
       log.warning("Could not add recipe \"${request.name}\": $error");
       return HttpWriteResult(success: false, error: error);
     }
@@ -82,7 +83,7 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
     try {
       response = await http.get(uri);
     } on SocketException catch (_) {
-      String error = "Der Server konnte nicht erreicht werden";
+      String error = "error_codes.server_unreachable".tr();
       log.warning("Could not fetch recipe by id: $error");
       return HttpReadResult(success: false, error: error);
     }
@@ -121,7 +122,7 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
             'Content-Type': 'application/json; charset=UTF-8',
           });
     } on SocketException catch (_) {
-      String error = "Der Server konnte nicht erreicht werden";
+      String error = "error_codes.server_unreachable".tr();
       log.warning("Could not create ingredientUsage: $error");
       return HttpWriteResult(success: false, error: error);
     }
@@ -156,7 +157,7 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
             'Content-Type': 'application/json; charset=UTF-8',
           });
     } on SocketException catch (_) {
-      String error = "Der Server konnte nicht erreicht werden";
+      String error = "error_codes.server_unreachable".tr();
       log.warning("Could not update ingredientUsage: $error");
       return HttpWriteResult(success: false, error: error);
     }
@@ -182,7 +183,7 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
     try {
       response = await http.delete(uri);
     } on SocketException catch (_) {
-      String error = "Der Server konnte nicht erreicht werden";
+      String error = "error_codes.server_unreachable".tr();
       log.warning("Could not delete ingredientUsage by id: $error");
       return HttpWriteResult(success: false, error: error);
     }
@@ -207,7 +208,7 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
     try {
       response = await http.delete(uri);
     } on SocketException catch (_) {
-      String error = "Der Server konnte nicht erreicht werden";
+      String error = "error_codes.server_unreachable".tr();
       log.warning("Could not delete recipe by id: $error");
       return HttpWriteResult(success: false, error: error);
     }

@@ -45,5 +45,8 @@
     "add": {
       "textfield": { "hint": "Añade una nueva unidad" }
     }
+  },
+  "error_codes": {
+    "server_unreachable": "No se ha podido conectar al servidor"
   }
 }

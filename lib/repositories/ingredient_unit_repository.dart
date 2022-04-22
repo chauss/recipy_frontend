@@ -11,6 +11,7 @@ import 'package:recipy_frontend/pages/ingredient_units/parts/delete_ingredient_u
 import 'package:recipy_frontend/repositories/http_read_result.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
 import 'package:recipy_frontend/storage/in_memory_storage.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RecipyIngredientUnitRepository extends IngredientUnitRepository
     with InMemoryStorageIngredientUnitRepository {
@@ -24,7 +25,7 @@ class RecipyIngredientUnitRepository extends IngredientUnitRepository
     try {
       response = await http.get(uri);
     } on SocketException catch (_) {
-      String error = "Der Server konnte nicht erreicht werden";
+      String error = "error_codes.server_unreachable".tr();
       log.warning("Could not fetch ingredientUnits: $error");
       return HttpReadResult(success: false, error: error);
     }
@@ -56,7 +57,7 @@ class RecipyIngredientUnitRepository extends IngredientUnitRepository
             'Content-Type': 'application/json; charset=UTF-8',
           });
     } on SocketException catch (_) {
-      String error = "Der Server konnte nicht erreicht werden";
+      String error = "error_codes.server_unreachable".tr();
       log.warning("Could not add ingredientUnit \"${request.name}\": $error");
       return HttpWriteResult(success: false, error: error);
     }
@@ -81,7 +82,7 @@ class RecipyIngredientUnitRepository extends IngredientUnitRepository
     try {
       response = await http.delete(uri);
     } on SocketException catch (_) {
-      String error = "Der Server konnte nicht erreicht werden";
+      String error = "error_codes.server_unreachable".tr();
       log.warning("Could not delete ingredientUnit by id: $error");
       return HttpWriteResult(success: false, error: error);
     }

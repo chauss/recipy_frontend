@@ -45,5 +45,8 @@
     "add": {
       "textfield": { "hint": "Add a new unit" }
     }
+  },
+  "error_codes": {
+    "server_unreachable": "Could not reach the server"
   }
 }

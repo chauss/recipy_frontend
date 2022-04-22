@@ -11,6 +11,7 @@ import 'package:recipy_frontend/pages/ingredients/parts/delete_ingredient_reques
 import 'package:recipy_frontend/repositories/http_read_result.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
 import 'package:recipy_frontend/storage/in_memory_storage.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RecipyIngredientRepository extends IngredientRepository
     with InMemoryStorageIngredientRepository {
@@ -23,7 +24,7 @@ class RecipyIngredientRepository extends IngredientRepository
     try {
       response = await http.get(uri);
     } on SocketException catch (_) {
-      String error = "Der Server konnte nicht erreicht werden";
+      String error = "error_codes.server_unreachable".tr();
       log.warning("Could not fetch ingredients: $error");
       return HttpReadResult(success: false, error: error);
     }
@@ -55,7 +56,7 @@ class RecipyIngredientRepository extends IngredientRepository
         },
       );
     } on SocketException catch (_) {
-      String error = "Der Server konnte nicht erreicht werden";
+      String error = "error_codes.server_unreachable".tr();
       log.warning("Could not add ingredient \"${request.name}\": $error");
       return HttpWriteResult(success: false, error: error);
     }
@@ -81,7 +82,7 @@ class RecipyIngredientRepository extends IngredientRepository
     try {
       response = await http.delete(uri);
     } on SocketException catch (_) {
-      String error = "Der Server konnte nicht erreicht werden";
+      String error = "error_codes.server_unreachable".tr();
       log.warning("Could not delete ingredient by id: $error");
       return HttpWriteResult(success: false, error: error);
     }
