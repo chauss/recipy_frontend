@@ -30,7 +30,7 @@ class RecipeDetailPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(model.recipe?.name ?? ""),
-        actions: buildAppBarActions(controller, model),
+        actions: buildAppBarActions(context, controller, model),
       ),
       body: buildBody(controller, model, context),
     );
@@ -42,11 +42,11 @@ class RecipeDetailPage extends ConsumerWidget {
       return const ProcessIndicator();
     }
 
-    if (model.error != null) {
+    if (model.errorCode != null) {
       var dialog = InfoDialog(
         context: context,
         title: "common.error".tr(),
-        info: model.error!,
+        info: "error_codes.${model.errorCode}".tr(),
       );
       SchedulerBinding.instance!.addPostFrameCallback((_) {
         dialog.show().then((_) => controller.dismissError());
@@ -136,6 +136,7 @@ class RecipeDetailPage extends ConsumerWidget {
   }
 
   List<Widget> buildAppBarActions(
+    BuildContext context,
     RecipeDetailController controller,
     RecipeDetailModel model,
   ) {
@@ -144,7 +145,20 @@ class RecipeDetailPage extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.only(right: 8),
           child: IconButton(
-            onPressed: controller.saveChanges,
+            onPressed: () {
+              for (var editableUsage in model.editableUsages) {
+                if (!editableUsage.canBeSaved()) {
+                  var dialog = InfoDialog(
+                    context: context,
+                    title: "common.error".tr(),
+                    info: "recipe_details.edit_usage.dialog.info".tr(),
+                  );
+                  dialog.show();
+                  return;
+                }
+              }
+              controller.saveChanges();
+            },
             icon: const Icon(Icons.check),
           ),
         )

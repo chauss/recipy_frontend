@@ -19,7 +19,7 @@ mixin _$RecipeOverviewModel {
   List<RecipeOverview> get recipeOverviews =>
       throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
-  String? get error => throw _privateConstructorUsedError;
+  int? get errorCode => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RecipeOverviewModelCopyWith<RecipeOverviewModel> get copyWith =>
@@ -32,7 +32,7 @@ abstract class $RecipeOverviewModelCopyWith<$Res> {
           RecipeOverviewModel value, $Res Function(RecipeOverviewModel) then) =
       _$RecipeOverviewModelCopyWithImpl<$Res>;
   $Res call(
-      {List<RecipeOverview> recipeOverviews, bool isLoading, String? error});
+      {List<RecipeOverview> recipeOverviews, bool isLoading, int? errorCode});
 }
 
 /// @nodoc
@@ -48,7 +48,7 @@ class _$RecipeOverviewModelCopyWithImpl<$Res>
   $Res call({
     Object? recipeOverviews = freezed,
     Object? isLoading = freezed,
-    Object? error = freezed,
+    Object? errorCode = freezed,
   }) {
     return _then(_value.copyWith(
       recipeOverviews: recipeOverviews == freezed
@@ -59,10 +59,10 @@ class _$RecipeOverviewModelCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      error: error == freezed
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as String?,
+      errorCode: errorCode == freezed
+          ? _value.errorCode
+          : errorCode // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -75,7 +75,7 @@ abstract class _$RecipeOverviewModelCopyWith<$Res>
       __$RecipeOverviewModelCopyWithImpl<$Res>;
   @override
   $Res call(
-      {List<RecipeOverview> recipeOverviews, bool isLoading, String? error});
+      {List<RecipeOverview> recipeOverviews, bool isLoading, int? errorCode});
 }
 
 /// @nodoc
@@ -93,7 +93,7 @@ class __$RecipeOverviewModelCopyWithImpl<$Res>
   $Res call({
     Object? recipeOverviews = freezed,
     Object? isLoading = freezed,
-    Object? error = freezed,
+    Object? errorCode = freezed,
   }) {
     return _then(_RecipeOverviewModel(
       recipeOverviews: recipeOverviews == freezed
@@ -104,10 +104,10 @@ class __$RecipeOverviewModelCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      error: error == freezed
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as String?,
+      errorCode: errorCode == freezed
+          ? _value.errorCode
+          : errorCode // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -118,7 +118,7 @@ class _$_RecipeOverviewModel implements _RecipeOverviewModel {
   const _$_RecipeOverviewModel(
       {final List<RecipeOverview> recipeOverviews = const [],
       this.isLoading = false,
-      this.error})
+      this.errorCode})
       : _recipeOverviews = recipeOverviews;
 
   final List<RecipeOverview> _recipeOverviews;
@@ -133,11 +133,11 @@ class _$_RecipeOverviewModel implements _RecipeOverviewModel {
   @JsonKey()
   final bool isLoading;
   @override
-  final String? error;
+  final int? errorCode;
 
   @override
   String toString() {
-    return 'RecipeOverviewModel(recipeOverviews: $recipeOverviews, isLoading: $isLoading, error: $error)';
+    return 'RecipeOverviewModel(recipeOverviews: $recipeOverviews, isLoading: $isLoading, errorCode: $errorCode)';
   }
 
   @override
@@ -148,7 +148,7 @@ class _$_RecipeOverviewModel implements _RecipeOverviewModel {
             const DeepCollectionEquality()
                 .equals(other.recipeOverviews, recipeOverviews) &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
-            const DeepCollectionEquality().equals(other.error, error));
+            const DeepCollectionEquality().equals(other.errorCode, errorCode));
   }
 
   @override
@@ -156,7 +156,7 @@ class _$_RecipeOverviewModel implements _RecipeOverviewModel {
       runtimeType,
       const DeepCollectionEquality().hash(recipeOverviews),
       const DeepCollectionEquality().hash(isLoading),
-      const DeepCollectionEquality().hash(error));
+      const DeepCollectionEquality().hash(errorCode));
 
   @JsonKey(ignore: true)
   @override
@@ -169,7 +169,7 @@ abstract class _RecipeOverviewModel implements RecipeOverviewModel {
   const factory _RecipeOverviewModel(
       {final List<RecipeOverview> recipeOverviews,
       final bool isLoading,
-      final String? error}) = _$_RecipeOverviewModel;
+      final int? errorCode}) = _$_RecipeOverviewModel;
 
   @override
   List<RecipeOverview> get recipeOverviews =>
@@ -177,7 +177,7 @@ abstract class _RecipeOverviewModel implements RecipeOverviewModel {
   @override
   bool get isLoading => throw _privateConstructorUsedError;
   @override
-  String? get error => throw _privateConstructorUsedError;
+  int? get errorCode => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$RecipeOverviewModelCopyWith<_RecipeOverviewModel> get copyWith =>

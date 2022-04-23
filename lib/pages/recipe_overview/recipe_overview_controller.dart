@@ -27,7 +27,7 @@ class RecipeOverviewControllerImpl extends RecipeOverviewController {
     if (result.success) {
       state = state.copyWith(recipeOverviews: result.data!, isLoading: false);
     } else {
-      state = state.copyWith(error: result.error, isLoading: false);
+      state = state.copyWith(errorCode: result.errorCode, isLoading: false);
     }
   }
 
@@ -38,18 +38,16 @@ class RecipeOverviewControllerImpl extends RecipeOverviewController {
 
   @override
   Future<void> addRecipe(AddRecipeRequest request) async {
-    try {
-      await _recipeRepository.addRecipe(request);
+    var result = await _recipeRepository.addRecipe(request);
+    if (result.success) {
       await _fetchRecipes();
-    } catch (e) {
-      state = state.copyWith(error: e.toString());
+    } else {
+      state = state.copyWith(errorCode: result.errorCode);
     }
   }
 
   @override
-  void dismissError() {
-    state = state.copyWith(error: null);
-  }
+  void dismissError() => state = state.copyWith(errorCode: null);
 }
 
 abstract class RecipeOverviewRepository {

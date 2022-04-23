@@ -24,4 +24,8 @@ class EditableIngredientUsage {
       amount: usage.amount,
     );
   }
+
+  bool canBeSaved() {
+    return amount != null && ingredientId != null && ingredientUnitId != null;
+  }
 }

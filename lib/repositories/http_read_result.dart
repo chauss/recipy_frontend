@@ -1,7 +1,7 @@
 class HttpReadResult<T> {
   final bool success;
-  final String? error;
+  final int? errorCode;
   final T? data;
 
-  HttpReadResult({required this.success, this.error, this.data});
+  HttpReadResult({required this.success, this.errorCode, this.data});
 }

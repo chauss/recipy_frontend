@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
 import 'package:recipy_frontend/config/api_config.dart';
+import 'package:recipy_frontend/config/error_config.dart';
 import 'package:recipy_frontend/helpers/http_helper.dart';
 import 'package:recipy_frontend/models/ingredient.dart';
 import 'package:recipy_frontend/pages/ingredients/parts/add_ingredient_request.dart';
@@ -11,11 +12,10 @@ import 'package:recipy_frontend/pages/ingredients/parts/delete_ingredient_reques
 import 'package:recipy_frontend/repositories/http_read_result.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
 import 'package:recipy_frontend/storage/in_memory_storage.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class RecipyIngredientRepository extends IngredientRepository
     with InMemoryStorageIngredientRepository {
-  static final log = Logger('IngredientsRepository');
+  static final log = Logger('RecipyIngredientRepository');
 
   @override
   Future<HttpReadResult<List<Ingredient>>> fetchIngredients() async {
@@ -24,9 +24,9 @@ class RecipyIngredientRepository extends IngredientRepository
     try {
       response = await http.get(uri);
     } on SocketException catch (_) {
-      String error = "error_codes.server_unreachable".tr();
-      log.warning("Could not fetch ingredients: $error");
-      return HttpReadResult(success: false, error: error);
+      log.warning("Could not fetch ingredients: Server unreachable");
+      return HttpReadResult(
+          success: false, errorCode: ErrorCodes.serverUnreachable);
     }
 
     if (is2xx(response.statusCode)) {
@@ -36,11 +36,8 @@ class RecipyIngredientRepository extends IngredientRepository
       log.fine("Fetched ${ingredients.length} ingredients");
 
       return HttpReadResult(success: true, data: ingredients);
-    } else {
-      String error = 'Failed to load ingredients (${response.statusCode})';
-      log.warning(error);
-      return HttpReadResult(success: false, error: error);
     }
+    return handleHttpReadFailed(log, response, "Failed to fetch ingredients");
   }
 
   @override
@@ -56,21 +53,17 @@ class RecipyIngredientRepository extends IngredientRepository
         },
       );
     } on SocketException catch (_) {
-      String error = "error_codes.server_unreachable".tr();
-      log.warning("Could not add ingredient \"${request.name}\": $error");
-      return HttpWriteResult(success: false, error: error);
+      log.warning(
+          "Could not add ingredient \"${request.name}\": Server unreachable");
+      return HttpWriteResult(
+          success: false, errorCode: ErrorCodes.serverUnreachable);
     }
 
     if (is2xx(response.statusCode)) {
       log.fine("Added ingredient \"${request.name}\"");
       return HttpWriteResult(success: true);
-    } else {
-      String errorMessage =
-          json.decode(utf8.decode(response.bodyBytes))["message"];
-      log.warning(
-          'Failed to add ingredient $errorMessage (${response.statusCode})');
-      return HttpWriteResult(success: false, error: errorMessage);
     }
+    return handleHttpWriteFailed(log, response, "Failed to add ingredient");
   }
 
   @override
@@ -82,20 +75,15 @@ class RecipyIngredientRepository extends IngredientRepository
     try {
       response = await http.delete(uri);
     } on SocketException catch (_) {
-      String error = "error_codes.server_unreachable".tr();
-      log.warning("Could not delete ingredient by id: $error");
-      return HttpWriteResult(success: false, error: error);
+      log.warning("Could not delete ingredient by id: Server unreachable");
+      return HttpWriteResult(
+          success: false, errorCode: ErrorCodes.serverUnreachable);
     }
 
     if (is2xx(response.statusCode)) {
       log.fine("Deleted ingredient ${request.ingredientId}");
       return HttpWriteResult(success: true);
-    } else {
-      String errorMessage =
-          json.decode(utf8.decode(response.bodyBytes))["message"];
-      log.warning(
-          'Failed to delete ingredient $errorMessage (${response.statusCode})');
-      return HttpWriteResult(success: false, error: errorMessage);
     }
+    return handleHttpWriteFailed(log, response, "Failed to delete ingredient");
   }
 }

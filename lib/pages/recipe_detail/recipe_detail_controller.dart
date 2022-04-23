@@ -10,7 +10,6 @@ import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_page.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/update_ingredient_usage_request.dart';
 import 'package:recipy_frontend/repositories/http_read_result.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class RecipeDetailControllerImpl extends RecipeDetailController {
   late RecipeDetailRepository _repository;
@@ -30,7 +29,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
 
     state = state.copyWith(
       recipe: result.data,
-      error: result.error,
+      errorCode: result.errorCode,
       isLoading: false,
       isEditMode: false,
       editableUsages: [],
@@ -51,14 +50,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   Future<void> saveChanges() async {
     bool somethingChanged = false;
     for (var editableUsage in state.editableUsages) {
-      // Check if information is valid
-      if (editableUsage.amount == null ||
-          editableUsage.ingredientId == null ||
-          editableUsage.ingredientUnitId == null) {
-        state =
-            state.copyWith(error: "recipe_details.edit_usage.dialog.info".tr());
-        return;
-      }
+      if (!editableUsage.canBeSaved()) continue;
 
       try {
         var existingIngredientUsage = state.recipe!.ingredientUsages.firstWhere(
@@ -80,7 +72,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
           ingredientUnitId: editableUsage.ingredientUnitId!,
         ));
         if (!result.success) {
-          state = state.copyWith(error: result.error);
+          state = state.copyWith(errorCode: result.errorCode);
           return;
         }
       } on StateError catch (_) {
@@ -94,7 +86,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
           ingredientUnitId: editableUsage.ingredientUnitId!,
         ));
         if (!result.success) {
-          state = state.copyWith(error: result.error);
+          state = state.copyWith(errorCode: result.errorCode);
           return;
         }
       }
@@ -157,9 +149,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   }
 
   @override
-  void dismissError() {
-    state = state.copyWith(error: null);
-  }
+  void dismissError() => state = state.copyWith(errorCode: null);
 
   @override
   void deleteIngredientUsage(DeleteIngredientUsageRequest request) async {
@@ -167,7 +157,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
       var result =
           await _repository.deleteIngredientUsage(request.ingredientUsage.id!);
       if (!result.success) {
-        state = state.copyWith(error: result.error);
+        state = state.copyWith(errorCode: result.errorCode);
       }
     }
 
@@ -187,7 +177,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
       );
     } else {
       state = state.copyWith(
-        error: result.error,
+        errorCode: result.errorCode,
         isLoading: false,
       );
     }

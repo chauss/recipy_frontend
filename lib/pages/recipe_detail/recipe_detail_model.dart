@@ -11,7 +11,7 @@ class RecipeDetailModel with _$RecipeDetailModel {
     @Default(false) bool isLoading,
     @Default(false) bool isEditMode,
     @Default([]) List<EditableIngredientUsage> editableUsages,
-    String? error,
+    int? errorCode,
     Recipe? recipe,
   }) = _RecipeDetailModel;
 }

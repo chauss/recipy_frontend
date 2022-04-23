@@ -21,7 +21,7 @@ mixin _$RecipeDetailModel {
   bool get isEditMode => throw _privateConstructorUsedError;
   List<EditableIngredientUsage> get editableUsages =>
       throw _privateConstructorUsedError;
-  String? get error => throw _privateConstructorUsedError;
+  int? get errorCode => throw _privateConstructorUsedError;
   Recipe? get recipe => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -39,7 +39,7 @@ abstract class $RecipeDetailModelCopyWith<$Res> {
       bool isLoading,
       bool isEditMode,
       List<EditableIngredientUsage> editableUsages,
-      String? error,
+      int? errorCode,
       Recipe? recipe});
 }
 
@@ -58,7 +58,7 @@ class _$RecipeDetailModelCopyWithImpl<$Res>
     Object? isLoading = freezed,
     Object? isEditMode = freezed,
     Object? editableUsages = freezed,
-    Object? error = freezed,
+    Object? errorCode = freezed,
     Object? recipe = freezed,
   }) {
     return _then(_value.copyWith(
@@ -78,10 +78,10 @@ class _$RecipeDetailModelCopyWithImpl<$Res>
           ? _value.editableUsages
           : editableUsages // ignore: cast_nullable_to_non_nullable
               as List<EditableIngredientUsage>,
-      error: error == freezed
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as String?,
+      errorCode: errorCode == freezed
+          ? _value.errorCode
+          : errorCode // ignore: cast_nullable_to_non_nullable
+              as int?,
       recipe: recipe == freezed
           ? _value.recipe
           : recipe // ignore: cast_nullable_to_non_nullable
@@ -102,7 +102,7 @@ abstract class _$RecipeDetailModelCopyWith<$Res>
       bool isLoading,
       bool isEditMode,
       List<EditableIngredientUsage> editableUsages,
-      String? error,
+      int? errorCode,
       Recipe? recipe});
 }
 
@@ -123,7 +123,7 @@ class __$RecipeDetailModelCopyWithImpl<$Res>
     Object? isLoading = freezed,
     Object? isEditMode = freezed,
     Object? editableUsages = freezed,
-    Object? error = freezed,
+    Object? errorCode = freezed,
     Object? recipe = freezed,
   }) {
     return _then(_RecipeDetailModel(
@@ -143,10 +143,10 @@ class __$RecipeDetailModelCopyWithImpl<$Res>
           ? _value.editableUsages
           : editableUsages // ignore: cast_nullable_to_non_nullable
               as List<EditableIngredientUsage>,
-      error: error == freezed
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as String?,
+      errorCode: errorCode == freezed
+          ? _value.errorCode
+          : errorCode // ignore: cast_nullable_to_non_nullable
+              as int?,
       recipe: recipe == freezed
           ? _value.recipe
           : recipe // ignore: cast_nullable_to_non_nullable
@@ -163,7 +163,7 @@ class _$_RecipeDetailModel implements _RecipeDetailModel {
       this.isLoading = false,
       this.isEditMode = false,
       final List<EditableIngredientUsage> editableUsages = const [],
-      this.error,
+      this.errorCode,
       this.recipe})
       : _editableUsages = editableUsages;
 
@@ -184,13 +184,13 @@ class _$_RecipeDetailModel implements _RecipeDetailModel {
   }
 
   @override
-  final String? error;
+  final int? errorCode;
   @override
   final Recipe? recipe;
 
   @override
   String toString() {
-    return 'RecipeDetailModel(recipeId: $recipeId, isLoading: $isLoading, isEditMode: $isEditMode, editableUsages: $editableUsages, error: $error, recipe: $recipe)';
+    return 'RecipeDetailModel(recipeId: $recipeId, isLoading: $isLoading, isEditMode: $isEditMode, editableUsages: $editableUsages, errorCode: $errorCode, recipe: $recipe)';
   }
 
   @override
@@ -204,7 +204,7 @@ class _$_RecipeDetailModel implements _RecipeDetailModel {
                 .equals(other.isEditMode, isEditMode) &&
             const DeepCollectionEquality()
                 .equals(other.editableUsages, editableUsages) &&
-            const DeepCollectionEquality().equals(other.error, error) &&
+            const DeepCollectionEquality().equals(other.errorCode, errorCode) &&
             const DeepCollectionEquality().equals(other.recipe, recipe));
   }
 
@@ -215,7 +215,7 @@ class _$_RecipeDetailModel implements _RecipeDetailModel {
       const DeepCollectionEquality().hash(isLoading),
       const DeepCollectionEquality().hash(isEditMode),
       const DeepCollectionEquality().hash(editableUsages),
-      const DeepCollectionEquality().hash(error),
+      const DeepCollectionEquality().hash(errorCode),
       const DeepCollectionEquality().hash(recipe));
 
   @JsonKey(ignore: true)
@@ -230,7 +230,7 @@ abstract class _RecipeDetailModel implements RecipeDetailModel {
       final bool isLoading,
       final bool isEditMode,
       final List<EditableIngredientUsage> editableUsages,
-      final String? error,
+      final int? errorCode,
       final Recipe? recipe}) = _$_RecipeDetailModel;
 
   @override
@@ -243,7 +243,7 @@ abstract class _RecipeDetailModel implements RecipeDetailModel {
   List<EditableIngredientUsage> get editableUsages =>
       throw _privateConstructorUsedError;
   @override
-  String? get error => throw _privateConstructorUsedError;
+  int? get errorCode => throw _privateConstructorUsedError;
   @override
   Recipe? get recipe => throw _privateConstructorUsedError;
   @override

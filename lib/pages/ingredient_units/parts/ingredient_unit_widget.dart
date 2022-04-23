@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:recipy_frontend/models/ingredient_unit.dart';
 
 class IngredientUnitWidget extends StatelessWidget {

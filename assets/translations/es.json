@@ -47,6 +47,28 @@
     }
   },
   "error_codes": {
-    "server_unreachable": "No se ha podido conectar al servidor"
+    "10": "No se ha podido conectar al servidor",
+    "100": "Es existiert bereits ein Rezept mit diesem Namen",
+    "120": "Das Rezept konnte nicht gelöscht werden da es nicht gefunden wurde",
+    "121": "Das Rezept konnte aus unbekannten Gründen nicht gelöscht werden",
+    "200": "Die Zutat konnte nicht erstellt werden da bereits eine Zutat mit diesem Namen existiert",
+    "220": "Die Zutat konnte nicht gelöscht werden da sie nicht gefunden wurde",
+    "221": "Die Zutat konnte aus unbekannten Gründen nicht gelöscht werden",
+    "222": "Die Zutat konnte nicht gelöscht werden da sie noch in Rezepten benutzt wird",
+    "300": "Die Einheit konnte nicht erstellt werden da bereits eine Einheit mit diesem Namen existiert",
+    "320": "Die Einheit konnte aus unbekannten Gründen nicht gelöscht werden",
+    "321": "Die Einheit konnte nicht gelöscht werden da sie nicht gefunden wurde",
+    "322": "Die Einheit konnte nicht gelöscht werden da sie noch in Rezepten benutzt wird",
+    "400": "Die Zutat konnte nicht dem Rezept hinzugefügt werden da sie nicht gefunden wurde",
+    "401": "Die Zutat konnte nicht dem Rezept hinzugefügt werden da die Einheit nicht gefunden wurde",
+    "402": "Die Zutat konnte nicht dem Rezept hinzugefügt werden da das Rezept nicht mehr gefunden wurde",
+    "403": "Die Zutat konnte nicht dem Rezept hinzugefügt werden da sie bereits in dem Rezept verwendet wird",
+    "410": "Die Zutat im Rezept konnte nicht aktualisiert werden da die Zutatenbenutzung nicht gefunden wurde",
+    "411": "Die Zutat im Rezept konnte nicht aktualisiert werden da die neue Zutat nicht gefunden wurde",
+    "412": "Die Zutat im Rezept konnte nicht aktualisiert werden da die neue Einheit nicht gefunden wurde",
+    "413": "Die Zutat im Rezept konnte nicht aktualisiert werden da das Rezept nicht mehr gefunden wurde",
+    "414": "Die Zutat im Rezept konnte nicht aktualisiert werden da sie bereits in dem Rezept benutzt wird",
+    "420": "Die Zutat konnte nicht aus dem Rezept gelöscht werden da die Benutzung nicht gefunden wurde",
+    "421": "Die Zutat konnte aus unbekannten Gründen nicht aus dem Rezept gelöscht werden"
   }
 }

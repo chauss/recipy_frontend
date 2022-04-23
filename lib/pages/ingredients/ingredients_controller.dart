@@ -28,7 +28,7 @@ class IngredintsControllerImpl extends IngredientsController {
     if (result.success) {
       state = state.copyWith(ingredients: result.data!, isLoading: false);
     } else {
-      state = state.copyWith(error: result.error, isLoading: false);
+      state = state.copyWith(errorCode: result.errorCode, isLoading: false);
     }
   }
 
@@ -39,22 +39,18 @@ class IngredintsControllerImpl extends IngredientsController {
 
   @override
   Future<void> addIngredient(AddIngredientRequest request) async {
-    try {
-      state = state.copyWith(isLoading: true);
+    state = state.copyWith(isLoading: true);
 
-      final result = await _repository.addIngredient(request);
-      if (result.success) {
-        await _fetchIngredients();
-      } else {
-        state = state.copyWith(error: result.error, isLoading: false);
-      }
-    } catch (e) {
-      state = state.copyWith(error: e.toString(), isLoading: false);
+    final result = await _repository.addIngredient(request);
+    if (result.success) {
+      await _fetchIngredients();
+    } else {
+      state = state.copyWith(errorCode: result.errorCode, isLoading: false);
     }
   }
 
   @override
-  void dismissError() => state = state.copyWith(error: null);
+  void dismissError() => state = state.copyWith(errorCode: null);
 
   @override
   Future<void> deleteIngredient(DeleteIngredientRequest request) async {
@@ -64,7 +60,7 @@ class IngredintsControllerImpl extends IngredientsController {
     if (result.success) {
       await _fetchIngredients();
     } else {
-      state = state.copyWith(error: result.error, isLoading: false);
+      state = state.copyWith(errorCode: result.errorCode, isLoading: false);
     }
   }
 }

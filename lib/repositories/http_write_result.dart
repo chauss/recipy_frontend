@@ -1,6 +1,6 @@
 class HttpWriteResult {
   final bool success;
-  final String? error;
+  final int? errorCode;
 
-  HttpWriteResult({required this.success, this.error});
+  HttpWriteResult({required this.success, this.errorCode});
 }

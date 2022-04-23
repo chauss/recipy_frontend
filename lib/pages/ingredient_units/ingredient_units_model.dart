@@ -8,6 +8,6 @@ class IngredientUnitsModel with _$IngredientUnitsModel {
   const factory IngredientUnitsModel({
     @Default([]) List<IngredientUnit> units,
     @Default(false) bool isLoading,
-    String? error,
+    int? errorCode,
   }) = _IngredientUnitsModel;
 }

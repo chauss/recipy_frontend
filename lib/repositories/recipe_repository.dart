@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
 import 'package:recipy_frontend/config/api_config.dart';
+import 'package:recipy_frontend/config/error_config.dart';
 import 'package:recipy_frontend/helpers/http_helper.dart';
 import 'package:recipy_frontend/models/recipe.dart';
 import 'package:recipy_frontend/models/recipe_overview.dart';
@@ -14,11 +15,10 @@ import 'package:recipy_frontend/pages/recipe_overview/parts/add_recipe_request.d
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_controller.dart';
 import 'package:recipy_frontend/repositories/http_read_result.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class RecipyRecipeRepository extends RecipeOverviewRepository
     with RecipeDetailRepository {
-  static final log = Logger('RecipeRepository');
+  static final log = Logger('RecipyRecipeRepository');
 
   @override
   Future<HttpReadResult<List<RecipeOverview>>> fetchRecipesAsOverview() async {
@@ -28,9 +28,9 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
     try {
       response = await http.get(uri);
     } on SocketException catch (_) {
-      String error = "error_codes.server_unreachable".tr();
-      log.warning("Could not fetch recipes: $error");
-      return HttpReadResult(success: false, error: error);
+      log.warning("Could not fetch recipeOverviews: Server unreachable");
+      return HttpReadResult(
+          success: false, errorCode: ErrorCodes.serverUnreachable);
     }
 
     if (is2xx(response.statusCode)) {
@@ -40,11 +40,9 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
       log.fine("Fetched ${recipes.length} recipeOverviews");
 
       return HttpReadResult(success: true, data: recipes);
-    } else {
-      String error = 'Failed to load recipeOverviews (${response.statusCode})';
-      log.warning("Could not fetch recipes: $error");
-      return HttpReadResult(success: false, error: error);
     }
+    return handleHttpReadFailed(
+        log, response, "Failed to fetch recipeOverviews");
   }
 
   @override
@@ -58,21 +56,18 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
             'Content-Type': 'application/json; charset=UTF-8',
           });
     } on SocketException catch (_) {
-      String error = "error_codes.server_unreachable".tr();
-      log.warning("Could not add recipe \"${request.name}\": $error");
-      return HttpWriteResult(success: false, error: error);
+      log.warning(
+          "Could not add recipe \"${request.name}\": Server unreachable");
+      return HttpWriteResult(
+          success: false, errorCode: ErrorCodes.serverUnreachable);
     }
 
     if (is2xx(response.statusCode)) {
       log.fine("Added recipe \"${request.name}\"");
       return HttpWriteResult(success: true);
-    } else {
-      String errorMessage =
-          json.decode(utf8.decode(response.bodyBytes))["message"];
-      log.warning(
-          'Failed to add recipe $errorMessage (${response.statusCode})');
-      return HttpWriteResult(success: false, error: errorMessage);
     }
+    return handleHttpWriteFailed(
+        log, response, "Failed to add recipe \"${request.name}\"");
   }
 
   @override
@@ -83,9 +78,9 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
     try {
       response = await http.get(uri);
     } on SocketException catch (_) {
-      String error = "error_codes.server_unreachable".tr();
-      log.warning("Could not fetch recipe by id: $error");
-      return HttpReadResult(success: false, error: error);
+      log.warning("Could not fetch recipe by id: Server unreachable");
+      return HttpReadResult(
+          success: false, errorCode: ErrorCodes.serverUnreachable);
     }
 
     if (is2xx(response.statusCode)) {
@@ -95,13 +90,8 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
       log.fine("Fetched recipe \"${recipe.name}\"");
 
       return HttpReadResult(success: true, data: recipe);
-    } else {
-      String errorMessage =
-          json.decode(utf8.decode(response.bodyBytes))["message"];
-      log.warning(
-          'Failed to fetch recipe by id $errorMessage (${response.statusCode})');
-      return HttpReadResult(success: false, error: errorMessage);
     }
+    return handleHttpReadFailed(log, response, "Failed to fetch recipe by id");
   }
 
   @override
@@ -122,21 +112,17 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
             'Content-Type': 'application/json; charset=UTF-8',
           });
     } on SocketException catch (_) {
-      String error = "error_codes.server_unreachable".tr();
-      log.warning("Could not create ingredientUsage: $error");
-      return HttpWriteResult(success: false, error: error);
+      log.warning("Could not create ingredientUsage: Server unreachable");
+      return HttpWriteResult(
+          success: false, errorCode: ErrorCodes.serverUnreachable);
     }
 
     if (is2xx(response.statusCode)) {
       log.fine("Create ingredientUsage for recipe ${request.recipeId}");
       return HttpWriteResult(success: true);
-    } else {
-      String errorMessage =
-          json.decode(utf8.decode(response.bodyBytes))["message"];
-      log.warning(
-          'Failed to add ingredientUsage $errorMessage (${response.statusCode})');
-      return HttpWriteResult(success: false, error: errorMessage);
     }
+    return handleHttpWriteFailed(
+        log, response, "Failed to add ingredientUsage");
   }
 
   @override
@@ -157,21 +143,17 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
             'Content-Type': 'application/json; charset=UTF-8',
           });
     } on SocketException catch (_) {
-      String error = "error_codes.server_unreachable".tr();
-      log.warning("Could not update ingredientUsage: $error");
-      return HttpWriteResult(success: false, error: error);
+      log.warning("Could not update ingredientUsage: Server unreachable");
+      return HttpWriteResult(
+          success: false, errorCode: ErrorCodes.serverUnreachable);
     }
 
     if (is2xx(response.statusCode)) {
       log.fine("Updated ingredientUsage ${request.ingredientUsageId}");
       return HttpWriteResult(success: true);
-    } else {
-      String errorMessage =
-          json.decode(utf8.decode(response.bodyBytes))["message"];
-      log.warning(
-          'Failed to update ingredientUsage $errorMessage (${response.statusCode})');
-      return HttpWriteResult(success: false, error: errorMessage);
     }
+    return handleHttpWriteFailed(
+        log, response, "Failed to update ingredientUsage");
   }
 
   @override
@@ -183,21 +165,17 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
     try {
       response = await http.delete(uri);
     } on SocketException catch (_) {
-      String error = "error_codes.server_unreachable".tr();
-      log.warning("Could not delete ingredientUsage by id: $error");
-      return HttpWriteResult(success: false, error: error);
+      log.warning("Could not delete ingredientUsage by id: Server unreachable");
+      return HttpWriteResult(
+          success: false, errorCode: ErrorCodes.serverUnreachable);
     }
 
     if (is2xx(response.statusCode)) {
       log.fine("Deleted ingredientUsage $ingredientUsageId");
       return HttpWriteResult(success: true);
-    } else {
-      String errorMessage =
-          json.decode(utf8.decode(response.bodyBytes))["message"];
-      log.warning(
-          'Failed to delete ingredientUsage $errorMessage (${response.statusCode})');
-      return HttpWriteResult(success: false, error: errorMessage);
     }
+    return handleHttpWriteFailed(
+        log, response, "Failed to delete ingredientUsage by id");
   }
 
   @override
@@ -208,20 +186,16 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
     try {
       response = await http.delete(uri);
     } on SocketException catch (_) {
-      String error = "error_codes.server_unreachable".tr();
-      log.warning("Could not delete recipe by id: $error");
-      return HttpWriteResult(success: false, error: error);
+      log.warning("Could not delete recipe by id: Server unreachable");
+      return HttpWriteResult(
+          success: false, errorCode: ErrorCodes.serverUnreachable);
     }
 
     if (is2xx(response.statusCode)) {
       log.fine("Deleted recipe ${request.recipeId}");
       return HttpWriteResult(success: true);
-    } else {
-      String errorMessage =
-          json.decode(utf8.decode(response.bodyBytes))["message"];
-      log.warning(
-          'Failed to delete ingredientUsage $errorMessage (${response.statusCode})');
-      return HttpWriteResult(success: false, error: errorMessage);
     }
+    return handleHttpWriteFailed(
+        log, response, "Failed to delete recipe by id");
   }
 }

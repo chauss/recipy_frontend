@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$IngredientUnitsModel {
   List<IngredientUnit> get units => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
-  String? get error => throw _privateConstructorUsedError;
+  int? get errorCode => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $IngredientUnitsModelCopyWith<IngredientUnitsModel> get copyWith =>
@@ -30,7 +30,7 @@ abstract class $IngredientUnitsModelCopyWith<$Res> {
   factory $IngredientUnitsModelCopyWith(IngredientUnitsModel value,
           $Res Function(IngredientUnitsModel) then) =
       _$IngredientUnitsModelCopyWithImpl<$Res>;
-  $Res call({List<IngredientUnit> units, bool isLoading, String? error});
+  $Res call({List<IngredientUnit> units, bool isLoading, int? errorCode});
 }
 
 /// @nodoc
@@ -46,7 +46,7 @@ class _$IngredientUnitsModelCopyWithImpl<$Res>
   $Res call({
     Object? units = freezed,
     Object? isLoading = freezed,
-    Object? error = freezed,
+    Object? errorCode = freezed,
   }) {
     return _then(_value.copyWith(
       units: units == freezed
@@ -57,10 +57,10 @@ class _$IngredientUnitsModelCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      error: error == freezed
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as String?,
+      errorCode: errorCode == freezed
+          ? _value.errorCode
+          : errorCode // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -72,7 +72,7 @@ abstract class _$IngredientUnitsModelCopyWith<$Res>
           $Res Function(_IngredientUnitsModel) then) =
       __$IngredientUnitsModelCopyWithImpl<$Res>;
   @override
-  $Res call({List<IngredientUnit> units, bool isLoading, String? error});
+  $Res call({List<IngredientUnit> units, bool isLoading, int? errorCode});
 }
 
 /// @nodoc
@@ -90,7 +90,7 @@ class __$IngredientUnitsModelCopyWithImpl<$Res>
   $Res call({
     Object? units = freezed,
     Object? isLoading = freezed,
-    Object? error = freezed,
+    Object? errorCode = freezed,
   }) {
     return _then(_IngredientUnitsModel(
       units: units == freezed
@@ -101,10 +101,10 @@ class __$IngredientUnitsModelCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      error: error == freezed
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as String?,
+      errorCode: errorCode == freezed
+          ? _value.errorCode
+          : errorCode // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -115,7 +115,7 @@ class _$_IngredientUnitsModel implements _IngredientUnitsModel {
   const _$_IngredientUnitsModel(
       {final List<IngredientUnit> units = const [],
       this.isLoading = false,
-      this.error})
+      this.errorCode})
       : _units = units;
 
   final List<IngredientUnit> _units;
@@ -130,11 +130,11 @@ class _$_IngredientUnitsModel implements _IngredientUnitsModel {
   @JsonKey()
   final bool isLoading;
   @override
-  final String? error;
+  final int? errorCode;
 
   @override
   String toString() {
-    return 'IngredientUnitsModel(units: $units, isLoading: $isLoading, error: $error)';
+    return 'IngredientUnitsModel(units: $units, isLoading: $isLoading, errorCode: $errorCode)';
   }
 
   @override
@@ -144,7 +144,7 @@ class _$_IngredientUnitsModel implements _IngredientUnitsModel {
             other is _IngredientUnitsModel &&
             const DeepCollectionEquality().equals(other.units, units) &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
-            const DeepCollectionEquality().equals(other.error, error));
+            const DeepCollectionEquality().equals(other.errorCode, errorCode));
   }
 
   @override
@@ -152,7 +152,7 @@ class _$_IngredientUnitsModel implements _IngredientUnitsModel {
       runtimeType,
       const DeepCollectionEquality().hash(units),
       const DeepCollectionEquality().hash(isLoading),
-      const DeepCollectionEquality().hash(error));
+      const DeepCollectionEquality().hash(errorCode));
 
   @JsonKey(ignore: true)
   @override
@@ -165,14 +165,14 @@ abstract class _IngredientUnitsModel implements IngredientUnitsModel {
   const factory _IngredientUnitsModel(
       {final List<IngredientUnit> units,
       final bool isLoading,
-      final String? error}) = _$_IngredientUnitsModel;
+      final int? errorCode}) = _$_IngredientUnitsModel;
 
   @override
   List<IngredientUnit> get units => throw _privateConstructorUsedError;
   @override
   bool get isLoading => throw _privateConstructorUsedError;
   @override
-  String? get error => throw _privateConstructorUsedError;
+  int? get errorCode => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$IngredientUnitsModelCopyWith<_IngredientUnitsModel> get copyWith =>

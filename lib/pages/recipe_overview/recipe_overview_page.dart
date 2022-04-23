@@ -53,11 +53,11 @@ class RecipeOverviewPage extends ConsumerWidget {
       return const ProcessIndicator();
     }
 
-    if (model.error != null) {
+    if (model.errorCode != null) {
       var dialog = InfoDialog(
         context: context,
         title: "common.error".tr(),
-        info: model.error!,
+        info: "error_codes.${model.errorCode}".tr(),
       );
       SchedulerBinding.instance!.addPostFrameCallback((_) {
         dialog.show().then((_) => controller.dismissError());
