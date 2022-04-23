@@ -1,4 +1,4 @@
-package de.chhauss.recipy_frontend
+package de.chauss.recipy_frontend
 
 import io.flutter.embedding.android.FlutterActivity
 

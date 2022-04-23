@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.chhauss.recipy_frontend">
+    package="de.chauss.recipy_frontend">
    <application
         android:label="Recipy"
         android:name="${applicationName}"
