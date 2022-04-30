@@ -26,7 +26,7 @@ class IngredientUnitsPage extends ConsumerWidget {
       drawer: NavDrawer(),
       appBar: RecipyAppBar(title: "ingredient_units.title".tr()),
       body: Container(
-        color: Colors.grey,
+        color: Theme.of(context).colorScheme.secondaryContainer,
         child: SafeArea(
           child: Column(
             children: [

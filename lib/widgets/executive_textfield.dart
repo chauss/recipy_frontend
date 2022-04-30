@@ -21,7 +21,7 @@ class ExecutiveTextfield<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey,
+      color: Theme.of(context).colorScheme.secondaryContainer,
       child: Row(
         children: [
           Expanded(
