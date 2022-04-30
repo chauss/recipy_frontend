@@ -30,7 +30,7 @@ class IngredientUsageWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 6),
       child: SizedBox(
-        width: 80,
+        width: 100,
         child: RichText(
           textAlign: TextAlign.end,
           text: TextSpan(

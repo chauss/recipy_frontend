@@ -20,6 +20,10 @@
     }
   },
   "recipe_details": {
+    "heading": {
+      "ingredients": "Ingredientes",
+      "preparation": "Preparación"
+    },
     "delete": {
       "dialog": {
         "title": "Eliminar receta",
@@ -32,7 +36,8 @@
       "dialog": {
         "info": "Algunos campos no están completos"
       }
-    }
+    },
+    "step_number": "Paso {stepNumber}"
   },
   "ingredients": {
     "title": "Ingredientes",

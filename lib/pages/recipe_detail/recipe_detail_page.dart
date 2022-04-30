@@ -3,12 +3,17 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/ingredient_usage.dart';
-import 'package:recipy_frontend/pages/recipe_detail/parts/delete_ingredient_usage_request.dart';
-import 'package:recipy_frontend/pages/recipe_detail/parts/delete_recipe_request.dart';
-import 'package:recipy_frontend/pages/recipe_detail/parts/edit_ingredient_usage_widget.dart';
-import 'package:recipy_frontend/pages/recipe_detail/parts/editable_ingredient_usage.dart';
+import 'package:recipy_frontend/models/preparation_step.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/delete_ingredient_usage_request.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/delete_preparation_step_request.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/recipe/delete_recipe_request.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/edit_ingredient_usage_widget.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/edit_preparation_step_widget.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/editable_ingredient_usage.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/editable_preparation_step.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/preparation_step_widget.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_model.dart';
-import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage_widget.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/ingredient_usage_widget.dart';
 import 'package:recipy_frontend/widgets/info_dialog.dart';
 import 'package:recipy_frontend/widgets/process_indicator.dart';
 import 'package:recipy_frontend/widgets/yes_no_dialog.dart';
@@ -56,11 +61,26 @@ class RecipeDetailPage extends ConsumerWidget {
     return ListView(
       padding: const EdgeInsets.only(left: 24, right: 24, top: 32),
       children: [
+        Text(
+          "recipe_details.heading.ingredients",
+          style: Theme.of(context).textTheme.headline5,
+        ).tr(),
         ...buildIngredientUsages(controller, model),
         model.isEditMode
             ? Padding(
                 padding: const EdgeInsets.only(bottom: 50),
                 child: buildAddUsageButton(controller, context),
+              )
+            : Container(),
+        Text(
+          "recipe_details.heading.preparation",
+          style: Theme.of(context).textTheme.headline5,
+        ).tr(),
+        ...buildPreparationSteps(controller, model),
+        model.isEditMode
+            ? Padding(
+                padding: const EdgeInsets.only(bottom: 50),
+                child: buildAddStepButton(controller, context),
               )
             : Container(),
       ],
@@ -71,6 +91,22 @@ class RecipeDetailPage extends ConsumerWidget {
       RecipeDetailController controller, BuildContext context) {
     return ElevatedButton(
       onPressed: controller.addNewIngredientUsage,
+      child: const Icon(Icons.add),
+      style: ButtonStyle(
+        fixedSize: MaterialStateProperty.all(const Size.square(50)),
+        shape: MaterialStateProperty.all<CircleBorder>(
+          const CircleBorder(
+            side: BorderSide(color: Colors.transparent),
+          ),
+        ),
+      ),
+    );
+  }
+
+  ElevatedButton buildAddStepButton(
+      RecipeDetailController controller, BuildContext context) {
+    return ElevatedButton(
+      onPressed: controller.addNewPreparationStep,
       child: const Icon(Icons.add),
       style: ButtonStyle(
         fixedSize: MaterialStateProperty.all(const Size.square(50)),
@@ -96,7 +132,7 @@ class RecipeDetailPage extends ConsumerWidget {
           .toList();
     }
     return model.recipe!.ingredientUsages
-        .map((usage) => buildIngredientUsage(model, usage))
+        .map((usage) => buildIngredientUsage(usage))
         .toList();
   }
 
@@ -106,33 +142,70 @@ class RecipeDetailPage extends ConsumerWidget {
     EditableIngredientUsage usage,
   ) {
     return Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        child: EditIngredientUsageWidget(
-          usage: usage,
-          onAmountChanged: (amount) =>
-              controller.updateUsageAmount(usage, amount),
-          onIngredientChanged: (ingredientId) =>
-              controller.updateUsageIngredient(usage, ingredientId),
-          onIngredientUnitChanged: (ingredientUsageId) =>
-              controller.updateUsageIngredientUnit(usage, ingredientUsageId),
-          onDeleteIngredientUsageCallback: () =>
-              controller.deleteIngredientUsage(
-            DeleteIngredientUsageRequest(
-              ingredientUsage: usage,
-            ),
+      margin: const EdgeInsets.only(bottom: 12),
+      child: EditIngredientUsageWidget(
+        usage: usage,
+        onAmountChanged: (amount) =>
+            controller.updateUsageAmount(usage, amount),
+        onIngredientChanged: (ingredientId) =>
+            controller.updateUsageIngredient(usage, ingredientId),
+        onIngredientUnitChanged: (ingredientUsageId) =>
+            controller.updateUsageIngredientUnit(usage, ingredientUsageId),
+        onDeleteIngredientUsageCallback: () => controller.deleteIngredientUsage(
+          DeleteIngredientUsageRequest(
+            ingredientUsage: usage,
           ),
-          ingredientIdsToExclude: model.editableUsages
-              .where((usage) => usage.ingredientId != null)
-              .map((usage) => usage.ingredientId!)
-              .toList(),
-        ));
+        ),
+        ingredientIdsToExclude: model.editableUsages
+            .where((usage) => usage.ingredientId != null)
+            .map((usage) => usage.ingredientId!)
+            .toList(),
+      ),
+    );
   }
 
-  Widget buildIngredientUsage(RecipeDetailModel model, IngredientUsage usage) {
+  Widget buildIngredientUsage(IngredientUsage usage) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       child: IngredientUsageWidget(usage: usage),
     );
+  }
+
+  List<Widget> buildPreparationSteps(
+      RecipeDetailController controller, RecipeDetailModel model) {
+    if (model.recipe == null) {
+      return [Container()];
+    }
+    if (model.isEditMode) {
+      return model.editableSteps
+          .map((editableStep) =>
+              buildEditablePreparationSteps(controller, model, editableStep))
+          .toList();
+    }
+    return model.recipe!.preparationSteps
+        .map((step) => buildPreparationStep(step))
+        .toList();
+  }
+
+  Widget buildEditablePreparationSteps(RecipeDetailController controller,
+      RecipeDetailModel model, EditablePreparationStep step) {
+    return Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        child: EditPreparationStepWidget(
+          step: step,
+          onDescriptionChanged: (description) =>
+              controller.updateStepDescription(step, description),
+          onDeletePreparationStepCallback: () =>
+              controller.deletePreparationStep(
+            DeletePreparationStepRequest(
+              preparationStep: step,
+            ),
+          ),
+        ));
+  }
+
+  Widget buildPreparationStep(PreparationStep step) {
+    return PreparationStepWidget(step: step);
   }
 
   List<Widget> buildAppBarActions(
@@ -233,6 +306,10 @@ abstract class RecipeDetailController extends StateNotifier<RecipeDetailModel> {
       EditableIngredientUsage usage, String? ingredientUnitId);
   void deleteIngredientUsage(DeleteIngredientUsageRequest request);
   Future<bool> deleteRecipe(DeleteRecipeRequest request);
+
+  void addNewPreparationStep();
+  void updateStepDescription(EditablePreparationStep step, String description);
+  void deletePreparationStep(DeletePreparationStepRequest request);
 
   void dismissError();
 }

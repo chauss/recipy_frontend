@@ -21,6 +21,8 @@ mixin _$RecipeDetailModel {
   bool get isEditMode => throw _privateConstructorUsedError;
   List<EditableIngredientUsage> get editableUsages =>
       throw _privateConstructorUsedError;
+  List<EditablePreparationStep> get editableSteps =>
+      throw _privateConstructorUsedError;
   int? get errorCode => throw _privateConstructorUsedError;
   Recipe? get recipe => throw _privateConstructorUsedError;
 
@@ -39,6 +41,7 @@ abstract class $RecipeDetailModelCopyWith<$Res> {
       bool isLoading,
       bool isEditMode,
       List<EditableIngredientUsage> editableUsages,
+      List<EditablePreparationStep> editableSteps,
       int? errorCode,
       Recipe? recipe});
 }
@@ -58,6 +61,7 @@ class _$RecipeDetailModelCopyWithImpl<$Res>
     Object? isLoading = freezed,
     Object? isEditMode = freezed,
     Object? editableUsages = freezed,
+    Object? editableSteps = freezed,
     Object? errorCode = freezed,
     Object? recipe = freezed,
   }) {
@@ -78,6 +82,10 @@ class _$RecipeDetailModelCopyWithImpl<$Res>
           ? _value.editableUsages
           : editableUsages // ignore: cast_nullable_to_non_nullable
               as List<EditableIngredientUsage>,
+      editableSteps: editableSteps == freezed
+          ? _value.editableSteps
+          : editableSteps // ignore: cast_nullable_to_non_nullable
+              as List<EditablePreparationStep>,
       errorCode: errorCode == freezed
           ? _value.errorCode
           : errorCode // ignore: cast_nullable_to_non_nullable
@@ -102,6 +110,7 @@ abstract class _$RecipeDetailModelCopyWith<$Res>
       bool isLoading,
       bool isEditMode,
       List<EditableIngredientUsage> editableUsages,
+      List<EditablePreparationStep> editableSteps,
       int? errorCode,
       Recipe? recipe});
 }
@@ -123,6 +132,7 @@ class __$RecipeDetailModelCopyWithImpl<$Res>
     Object? isLoading = freezed,
     Object? isEditMode = freezed,
     Object? editableUsages = freezed,
+    Object? editableSteps = freezed,
     Object? errorCode = freezed,
     Object? recipe = freezed,
   }) {
@@ -143,6 +153,10 @@ class __$RecipeDetailModelCopyWithImpl<$Res>
           ? _value.editableUsages
           : editableUsages // ignore: cast_nullable_to_non_nullable
               as List<EditableIngredientUsage>,
+      editableSteps: editableSteps == freezed
+          ? _value.editableSteps
+          : editableSteps // ignore: cast_nullable_to_non_nullable
+              as List<EditablePreparationStep>,
       errorCode: errorCode == freezed
           ? _value.errorCode
           : errorCode // ignore: cast_nullable_to_non_nullable
@@ -163,9 +177,11 @@ class _$_RecipeDetailModel implements _RecipeDetailModel {
       this.isLoading = false,
       this.isEditMode = false,
       final List<EditableIngredientUsage> editableUsages = const [],
+      final List<EditablePreparationStep> editableSteps = const [],
       this.errorCode,
       this.recipe})
-      : _editableUsages = editableUsages;
+      : _editableUsages = editableUsages,
+        _editableSteps = editableSteps;
 
   @override
   final String recipeId;
@@ -183,6 +199,14 @@ class _$_RecipeDetailModel implements _RecipeDetailModel {
     return EqualUnmodifiableListView(_editableUsages);
   }
 
+  final List<EditablePreparationStep> _editableSteps;
+  @override
+  @JsonKey()
+  List<EditablePreparationStep> get editableSteps {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_editableSteps);
+  }
+
   @override
   final int? errorCode;
   @override
@@ -190,7 +214,7 @@ class _$_RecipeDetailModel implements _RecipeDetailModel {
 
   @override
   String toString() {
-    return 'RecipeDetailModel(recipeId: $recipeId, isLoading: $isLoading, isEditMode: $isEditMode, editableUsages: $editableUsages, errorCode: $errorCode, recipe: $recipe)';
+    return 'RecipeDetailModel(recipeId: $recipeId, isLoading: $isLoading, isEditMode: $isEditMode, editableUsages: $editableUsages, editableSteps: $editableSteps, errorCode: $errorCode, recipe: $recipe)';
   }
 
   @override
@@ -204,6 +228,8 @@ class _$_RecipeDetailModel implements _RecipeDetailModel {
                 .equals(other.isEditMode, isEditMode) &&
             const DeepCollectionEquality()
                 .equals(other.editableUsages, editableUsages) &&
+            const DeepCollectionEquality()
+                .equals(other.editableSteps, editableSteps) &&
             const DeepCollectionEquality().equals(other.errorCode, errorCode) &&
             const DeepCollectionEquality().equals(other.recipe, recipe));
   }
@@ -215,6 +241,7 @@ class _$_RecipeDetailModel implements _RecipeDetailModel {
       const DeepCollectionEquality().hash(isLoading),
       const DeepCollectionEquality().hash(isEditMode),
       const DeepCollectionEquality().hash(editableUsages),
+      const DeepCollectionEquality().hash(editableSteps),
       const DeepCollectionEquality().hash(errorCode),
       const DeepCollectionEquality().hash(recipe));
 
@@ -230,6 +257,7 @@ abstract class _RecipeDetailModel implements RecipeDetailModel {
       final bool isLoading,
       final bool isEditMode,
       final List<EditableIngredientUsage> editableUsages,
+      final List<EditablePreparationStep> editableSteps,
       final int? errorCode,
       final Recipe? recipe}) = _$_RecipeDetailModel;
 
@@ -241,6 +269,9 @@ abstract class _RecipeDetailModel implements RecipeDetailModel {
   bool get isEditMode => throw _privateConstructorUsedError;
   @override
   List<EditableIngredientUsage> get editableUsages =>
+      throw _privateConstructorUsedError;
+  @override
+  List<EditablePreparationStep> get editableSteps =>
       throw _privateConstructorUsedError;
   @override
   int? get errorCode => throw _privateConstructorUsedError;

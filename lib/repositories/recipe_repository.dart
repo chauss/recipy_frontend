@@ -7,10 +7,12 @@ import 'package:recipy_frontend/config/error_config.dart';
 import 'package:recipy_frontend/helpers/http_helper.dart';
 import 'package:recipy_frontend/models/recipe.dart';
 import 'package:recipy_frontend/models/recipe_overview.dart';
-import 'package:recipy_frontend/pages/recipe_detail/parts/add_ingredient_usage_request.dart';
-import 'package:recipy_frontend/pages/recipe_detail/parts/delete_recipe_request.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/create_ingredient_usage_request.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/update_preparation_step_request.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/create_preparation_step_request.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/recipe/delete_recipe_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_controller.dart';
-import 'package:recipy_frontend/pages/recipe_detail/parts/update_ingredient_usage_request.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/update_ingredient_usage_request.dart';
 import 'package:recipy_frontend/pages/recipe_overview/parts/add_recipe_request.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_controller.dart';
 import 'package:recipy_frontend/repositories/http_read_result.dart';
@@ -197,5 +199,88 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
     }
     return handleHttpWriteFailed(
         log, response, "Failed to delete recipe by id");
+  }
+
+  @override
+  Future<HttpWriteResult> createPreparationStep(
+      CreatePreparationStepRequest request) async {
+    var uri = Uri.parse(
+        APIConfiguration.backendBaseUri + "/v1/recipe/preparationStep");
+    http.Response response;
+    try {
+      response = await http.post(uri,
+          body: json.encode(<String, Object>{
+            "recipeId": request.recipeId,
+            "stepNumber": request.stepNumber,
+            "description": request.description,
+          }),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          });
+    } on SocketException catch (_) {
+      log.warning("Could not create preparationStep: Server unreachable");
+      return HttpWriteResult(
+          success: false, errorCode: ErrorCodes.serverUnreachable);
+    }
+
+    if (is2xx(response.statusCode)) {
+      log.fine(
+          "Created preparationStep \"${request.stepNumber}\" for recipe ${request.recipeId}");
+      return HttpWriteResult(success: true);
+    }
+    return handleHttpWriteFailed(
+        log, response, "Failed to create preparationStep");
+  }
+
+  @override
+  Future<HttpWriteResult> deletePreparationStep(
+      String preparationStepId) async {
+    var uri = Uri.parse(APIConfiguration.backendBaseUri +
+        "/v1/recipe/preparationStep/$preparationStepId");
+    http.Response response;
+    try {
+      response = await http.delete(uri);
+    } on SocketException catch (_) {
+      log.warning("Could not delete preparationStep by id: Server unreachable");
+      return HttpWriteResult(
+          success: false, errorCode: ErrorCodes.serverUnreachable);
+    }
+
+    if (is2xx(response.statusCode)) {
+      log.fine("Deleted preparationStep $preparationStepId");
+      return HttpWriteResult(success: true);
+    }
+    return handleHttpWriteFailed(
+        log, response, "Failed to delete preparationStep by id");
+  }
+
+  @override
+  Future<HttpWriteResult> updatePreparationStep(
+      UpdatePreparationStepRequest request) async {
+    var uri = Uri.parse(APIConfiguration.backendBaseUri +
+        "/v1/recipe/preparationStep/${request.preparationStepId}");
+
+    http.Response response;
+    try {
+      response = await http.put(uri,
+          body: json.encode(<String, Object>{
+            "stepNumber": request.stepNumber,
+            "description": request.description,
+          }),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          });
+    } on SocketException catch (_) {
+      log.warning("Could not update preparationStep: Server unreachable");
+      return HttpWriteResult(
+          success: false, errorCode: ErrorCodes.serverUnreachable);
+    }
+
+    if (is2xx(response.statusCode)) {
+      log.fine("Updated preparationStep ${request.preparationStepId}");
+      return HttpWriteResult(success: true);
+    }
+    return handleHttpWriteFailed(
+        log, response, "Failed to update preparationStep");
   }
 }

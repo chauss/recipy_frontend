@@ -20,6 +20,10 @@
     }
   },
   "recipe_details": {
+    "heading": {
+      "ingredients": "Zutaten",
+      "preparation": "Zubereitung"
+    },
     "delete": {
       "dialog": {
         "title": "Rezept löschen",
@@ -32,7 +36,8 @@
       "dialog": {
         "info": "Manche Felder sind nicht ausgefüllt"
       }
-    }
+    },
+    "step_number": "Schritt {stepNumber}"
   },
   "ingredients": {
     "title": "Zutaten",
