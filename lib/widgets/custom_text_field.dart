@@ -12,6 +12,7 @@ class CustomTextField extends StatefulWidget {
   final TextInputAction? _textInputAction;
   final Function(String)? _onChanged;
   final Function(String)? _onSubmitted;
+  final Function(String)? _onFocusLost;
   final List<TextInputFormatter>? _inputFormatters;
   final bool _isMultiline;
   final int _onChangedDebounceMs;
@@ -25,6 +26,7 @@ class CustomTextField extends StatefulWidget {
     TextInputAction? textInputAction,
     Function(String)? onChanged,
     Function(String)? onSubmitted,
+    Function(String)? onFocusLost,
     List<TextInputFormatter>? inputFormatters,
     bool isMultiline = false,
     int onChangedDebounceMs = 150,
@@ -35,6 +37,7 @@ class CustomTextField extends StatefulWidget {
         _textInputAction = textInputAction,
         _onChanged = onChanged,
         _onSubmitted = onSubmitted,
+        _onFocusLost = onFocusLost,
         _inputFormatters = inputFormatters,
         _isMultiline = isMultiline,
         _onChangedDebounceMs = onChangedDebounceMs,
@@ -51,13 +54,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Timer? _onChangedDebounce;
 
   @override
-  void didUpdateWidget(covariant CustomTextField oldWidget) {
-    widget._controller.selection = TextSelection.fromPosition(
-        TextPosition(offset: widget._controller.text.length));
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
   void initState() {
     super.initState();
     var keyboardVisibilityController = KeyboardVisibilityController();
@@ -67,8 +63,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
         keyboardVisibilityController.onChange.listen((bool visible) {
       setState(() => _keyboardIsVisible = visible);
     });
-
-    widget._focusNode.addListener(_onFocusChanged);
   }
 
   @override
@@ -96,27 +90,37 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return Padding(
       padding:
           EdgeInsets.only(left: 2, right: shouldShowClear ? 0 : 8, bottom: 2),
-      child: TextField(
-        minLines: widget._isMultiline ? 2 : 1,
-        maxLines: widget._isMultiline ? null : 1,
+      child: Focus(
         focusNode: widget._focusNode,
-        controller: widget._controller,
-        textInputAction: widget._textInputAction,
-        keyboardType: widget._keyboardType,
-        obscureText: widget._keyboardType == TextInputType.visiblePassword,
-        style: Theme.of(context).textTheme.bodyText1,
-        decoration: InputDecoration.collapsed(hintText: widget._hintText),
-        onChanged: (text) {
-          _onChangedDebounce?.cancel();
-          _onChangedDebounce = Timer(
-            Duration(milliseconds: widget._onChangedDebounceMs),
-            () => widget._onChanged?.call(text),
-          );
-
-          setState(() {});
+        onFocusChange: (gainedFocus) {
+          if (gainedFocus) {
+            widget._controller.selection = TextSelection.fromPosition(
+                TextPosition(offset: widget._controller.text.length));
+          } else {
+            widget._onFocusLost?.call(widget._controller.text);
+          }
         },
-        onSubmitted: widget._onSubmitted,
-        inputFormatters: widget._inputFormatters,
+        child: TextField(
+          minLines: widget._isMultiline ? 2 : 1,
+          maxLines: widget._isMultiline ? null : 1,
+          controller: widget._controller,
+          textInputAction: widget._textInputAction,
+          keyboardType: widget._keyboardType,
+          obscureText: widget._keyboardType == TextInputType.visiblePassword,
+          style: Theme.of(context).textTheme.bodyText1,
+          decoration: InputDecoration.collapsed(hintText: widget._hintText),
+          onChanged: (text) {
+            _onChangedDebounce?.cancel();
+            _onChangedDebounce = Timer(
+              Duration(milliseconds: widget._onChangedDebounceMs),
+              () => widget._onChanged?.call(text),
+            );
+
+            setState(() {});
+          },
+          onSubmitted: widget._onSubmitted,
+          inputFormatters: widget._inputFormatters,
+        ),
       ),
     );
   }
@@ -154,12 +158,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
     );
   }
 
-  void _onFocusChanged() => setState(() {});
-
   @override
   void dispose() {
     _keyboardDisplayedStreamSubscription?.cancel();
-    widget._focusNode.removeListener(_onFocusChanged);
     _onChangedDebounce?.cancel();
     super.dispose();
   }
