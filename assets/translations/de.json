@@ -37,6 +37,9 @@
         "info": "Manche Felder sind nicht ausgefüllt"
       }
     },
+    "edit_step": {
+      "textfield": { "hint": "Beschreibe den nächsten Schritt" }
+    },
     "step_number": "Schritt {stepNumber}"
   },
   "ingredients": {

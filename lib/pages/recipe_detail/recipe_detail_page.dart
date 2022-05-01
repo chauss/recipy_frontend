@@ -177,19 +177,28 @@ class RecipeDetailPage extends ConsumerWidget {
       return [Container()];
     }
     if (model.isEditMode) {
-      return model.editableSteps
-          .map((editableStep) =>
-              buildEditablePreparationSteps(controller, model, editableStep))
-          .toList();
+      return [
+        ReorderableListView(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          children: model.editableSteps
+              .map((editableStep) =>
+                  buildEditablePreparationStep(controller, model, editableStep))
+              .toList(),
+          onReorder: controller.reorderPreparationSteps,
+        )
+      ];
     }
+
     return model.recipe!.preparationSteps
         .map((step) => buildPreparationStep(step))
         .toList();
   }
 
-  Widget buildEditablePreparationSteps(RecipeDetailController controller,
+  Widget buildEditablePreparationStep(RecipeDetailController controller,
       RecipeDetailModel model, EditablePreparationStep step) {
     return Container(
+        key: Key(step.stepNumber.toString()),
         margin: const EdgeInsets.only(bottom: 12),
         child: EditPreparationStepWidget(
           step: step,
@@ -308,6 +317,7 @@ abstract class RecipeDetailController extends StateNotifier<RecipeDetailModel> {
   Future<bool> deleteRecipe(DeleteRecipeRequest request);
 
   void addNewPreparationStep();
+  void reorderPreparationSteps(int start, int current);
   void updateStepDescription(EditablePreparationStep step, String description);
   void deletePreparationStep(DeletePreparationStepRequest request);
 

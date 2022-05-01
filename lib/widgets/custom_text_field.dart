@@ -27,7 +27,7 @@ class CustomTextField extends StatefulWidget {
     Function(String)? onSubmitted,
     List<TextInputFormatter>? inputFormatters,
     bool isMultiline = false,
-    int onChangedDebounceMs = 200,
+    int onChangedDebounceMs = 150,
   })  : _controller = controller ?? TextEditingController(),
         _focusNode = focusNode ?? FocusNode(),
         _hintText = hintText,

@@ -33,7 +33,8 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   Future<void> _fetchRecipe() async {
     var result = await _repository.fetchRecipeById(state.recipeId);
 
-    print(result.data);
+    result.data?.preparationSteps
+        .sort((a, b) => a.stepNumber.compareTo(b.stepNumber));
 
     state = state.copyWith(
       recipe: result.data,
@@ -47,14 +48,17 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
 
   @override
   void enterEditMode() {
+    var editableSteps = state.recipe?.preparationSteps
+        .map((step) => EditablePreparationStep.fromPreparationStep(step))
+        .toList();
+    editableSteps?.sort((a, b) => a.stepNumber.compareTo(b.stepNumber));
+
     state = state.copyWith(
       isEditMode: true,
       editableUsages: (state.recipe?.ingredientUsages ?? [])
           .map((usage) => EditableIngredientUsage.fromIngredientUsage(usage))
           .toList(),
-      editableSteps: (state.recipe?.preparationSteps ?? [])
-          .map((step) => EditablePreparationStep.fromPreparationStep(step))
-          .toList(),
+      editableSteps: editableSteps ?? [],
     );
   }
 
@@ -280,6 +284,42 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   }
 
   @override
+  void reorderPreparationSteps(int start, int current) {
+    var newEditableSteps = [...state.editableSteps];
+
+    // e.g. start(4) > current(1)
+    // 1     1
+    // 2  x  5
+    // 3  |  2
+    // 4  |  3
+    // 5  |  4
+    if (start > current) {
+      var startStepNumber = newEditableSteps[current].stepNumber;
+      for (int i = current; i < start; i++) {
+        newEditableSteps[i].stepNumber = newEditableSteps[i + 1].stepNumber;
+      }
+      newEditableSteps[start].stepNumber = startStepNumber;
+    }
+    // e.g. start(1) < current(4)
+    // 1     1
+    // 2  |  3
+    // 3  |  4
+    // 4  x  2
+    // 5     5
+    else if (start < current) {
+      var end = current - 1;
+      var endStepNumber = newEditableSteps[end].stepNumber;
+      for (int i = end - 1; i >= start; i--) {
+        newEditableSteps[i + 1].stepNumber = newEditableSteps[i].stepNumber;
+      }
+      newEditableSteps[start].stepNumber = endStepNumber;
+    }
+
+    newEditableSteps.sort((a, b) => a.stepNumber.compareTo(b.stepNumber));
+    state = state.copyWith(editableSteps: newEditableSteps);
+  }
+
+  @override
   void updateStepDescription(EditablePreparationStep step, String description) {
     var updatedSteps = state.editableSteps.map((editableStep) {
       if (editableStep == step) {
@@ -303,7 +343,11 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
     }
 
     var newEditableSteps = [...state.editableSteps];
+    var deletedIndex = newEditableSteps.indexOf(request.preparationStep);
     newEditableSteps.remove(request.preparationStep);
+    for (int i = deletedIndex; i < newEditableSteps.length; i++) {
+      newEditableSteps[i].stepNumber = newEditableSteps[i].stepNumber - 1;
+    }
     state = state.copyWith(editableSteps: newEditableSteps);
   }
 }

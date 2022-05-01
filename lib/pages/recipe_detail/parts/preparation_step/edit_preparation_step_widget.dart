@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/editable_preparation_step.dart';
 import 'package:recipy_frontend/widgets/custom_text_field.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class EditPreparationStepWidget extends StatelessWidget {
   final EditablePreparationStep step;
@@ -19,41 +20,42 @@ class EditPreparationStepWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        buildStep(context),
-        buildActions(),
+        buildHeader(context),
+        CustomTextField(
+          controller: descriptionController,
+          isMultiline: true,
+          keyboardType: TextInputType.multiline,
+          onChanged: onDescriptionChanged,
+          hintText: "recipe_details.edit_step.textfield.hint".tr(),
+        ),
       ],
     );
   }
 
-  Widget buildStep(BuildContext context) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            step.stepNumber.toString(),
-            style: Theme.of(context).textTheme.headline5,
+  Widget buildHeader(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "recipe_details.step_number",
+          style: Theme.of(context).textTheme.subtitle1,
+        ).tr(namedArgs: {'stepNumber': step.stepNumber.toString()}),
+        Expanded(child: Container()),
+        InkWell(
+          child: Image.asset(
+            'assets/icons/trash.png',
+            width: 20,
           ),
-          CustomTextField(
-            controller: descriptionController,
-            isMultiline: true,
-            keyboardType: TextInputType.multiline,
-            onChanged: onDescriptionChanged,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildActions() {
-    return InkWell(
-      child: Image.asset(
-        'assets/icons/trash.png',
-        width: 28,
-      ),
-      onTap: onDeletePreparationStepCallback,
+          onTap: onDeletePreparationStepCallback,
+        ),
+        const SizedBox(width: 20),
+        ReorderableDragStartListener(
+          index: step.stepNumber - 1,
+          child: const Icon(Icons.drag_handle),
+        ),
+      ],
     );
   }
 }

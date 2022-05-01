@@ -23,7 +23,6 @@ class Recipe {
         .toList();
 
     List<dynamic> preparationStepsJson = recipeJson['preparationSteps'];
-    print(recipeJson);
     List<PreparationStep> preparationSteps = preparationStepsJson
         .map((preparationStepJson) =>
             PreparationStep.fromJson(preparationStepJson))
