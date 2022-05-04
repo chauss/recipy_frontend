@@ -198,19 +198,19 @@ class RecipeDetailPage extends ConsumerWidget {
   Widget buildEditablePreparationStep(RecipeDetailController controller,
       RecipeDetailModel model, EditablePreparationStep step) {
     return Container(
-        key: Key(step.stepNumber.toString()),
-        margin: const EdgeInsets.only(bottom: 12),
-        child: EditPreparationStepWidget(
-          step: step,
-          onDescriptionChanged: (description) =>
-              controller.updateStepDescription(step, description),
-          onDeletePreparationStepCallback: () =>
-              controller.deletePreparationStep(
-            DeletePreparationStepRequest(
-              preparationStep: step,
-            ),
+      key: Key(step.stepNumber.toString()),
+      margin: const EdgeInsets.only(bottom: 12),
+      child: EditPreparationStepWidget(
+        step: step,
+        onDescriptionChanged: (description) =>
+            controller.updateStepDescription(step, description),
+        onDeletePreparationStepCallback: () => controller.deletePreparationStep(
+          DeletePreparationStepRequest(
+            preparationStep: step,
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget buildPreparationStep(PreparationStep step) {
