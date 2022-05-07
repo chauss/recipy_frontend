@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
+import 'package:recipy_frontend/models/preparation_step.dart';
 import 'package:recipy_frontend/models/recipe.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/create_ingredient_usage_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/delete_ingredient_usage_request.dart';
@@ -49,16 +50,17 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   @override
   void enterEditMode() {
     var editableSteps = state.recipe?.preparationSteps
-        .map((step) => EditablePreparationStep.fromPreparationStep(step))
-        .toList();
-    editableSteps?.sort((a, b) => a.stepNumber.compareTo(b.stepNumber));
+            .map((step) => EditablePreparationStep.fromPreparationStep(step))
+            .toList() ??
+        [];
+    editableSteps.sort((a, b) => a.stepNumber.compareTo(b.stepNumber));
 
     state = state.copyWith(
       isEditMode: true,
       editableUsages: (state.recipe?.ingredientUsages ?? [])
           .map((usage) => EditableIngredientUsage.fromIngredientUsage(usage))
           .toList(),
-      editableSteps: editableSteps ?? [],
+      editableSteps: editableSteps,
     );
   }
 
@@ -144,29 +146,44 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   Future<bool> _savePreparationSteps() async {
     bool somethingChanged = false;
 
-    for (var editableStep in state.editableSteps) {
+    for (PreparationStep existingStep in state.recipe?.preparationSteps ?? []) {
       try {
-        var existingPreparationStep = state.recipe!.preparationSteps.firstWhere(
-            (preparationStep) => preparationStep.id == editableStep.id);
+        // Throws state error if none was found
+        var correspondingEditableStep = state.editableSteps
+            .firstWhere((editableStep) => editableStep.id == existingStep.id);
+        // UPDATE: Existing step still exists and might need an update
         // Check if information changed
-        if (editableStep.stepNumber == existingPreparationStep.stepNumber &&
-            editableStep.description == existingPreparationStep.description) {
+        if (existingStep.stepNumber == correspondingEditableStep.stepNumber &&
+            existingStep.description == correspondingEditableStep.description) {
           continue;
         }
         somethingChanged = true;
         var result = await _repository
             .updatePreparationStep(UpdatePreparationStepRequest(
-          preparationStepId: existingPreparationStep.id,
-          stepNumber: editableStep.stepNumber,
-          description: editableStep.description,
+          preparationStepId: existingStep.id,
+          stepNumber: correspondingEditableStep.stepNumber,
+          description: correspondingEditableStep.description,
         ));
         if (!result.success) {
           state = state.copyWith(errorCode: result.errorCode);
           throw HttpException(result.message ?? "");
         }
       } on StateError catch (_) {
-        // IngredientUsage is new
+        // DELETE: Existing step does not exist anymore and needs to be deleted on remote
         somethingChanged = true;
+        var result = await _repository.deletePreparationStep(existingStep.id);
+        if (!result.success) {
+          state = state.copyWith(errorCode: result.errorCode);
+          throw HttpException(result.message ?? "");
+        }
+      }
+    }
+
+    // CREATE: All editable steps without id are new and need to be created on remote
+    for (var editableStep in state.editableSteps) {
+      if (editableStep.id == null) {
+        somethingChanged = true;
+
         var result = await _repository
             .createPreparationStep(CreatePreparationStepRequest(
           recipeId: state.recipeId,
@@ -178,13 +195,6 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
           throw HttpException(result.message ?? "");
         }
       }
-    }
-    // Check if existing steps have been deleted
-    var originalStepCount = state.recipe?.preparationSteps.length ?? 0;
-    var currentStepCount =
-        state.editableUsages.where((step) => step.id != null).length;
-    if (originalStepCount != currentStepCount) {
-      somethingChanged = true;
     }
 
     return somethingChanged;
@@ -321,27 +331,16 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
 
   @override
   void updateStepDescription(EditablePreparationStep step, String description) {
-    var updatedSteps = state.editableSteps.map((editableStep) {
+    for (var editableStep in state.editableSteps) {
       if (editableStep == step) {
         editableStep.description = description;
+        break;
       }
-      return editableStep;
-    }).toList();
-    state = state.copyWith(editableSteps: updatedSteps);
+    }
   }
 
   @override
-  void deletePreparationStep(DeletePreparationStepRequest request) async {
-    // TODO Move remote deletion to save
-    if (request.preparationStep.id != null) {
-      var result =
-          await _repository.deletePreparationStep(request.preparationStep.id!);
-      if (!result.success) {
-        state = state.copyWith(errorCode: result.errorCode);
-        return;
-      }
-    }
-
+  void deletePreparationStep(DeletePreparationStepRequest request) {
     var newEditableSteps = [...state.editableSteps];
     var deletedIndex = newEditableSteps.indexOf(request.preparationStep);
     newEditableSteps.remove(request.preparationStep);

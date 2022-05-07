@@ -29,7 +29,7 @@ class EditPreparationStepWidget extends StatelessWidget {
           keyboardType: TextInputType.multiline,
           onFocusLost: onDescriptionChanged,
           onChanged: onDescriptionChanged,
-          onChangedDebounceMs: 700,
+          onChangedDebounceMs: 0,
           hintText: "recipe_details.edit_step.textfield.hint".tr(),
         ),
       ],

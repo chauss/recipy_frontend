@@ -66,6 +66,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
   }
 
   @override
+  void didUpdateWidget(covariant CustomTextField oldWidget) {
+    widget._controller.selection = oldWidget._controller.selection;
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     bool shouldShowClear = (widget._controller.text.isNotEmpty) &&
         widget._focusNode.hasFocus &&
