@@ -5,7 +5,7 @@ class EditableIngredientUsage {
   String? ingredientId;
   String? ingredientUnitId;
   String? recipeId;
-  double? amount;
+  String? amount;
 
   EditableIngredientUsage({
     this.id,
@@ -21,11 +21,14 @@ class EditableIngredientUsage {
       ingredientId: usage.ingredientId,
       ingredientUnitId: usage.ingredientUnitId,
       recipeId: usage.recipeId,
-      amount: usage.amount,
+      amount: usage.amount.toString(),
     );
   }
 
   bool canBeSaved() {
-    return amount != null && ingredientId != null && ingredientUnitId != null;
+    return amount != null &&
+        double.tryParse(amount!) != null &&
+        ingredientId != null &&
+        ingredientUnitId != null;
   }
 }

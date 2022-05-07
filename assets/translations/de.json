@@ -56,6 +56,7 @@
   },
   "error_codes": {
     "10": "Der Server konnte nicht erreicht werden",
+    "20": "Eine der Zutatenzuweisungen konnte nicht gespeichert werden.",
     "100": "Es existiert bereits ein Rezept mit diesem Namen",
     "120": "Das Rezept konnte nicht gelöscht werden da es nicht gefunden wurde",
     "121": "Das Rezept konnte aus unbekannten Gründen nicht gelöscht werden",

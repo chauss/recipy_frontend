@@ -308,7 +308,7 @@ abstract class RecipeDetailController extends StateNotifier<RecipeDetailModel> {
   void enterEditMode();
   Future<void> saveChanges();
 
-  void updateUsageAmount(EditableIngredientUsage usage, double amount);
+  void updateUsageAmount(EditableIngredientUsage usage, String amount);
   void updateUsageIngredient(
       EditableIngredientUsage usage, String? ingredientId);
   void updateUsageIngredientUnit(

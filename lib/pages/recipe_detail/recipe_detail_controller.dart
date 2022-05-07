@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
+import 'package:recipy_frontend/config/error_config.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
+import 'package:recipy_frontend/models/ingredient_usage.dart';
 import 'package:recipy_frontend/models/preparation_step.dart';
 import 'package:recipy_frontend/models/recipe.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/create_ingredient_usage_request.dart';
@@ -12,6 +15,7 @@ import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/updat
 import 'package:recipy_frontend/pages/recipe_detail/parts/recipe/delete_recipe_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/editable_ingredient_usage.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/editable_preparation_step.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/save_exception.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_model.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_page.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/update_ingredient_usage_request.dart';
@@ -19,6 +23,8 @@ import 'package:recipy_frontend/repositories/http_read_result.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
 
 class RecipeDetailControllerImpl extends RecipeDetailController {
+  static final log = Logger('RecipeDetailControllerImpl');
+
   late RecipeDetailRepository _repository;
 
   RecipeDetailControllerImpl(RecipeDetailModel state) : super(state) {
@@ -71,8 +77,10 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
     try {
       somethingChanged |= await _saveIngredientUsages();
       somethingChanged |= await _savePreparationSteps();
-    } on HttpException catch (_) {
-      // ErrorCode has been set
+    } on SaveException catch (e) {
+      log.warning(
+          "Error occured while saving recipe changes: ErrorCode(${e.errorCode}) => ${e.message}");
+      state = state.copyWith(errorCode: e.errorCode);
       return;
     }
 
@@ -90,54 +98,72 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   Future<bool> _saveIngredientUsages() async {
     bool somethingChanged = false;
 
-    for (var editableUsage in state.editableUsages) {
-      if (!editableUsage.canBeSaved()) continue;
-
+    for (IngredientUsage existingUsage
+        in state.recipe?.ingredientUsages ?? []) {
       try {
-        var existingIngredientUsage = state.recipe!.ingredientUsages.firstWhere(
-            (ingredientUsage) => ingredientUsage.id == editableUsage.id);
+        // Throws StateError when no item is found
+        var correspondingEditableUsage = state.editableUsages.firstWhere(
+            (editableUsage) => editableUsage.id == existingUsage.id);
+        if (!correspondingEditableUsage.canBeSaved()) {
+          throw SaveException(
+              message:
+                  "EditableUsage $correspondingEditableUsage can not be saved",
+              errorCode: ErrorCodes.ingredientUsageCanNotBeSaved);
+        }
+        // UPDATE: EditableUsage still exists and might has changed
         // Check if information changed
-        if (editableUsage.amount == existingIngredientUsage.amount &&
-            editableUsage.ingredientId ==
-                existingIngredientUsage.ingredientId &&
-            editableUsage.ingredientUnitId ==
-                existingIngredientUsage.ingredientUnitId) {
+        var newAmount = double.parse(correspondingEditableUsage.amount!);
+        if (existingUsage.amount == newAmount &&
+            existingUsage.ingredientId ==
+                correspondingEditableUsage.ingredientId &&
+            existingUsage.ingredientUnitId ==
+                correspondingEditableUsage.ingredientUnitId) {
           continue;
         }
         somethingChanged = true;
         var result = await _repository
             .updateIngredientUsage(UpdateIngredientUsageRequest(
-          ingredientUsageId: existingIngredientUsage.id,
-          amount: editableUsage.amount!,
-          ingredientId: editableUsage.ingredientId!,
-          ingredientUnitId: editableUsage.ingredientUnitId!,
+          ingredientUsageId: existingUsage.id,
+          amount: newAmount,
+          ingredientId: correspondingEditableUsage.ingredientId!,
+          ingredientUnitId: correspondingEditableUsage.ingredientUnitId!,
         ));
         if (!result.success) {
-          state = state.copyWith(errorCode: result.errorCode);
-          throw HttpException(result.message ?? "");
+          throw SaveException(
+              message: result.message ?? "", errorCode: result.errorCode ?? -1);
         }
       } on StateError catch (_) {
-        // IngredientUsage is new
+        // DELETE: EditableUsage has been deleted by user so delete existing on remote
+        somethingChanged = true;
+        var result = await _repository.deleteIngredientUsage(existingUsage.id);
+        if (!result.success) {
+          throw SaveException(
+              message: result.message ?? "", errorCode: result.errorCode ?? -1);
+        }
+      }
+    }
+
+    // CREATE: All editableUsages without id are new and need to be created on remote
+    for (var editableUsage in state.editableUsages) {
+      if (editableUsage.id == null) {
+        if (!editableUsage.canBeSaved()) {
+          throw SaveException(
+              message: "EditableUsage $editableUsage can not be saved",
+              errorCode: ErrorCodes.ingredientUsageCanNotBeSaved);
+        }
         somethingChanged = true;
         var result = await _repository
             .createIngredientUsage(CreateIngredientUsageRequest(
           recipeId: state.recipeId,
-          amount: editableUsage.amount!,
+          amount: double.parse(editableUsage.amount!),
           ingredientId: editableUsage.ingredientId!,
           ingredientUnitId: editableUsage.ingredientUnitId!,
         ));
         if (!result.success) {
-          state = state.copyWith(errorCode: result.errorCode);
-          throw HttpException(result.message ?? "");
+          throw SaveException(
+              message: result.message ?? "", errorCode: result.errorCode ?? -1);
         }
       }
-    }
-    // Check if existing usages have been deleted
-    var originalUsageCount = state.recipe?.ingredientUsages.length ?? 0;
-    var currentUsageCount =
-        state.editableUsages.where((usage) => usage.id != null).length;
-    if (originalUsageCount != currentUsageCount) {
-      somethingChanged = true;
     }
 
     return somethingChanged;
@@ -165,16 +191,16 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
           description: correspondingEditableStep.description,
         ));
         if (!result.success) {
-          state = state.copyWith(errorCode: result.errorCode);
-          throw HttpException(result.message ?? "");
+          throw SaveException(
+              message: result.message ?? "", errorCode: result.errorCode ?? -1);
         }
       } on StateError catch (_) {
         // DELETE: Existing step does not exist anymore and needs to be deleted on remote
         somethingChanged = true;
         var result = await _repository.deletePreparationStep(existingStep.id);
         if (!result.success) {
-          state = state.copyWith(errorCode: result.errorCode);
-          throw HttpException(result.message ?? "");
+          throw SaveException(
+              message: result.message ?? "", errorCode: result.errorCode ?? -1);
         }
       }
     }
@@ -191,8 +217,8 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
           description: editableStep.description,
         ));
         if (!result.success) {
-          state = state.copyWith(errorCode: result.errorCode);
-          throw HttpException(result.message ?? "");
+          throw SaveException(
+              message: result.message ?? "", errorCode: result.errorCode ?? -1);
         }
       }
     }
@@ -204,19 +230,18 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   void addNewIngredientUsage() {
     state = state.copyWith(editableUsages: [
       ...state.editableUsages,
-      EditableIngredientUsage(amount: 1)
+      EditableIngredientUsage(amount: "1")
     ]);
   }
 
   @override
-  void updateUsageAmount(EditableIngredientUsage usage, double amount) {
-    var updatedUsages = state.editableUsages.map((editableUsage) {
+  void updateUsageAmount(EditableIngredientUsage usage, String amount) {
+    for (var editableUsage in state.editableUsages) {
       if (editableUsage == usage) {
         editableUsage.amount = amount;
+        break;
       }
-      return editableUsage;
-    }).toList();
-    state = state.copyWith(editableUsages: updatedUsages);
+    }
   }
 
   @override
@@ -248,16 +273,6 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
 
   @override
   void deleteIngredientUsage(DeleteIngredientUsageRequest request) async {
-    // TODO Move remote deletion to save
-    if (request.ingredientUsage.id != null) {
-      var result =
-          await _repository.deleteIngredientUsage(request.ingredientUsage.id!);
-      if (!result.success) {
-        state = state.copyWith(errorCode: result.errorCode);
-        return;
-      }
-    }
-
     var newUsages = [...state.editableUsages];
     newUsages.remove(request.ingredientUsage);
     state = state.copyWith(editableUsages: newUsages);

@@ -11,7 +11,7 @@ import 'package:easy_localization/easy_localization.dart';
 
 class EditIngredientUsageWidget extends StatelessWidget {
   final EditableIngredientUsage usage;
-  final Function(double) onAmountChanged;
+  final Function(String) onAmountChanged;
   final Function(String?) onIngredientChanged;
   final Function(String?) onIngredientUnitChanged;
   final Function()? onDeleteIngredientUsageCallback;
@@ -69,7 +69,8 @@ class EditIngredientUsageWidget extends StatelessWidget {
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))
         ],
-        onChanged: (_) => onAmountChanged(double.parse(amountController.text)),
+        onChanged: (_) => onAmountChanged(amountController.text),
+        onChangedDebounceMs: 0,
       ),
     );
   }
