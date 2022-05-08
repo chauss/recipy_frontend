@@ -3,7 +3,7 @@ name: Build And Push Web
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build-and-push-web:
