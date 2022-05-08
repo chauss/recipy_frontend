@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build-and-test:
+  build-and-push-web:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
