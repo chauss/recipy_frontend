@@ -19,7 +19,7 @@ jobs:
           cache: true
 
       - name: Test And Build Flutter Web
-      - run: |
+        run: |
           flutter pub get
           flutter test
           flutter build web
