@@ -13,6 +13,17 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - name: Test And Build Flutter Web
+      - run: |
+          flutter pub get
+          flutter test
+          flutter build web
+
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v2
 
