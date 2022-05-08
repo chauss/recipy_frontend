@@ -17,6 +17,7 @@ jobs:
         with:
           channel: "stable"
           cache: true
+          architecture: arm64 # optional, x64 or arm64
 
       - name: Prepare And Test Flutter
         run: |
