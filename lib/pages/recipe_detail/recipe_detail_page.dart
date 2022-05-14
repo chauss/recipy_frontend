@@ -32,12 +32,15 @@ class RecipeDetailPage extends ConsumerWidget {
     RecipeDetailModel model =
         ref.watch(recipeDetailControllerProvider(recipeId));
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(model.recipe?.name ?? ""),
-        actions: buildAppBarActions(context, controller, model),
+    return WillPopScope(
+      onWillPop: () => discardChangesWithPrompt(context, controller, model),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(model.recipe?.name ?? ""),
+          actions: buildAppBarActions(context, controller, model),
+        ),
+        body: buildBody(controller, model, context),
       ),
-      body: buildBody(controller, model, context),
     );
   }
 
@@ -85,6 +88,31 @@ class RecipeDetailPage extends ConsumerWidget {
             : Container(),
       ],
     );
+  }
+
+  Future<bool> discardChangesWithPrompt(
+    BuildContext context,
+    RecipeDetailController controller,
+    RecipeDetailModel model,
+  ) async {
+    if (!model.isEditMode) {
+      return true;
+    }
+    bool userWantsToDiscardChanges = false;
+    var dialog = YesNoDialog(
+      context: context,
+      title: "recipe_details.edit_mode.discard_changes.dialog.title".tr(),
+      info: "recipe_details.edit_mode.discard_changes.dialog.info".tr(),
+      onYesCallback: () => userWantsToDiscardChanges = true,
+      onNoCallback: () => userWantsToDiscardChanges = false,
+    );
+    await dialog.show();
+
+    if (userWantsToDiscardChanges) {
+      controller.discardChanges();
+    }
+
+    return userWantsToDiscardChanges;
   }
 
   ElevatedButton buildAddUsageButton(
@@ -225,22 +253,17 @@ class RecipeDetailPage extends ConsumerWidget {
     if (model.isEditMode) {
       return [
         Padding(
+          padding: const EdgeInsets.only(right: 12),
+          child: IconButton(
+            onPressed: () =>
+                discardChangesWithPrompt(context, controller, model),
+            icon: const Icon(Icons.close),
+          ),
+        ),
+        Padding(
           padding: const EdgeInsets.only(right: 8),
           child: IconButton(
-            onPressed: () {
-              for (var editableUsage in model.editableUsages) {
-                if (!editableUsage.canBeSaved()) {
-                  var dialog = InfoDialog(
-                    context: context,
-                    title: "common.error".tr(),
-                    info: "recipe_details.edit_usage.dialog.info".tr(),
-                  );
-                  dialog.show();
-                  return;
-                }
-              }
-              controller.saveChanges();
-            },
+            onPressed: controller.saveChanges,
             icon: const Icon(Icons.check),
           ),
         )
@@ -287,16 +310,17 @@ class RecipeDetailPage extends ConsumerWidget {
     RecipeDetailController controller,
   ) {
     var dialog = YesNoDialog(
-        context: context,
-        title: "recipe_details.delete.dialog.title".tr(),
-        info: "recipe_details.delete.dialog.info".tr(),
-        onYesCallback: () async {
-          var success = await controller
-              .deleteRecipe(DeleteRecipeRequest(recipeId: recipeId));
-          if (success) {
-            Navigator.pop(context);
-          }
-        });
+      context: context,
+      title: "recipe_details.delete.dialog.title".tr(),
+      info: "recipe_details.delete.dialog.info".tr(),
+      onYesCallback: () async {
+        var success = await controller
+            .deleteRecipe(DeleteRecipeRequest(recipeId: recipeId));
+        if (success) {
+          Navigator.pop(context);
+        }
+      },
+    );
     dialog.show();
   }
 }
@@ -306,6 +330,7 @@ abstract class RecipeDetailController extends StateNotifier<RecipeDetailModel> {
 
   void addNewIngredientUsage();
   void enterEditMode();
+  void discardChanges();
   Future<void> saveChanges();
 
   void updateUsageAmount(EditableIngredientUsage usage, String amount);

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:recipy_frontend/config/error_config.dart';
@@ -67,6 +65,15 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
           .map((usage) => EditableIngredientUsage.fromIngredientUsage(usage))
           .toList(),
       editableSteps: editableSteps,
+    );
+  }
+
+  @override
+  void discardChanges() {
+    state = state.copyWith(
+      editableUsages: [],
+      editableSteps: [],
+      isEditMode: false,
     );
   }
 

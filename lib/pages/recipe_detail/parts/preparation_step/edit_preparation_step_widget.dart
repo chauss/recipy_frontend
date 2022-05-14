@@ -30,7 +30,7 @@ class EditPreparationStepWidget extends StatelessWidget {
           onFocusLost: onDescriptionChanged,
           onChanged: onDescriptionChanged,
           onChangedDebounceMs: 0,
-          hintText: "recipe_details.edit_step.textfield.hint".tr(),
+          hintText: "recipe_details.edit_mode.step.textfield.hint".tr(),
         ),
       ],
     );

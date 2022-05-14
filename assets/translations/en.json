@@ -30,15 +30,20 @@
         "info": "Are you sure that you want to delete the whole recipe?"
       }
     },
-    "edit_usage": {
-      "ingredient_unit": { "dropdown": { "hint": "Select unit" } },
-      "ingredient": { "dropdown": { "hint": "Select ingredient" } },
-      "dialog": {
-        "info": "Some fields are not completed"
+    "edit_mode": {
+      "discard_changes": {
+        "dialog": {
+          "title": "Discard changes",
+          "info": "Are you sure that you want to discard all changes made?"
+        }
+      },
+      "usage": {
+        "ingredient_unit": { "dropdown": { "hint": "Select unit" } },
+        "ingredient": { "dropdown": { "hint": "Select ingredient" } }
+      },
+      "step": {
+        "textfield": { "hint": "Describe the next step" }
       }
-    },
-    "edit_step": {
-      "textfield": { "hint": "Describe the next step" }
     },
     "step_number": "Step {stepNumber}"
   },
@@ -56,9 +61,14 @@
   },
   "error_codes": {
     "10": "Could not reach the server",
+    "20": "One of the ingredients in the recipe is not complete",
     "100": "There exists already a recipe with this name",
     "120": "The recipe could not be deleted because it was not found",
     "121": "The recipe could not be deleted for unknown reasons",
+    "130": "The preparation step could not be created because the recipe could no longer be found",
+    "135": "The preparation step could not be updated because the step was no longer found",
+    "140": "The preparation step could not be deleted because the step was no longer found",
+    "141": "The preparation step could not be deleted for unknown reasons",
     "200": "The ingredient could not be created because an ingredient with this name already exists.",
     "220": "The ingredient could not be deleted because it was not found",
     "221": "The ingredient could not be deleted for unknown reasons",

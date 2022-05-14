@@ -30,15 +30,20 @@
         "info": "¿Seguro que quieres eliminar la receta?"
       }
     },
-    "edit_usage": {
-      "ingredient_unit": { "dropdown": { "hint": "Elegir la unidad" } },
-      "ingredient": { "dropdown": { "hint": "Elegir el ingrediente" } },
-      "dialog": {
-        "info": "Algunos campos no están completos"
+    "edit_mode": {
+      "discard_changes": {
+        "dialog": {
+          "title": "Descartar los cambios",
+          "info": "¿Estás seguro de que quieres descartar todos los cambios realizados?"
+        }
+      },
+      "usage": {
+        "ingredient_unit": { "dropdown": { "hint": "Elegir la unidad" } },
+        "ingredient": { "dropdown": { "hint": "Elegir el ingrediente" } }
+      },
+      "step": {
+        "textfield": { "hint": "Describe el próximo paso" }
       }
-    },
-    "edit_step": {
-      "textfield": { "hint": "Describe el próximo paso" }
     },
     "step_number": "Paso {stepNumber}"
   },
@@ -56,9 +61,14 @@
   },
   "error_codes": {
     "10": "No se ha podido conectar al servidor",
+    "20": "Uno de los ingredientes de la receta no está completo",
     "100": "Ya existe una receta con este nombre",
     "120": "La receta no ha podido ser eliminada porque no se encuentra",
     "121": "La receta no ha podido ser eliminada por razones desconocidas",
+    "130": "No se ha podido crear el paso de preparación porque no se ha podido encontrar la receta",
+    "135": "No se ha podido actualizar el paso de preparación porque ya no se ha encontrado el paso",
+    "140": "El paso de preparación no ha podido ser eliminado porque ya no se ha encontrado el paso",
+    "141": "El paso de preparación no pudo ser eliminado por razones desconocidas",
     "200": "El ingrediente no se ha podido crear porque ya existe un ingrediente con este nombre",
     "220": "El ingrediente no ha podido ser eliminado porque no se encuentra",
     "221": "El ingrediente no ha podido ser eliminado por razones desconocidas",
