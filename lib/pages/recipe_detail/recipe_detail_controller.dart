@@ -105,18 +105,20 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   Future<bool> _saveIngredientUsages() async {
     bool somethingChanged = false;
 
+    for (EditableIngredientUsage editableUsage in state.editableUsages) {
+      if (!editableUsage.canBeSaved()) {
+        throw SaveException(
+            message: "EditableUsage $editableUsage can not be saved",
+            errorCode: ErrorCodes.ingredientUsageCanNotBeSaved);
+      }
+    }
+
     for (IngredientUsage existingUsage
         in state.recipe?.ingredientUsages ?? []) {
       try {
         // Throws StateError when no item is found
         var correspondingEditableUsage = state.editableUsages.firstWhere(
             (editableUsage) => editableUsage.id == existingUsage.id);
-        if (!correspondingEditableUsage.canBeSaved()) {
-          throw SaveException(
-              message:
-                  "EditableUsage $correspondingEditableUsage can not be saved",
-              errorCode: ErrorCodes.ingredientUsageCanNotBeSaved);
-        }
         // UPDATE: EditableUsage still exists and might has changed
         // Check if information changed
         var newAmount = double.parse(correspondingEditableUsage.amount!);
