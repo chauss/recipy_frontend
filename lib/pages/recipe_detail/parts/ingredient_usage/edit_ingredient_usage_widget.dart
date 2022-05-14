@@ -80,7 +80,11 @@ class EditIngredientUsageWidget extends StatelessWidget {
       getDisplayName: (ingredientUnit) => ingredientUnit.name,
       onSelection: (ingredientUnit) =>
           onIngredientUnitChanged(ingredientUnit?.id),
-      getAssortment: RecipyInMemoryStorage().getIngredientUnits,
+      getAssortment: () {
+        var assortment = RecipyInMemoryStorage().getIngredientUnits();
+        assortment.sort((a, b) => a.name.compareTo(b.name));
+        return assortment;
+      },
       preselection: ingredientUnit,
       hint: "recipe_details.edit_mode.usage.ingredient_unit.dropdown.hint".tr(),
     );
@@ -90,14 +94,18 @@ class EditIngredientUsageWidget extends StatelessWidget {
     return RecipyDropdownWidget<Ingredient>(
       getDisplayName: (ingredient) => ingredient.name,
       onSelection: (ingredient) => onIngredientChanged(ingredient?.id),
-      getAssortment: () => RecipyInMemoryStorage()
-          .getIngredients()
-          .where(
-            (ing) =>
-                !ingredientIdsToExclude.contains(ing.id) ||
-                ing.id == ingredient?.id,
-          )
-          .toList(),
+      getAssortment: () {
+        var assortment = RecipyInMemoryStorage()
+            .getIngredients()
+            .where(
+              (ing) =>
+                  !ingredientIdsToExclude.contains(ing.id) ||
+                  ing.id == ingredient?.id,
+            )
+            .toList();
+        assortment.sort((a, b) => a.name.compareTo(b.name));
+        return assortment;
+      },
       preselection: ingredient,
       hint: "recipe_details.edit_mode.usage.ingredient.dropdown.hint".tr(),
     );
