@@ -1,8 +1,9 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipy_frontend/config/routes_config.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
-import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_page.dart';
 import 'package:recipy_frontend/pages/recipe_overview/parts/add_recipe_request.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_model.dart';
 import 'package:recipy_frontend/widgets/info_dialog.dart';
@@ -67,16 +68,13 @@ class RecipeOverviewPage extends ConsumerWidget {
       onRefresh: controller.refetchRecipes,
       child: ListView(
         children: model.recipeOverviews
-            .map((recipeOverview) => RecipeOverviewWidget(
-                  recipeOverview: recipeOverview,
-                  onClick: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          RecipeDetailPage(recipeId: recipeOverview.id),
-                    ),
-                  ).then((value) => controller.refetchRecipes()),
-                ))
+            .map(
+              (recipeOverview) => RecipeOverviewWidget(
+                recipeOverview: recipeOverview,
+                onClick: () => Beamer.of(context).beamToNamed(
+                    RecipyRoute.recipeDetailsRouteForId(recipeOverview.id)),
+              ),
+            )
             .toList(),
       ),
     );

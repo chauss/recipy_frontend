@@ -1,7 +1,6 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
-import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_page.dart';
-import 'package:recipy_frontend/pages/ingredients/ingredients_page.dart';
-import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_page.dart';
+import 'package:recipy_frontend/config/routes_config.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:recipy_frontend/widgets/burger_icon.dart';
 import 'package:recipy_frontend/widgets/locale_switcher.dart';
@@ -25,11 +24,7 @@ class NavDrawer extends StatelessWidget {
                 "recipe_overview.title",
                 style: Theme.of(context).textTheme.headline5,
               ).tr(),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const RecipeOverviewPage()),
-              ),
+              onTap: () => Beamer.of(context).beamToNamed(RecipyRoute.recipes),
             ),
             ListTile(
               leading: Image.asset("assets/icons/ingredients.png", width: 30),
@@ -37,11 +32,8 @@ class NavDrawer extends StatelessWidget {
                 "ingredients.title",
                 style: Theme.of(context).textTheme.headline5,
               ).tr(),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const IngredientsPage()),
-              ),
+              onTap: () =>
+                  Beamer.of(context).beamToNamed(RecipyRoute.ingredients),
             ),
             ListTile(
               leading: Padding(
@@ -52,11 +44,8 @@ class NavDrawer extends StatelessWidget {
                 "ingredient_units.title",
                 style: Theme.of(context).textTheme.headline5,
               ).tr(),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const IngredientUnitsPage()),
-              ),
+              onTap: () =>
+                  Beamer.of(context).beamToNamed(RecipyRoute.ingredientUnits),
             ),
             Expanded(child: Container()),
             const SafeArea(
