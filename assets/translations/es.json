@@ -9,6 +9,26 @@
     "yes": "Si",
     "no": "No"
   },
+  "user": {
+    "registration": {
+      "title": "Inscripción",
+      "username": { "textfield": { "hint": "Nombre de usuario" } },
+      "password": { "textfield": { "hint": "Contraseña" } },
+      "already_registered": {
+        "message": "¿Ya está registrado? A continuación, vaya directamente al inicio de sesión.",
+        "hyperlink": "inicio de sesión"
+      }
+    },
+    "login": {
+      "title": "Inicio de sesión",
+      "username": { "textfield": { "hint": "Nombre de usuario" } },
+      "password": { "textfield": { "hint": "Contraseña" } },
+      "not_registered": {
+        "message": "¿Todavía no hay cuenta? Entonces, regístrese ahora.",
+        "hyperlink": "regístrese"
+      }
+    }
+  },
   "recipe_overview": {
     "title": "Lista de recetas",
     "add": {

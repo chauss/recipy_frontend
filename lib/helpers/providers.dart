@@ -11,10 +11,47 @@ import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_page.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_controller.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_model.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_page.dart';
+import 'package:recipy_frontend/pages/user/registration/registration_controller.dart';
 import 'package:recipy_frontend/repositories/ingredient_repository.dart';
 import 'package:recipy_frontend/repositories/ingredient_unit_repository.dart';
+import 'package:recipy_frontend/repositories/user_repository.dart';
 import 'package:recipy_frontend/repositories/recipe_repository.dart';
 import 'package:recipy_frontend/storage/in_memory_storage.dart';
+import 'package:recipy_frontend/pages/user/login/login_controller.dart';
+import 'package:recipy_frontend/pages/user/login/login_model.dart';
+import 'package:recipy_frontend/pages/user/login/login_page.dart';
+import 'package:recipy_frontend/pages/user/registration/registration_model.dart';
+
+import '../pages/user/registration/registration_page.dart';
+
+// #############################################################################
+// # User
+// #############################################################################
+// Registration
+final registrationRepositoryProvider = Provider<RegistrationRepository>((ref) {
+  final repository = FirebaseUserRepository();
+
+  return repository;
+});
+
+final StateNotifierProvider<RegistrationController, RegistrationModel>
+    registrationControllerProvider =
+    StateNotifierProvider<RegistrationController, RegistrationModel>(
+  (ref) => RegistrationControllerImpl(const RegistrationModel()),
+);
+
+// Login
+final loginRepositoryProvider = Provider<LoginRepository>((ref) {
+  final repository = FirebaseUserRepository();
+
+  return repository;
+});
+
+final StateNotifierProvider<LoginController, LoginModel>
+    loginControllerProvider =
+    StateNotifierProvider<LoginController, LoginModel>(
+  (ref) => LoginControllerImpl(const LoginModel()),
+);
 
 // #############################################################################
 // # Ingredients

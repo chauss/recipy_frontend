@@ -9,6 +9,26 @@
     "yes": "Yes",
     "no": "No"
   },
+  "user": {
+    "registration": {
+      "title": "Registration",
+      "username": { "textfield": { "hint": "Username" } },
+      "password": { "textfield": { "hint": "Password" } },
+      "already_registered": {
+        "message": "Already registered? Then go directly to the login.",
+        "hyperlink": "login"
+      }
+    },
+    "login": {
+      "title": "Login",
+      "username": { "textfield": { "hint": "Username" } },
+      "password": { "textfield": { "hint": "Password" } },
+      "not_registered": {
+        "message": "No account yet? Then register now.",
+        "hyperlink": "register"
+      }
+    }
+  },
   "recipe_overview": {
     "title": "Recipe Overview",
     "add": {
