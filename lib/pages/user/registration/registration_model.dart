@@ -5,7 +5,8 @@ part 'registration_model.freezed.dart';
 @freezed
 class RegistrationModel with _$RegistrationModel {
   const factory RegistrationModel({
-    String? registrationResult,
-    int? errorCode,
+    @Default(false) bool successfullyRegistered,
+    @Default(false) bool registrationInProgress,
+    String? errorCode,
   }) = _RegistrationModel;
 }

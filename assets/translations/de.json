@@ -12,21 +12,32 @@
   "user": {
     "registration": {
       "title": "Registrierung",
-      "username": { "textfield": { "hint": "Nutzername" } },
+      "email": { "textfield": { "hint": "E-Mail" } },
       "password": { "textfield": { "hint": "Passwort" } },
       "already_registered": {
         "message": "Bereits angemeldet? Dann gehe direkt zum Login.",
         "hyperlink": "Login"
-      }
+      },
+      "register": "Registrieren"
     },
     "login": {
       "title": "Login",
-      "username": { "textfield": { "hint": "Nutzername" } },
+      "email": { "textfield": { "hint": "E-Mail" } },
       "password": { "textfield": { "hint": "Passwort" } },
       "not_registered": {
         "message": "Nocht nicht angemeldet? Dann registriere dich jetzt.",
         "hyperlink": "registriere"
-      }
+      },
+      "login": "Login"
+    },
+    "error": {
+      "invalid_email": "Die angegebene E-Mail-Adresse ist nicht gültig",
+      "email_already_in_use": "Die angegebene E-Mail-Adresse wird bereits verwendet",
+      "operation_not_allowed": "Die Möglichkeit zum Registrieren / Einloggen ist derzeit nicht aktiviert",
+      "weak_password": "Das angegebene Passwort ist zu schwach. Bitte verwende mindestens 6 Zeichen",
+      "user_disabled": "Der Account wurde vorübergehend deaktiviert",
+      "user_not_found": "Zu der angegeben E-Mail-Adresse wurde kein Konto gefunden",
+      "wrong_password": "Das angegebene Passwort ist nicht korrekt"
     }
   },
   "recipe_overview": {

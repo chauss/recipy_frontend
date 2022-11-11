@@ -16,8 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$RegistrationModel {
-  String? get registrationResult => throw _privateConstructorUsedError;
-  int? get errorCode => throw _privateConstructorUsedError;
+  bool get successfullyRegistered => throw _privateConstructorUsedError;
+  bool get registrationInProgress => throw _privateConstructorUsedError;
+  String? get errorCode => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RegistrationModelCopyWith<RegistrationModel> get copyWith =>
@@ -29,7 +30,10 @@ abstract class $RegistrationModelCopyWith<$Res> {
   factory $RegistrationModelCopyWith(
           RegistrationModel value, $Res Function(RegistrationModel) then) =
       _$RegistrationModelCopyWithImpl<$Res>;
-  $Res call({String? registrationResult, int? errorCode});
+  $Res call(
+      {bool successfullyRegistered,
+      bool registrationInProgress,
+      String? errorCode});
 }
 
 /// @nodoc
@@ -43,18 +47,23 @@ class _$RegistrationModelCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? registrationResult = freezed,
+    Object? successfullyRegistered = freezed,
+    Object? registrationInProgress = freezed,
     Object? errorCode = freezed,
   }) {
     return _then(_value.copyWith(
-      registrationResult: registrationResult == freezed
-          ? _value.registrationResult
-          : registrationResult // ignore: cast_nullable_to_non_nullable
-              as String?,
+      successfullyRegistered: successfullyRegistered == freezed
+          ? _value.successfullyRegistered
+          : successfullyRegistered // ignore: cast_nullable_to_non_nullable
+              as bool,
+      registrationInProgress: registrationInProgress == freezed
+          ? _value.registrationInProgress
+          : registrationInProgress // ignore: cast_nullable_to_non_nullable
+              as bool,
       errorCode: errorCode == freezed
           ? _value.errorCode
           : errorCode // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
     ));
   }
 }
@@ -66,7 +75,10 @@ abstract class _$RegistrationModelCopyWith<$Res>
           _RegistrationModel value, $Res Function(_RegistrationModel) then) =
       __$RegistrationModelCopyWithImpl<$Res>;
   @override
-  $Res call({String? registrationResult, int? errorCode});
+  $Res call(
+      {bool successfullyRegistered,
+      bool registrationInProgress,
+      String? errorCode});
 }
 
 /// @nodoc
@@ -82,18 +94,23 @@ class __$RegistrationModelCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? registrationResult = freezed,
+    Object? successfullyRegistered = freezed,
+    Object? registrationInProgress = freezed,
     Object? errorCode = freezed,
   }) {
     return _then(_RegistrationModel(
-      registrationResult: registrationResult == freezed
-          ? _value.registrationResult
-          : registrationResult // ignore: cast_nullable_to_non_nullable
-              as String?,
+      successfullyRegistered: successfullyRegistered == freezed
+          ? _value.successfullyRegistered
+          : successfullyRegistered // ignore: cast_nullable_to_non_nullable
+              as bool,
+      registrationInProgress: registrationInProgress == freezed
+          ? _value.registrationInProgress
+          : registrationInProgress // ignore: cast_nullable_to_non_nullable
+              as bool,
       errorCode: errorCode == freezed
           ? _value.errorCode
           : errorCode // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
     ));
   }
 }
@@ -101,16 +118,23 @@ class __$RegistrationModelCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_RegistrationModel implements _RegistrationModel {
-  const _$_RegistrationModel({this.registrationResult, this.errorCode});
+  const _$_RegistrationModel(
+      {this.successfullyRegistered = false,
+      this.registrationInProgress = false,
+      this.errorCode});
 
   @override
-  final String? registrationResult;
+  @JsonKey()
+  final bool successfullyRegistered;
   @override
-  final int? errorCode;
+  @JsonKey()
+  final bool registrationInProgress;
+  @override
+  final String? errorCode;
 
   @override
   String toString() {
-    return 'RegistrationModel(registrationResult: $registrationResult, errorCode: $errorCode)';
+    return 'RegistrationModel(successfullyRegistered: $successfullyRegistered, registrationInProgress: $registrationInProgress, errorCode: $errorCode)';
   }
 
   @override
@@ -119,14 +143,17 @@ class _$_RegistrationModel implements _RegistrationModel {
         (other.runtimeType == runtimeType &&
             other is _RegistrationModel &&
             const DeepCollectionEquality()
-                .equals(other.registrationResult, registrationResult) &&
+                .equals(other.successfullyRegistered, successfullyRegistered) &&
+            const DeepCollectionEquality()
+                .equals(other.registrationInProgress, registrationInProgress) &&
             const DeepCollectionEquality().equals(other.errorCode, errorCode));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(registrationResult),
+      const DeepCollectionEquality().hash(successfullyRegistered),
+      const DeepCollectionEquality().hash(registrationInProgress),
       const DeepCollectionEquality().hash(errorCode));
 
   @JsonKey(ignore: true)
@@ -137,13 +164,16 @@ class _$_RegistrationModel implements _RegistrationModel {
 
 abstract class _RegistrationModel implements RegistrationModel {
   const factory _RegistrationModel(
-      {final String? registrationResult,
-      final int? errorCode}) = _$_RegistrationModel;
+      {final bool successfullyRegistered,
+      final bool registrationInProgress,
+      final String? errorCode}) = _$_RegistrationModel;
 
   @override
-  String? get registrationResult => throw _privateConstructorUsedError;
+  bool get successfullyRegistered => throw _privateConstructorUsedError;
   @override
-  int? get errorCode => throw _privateConstructorUsedError;
+  bool get registrationInProgress => throw _privateConstructorUsedError;
+  @override
+  String? get errorCode => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$RegistrationModelCopyWith<_RegistrationModel> get copyWith =>

@@ -20,6 +20,7 @@ dependencies:
   flutter_keyboard_visibility: ^5.2.0
   beamer: ^1.4.1+1
   firebase_auth: ^3.4.2
+  firebase_core: ^1.24.0
 
 dev_dependencies:
   flutter_test:

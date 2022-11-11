@@ -12,21 +12,32 @@
   "user": {
     "registration": {
       "title": "Inscripción",
-      "username": { "textfield": { "hint": "Nombre de usuario" } },
+      "email": { "textfield": { "hint": "Correo electrónico" } },
       "password": { "textfield": { "hint": "Contraseña" } },
       "already_registered": {
         "message": "¿Ya está registrado? A continuación, vaya directamente al inicio de sesión.",
         "hyperlink": "inicio de sesión"
-      }
+      },
+      "register": "Registrar"
     },
     "login": {
       "title": "Inicio de sesión",
-      "username": { "textfield": { "hint": "Nombre de usuario" } },
+      "email": { "textfield": { "hint": "Correo electrónico" } },
       "password": { "textfield": { "hint": "Contraseña" } },
       "not_registered": {
         "message": "¿Todavía no hay cuenta? Entonces, regístrese ahora.",
         "hyperlink": "regístrese"
-      }
+      },
+      "login": "Inicio de sesión"
+    },
+    "error": {
+      "invalid_email": "La dirección de correo electrónico que ha introducido no es válida",
+      "email_already_in_use": "La dirección de correo electrónico especificada ya está en uso",
+      "operation_not_allowed": "La opción de registrarse/conectarse no está actualmente activada",
+      "weak_password": "La contraseña que has introducido es demasiado débil. Por favor, utilice al menos 6 caracteres",
+      "user_disabled": "La cuenta ha sido desactivada temporalmente",
+      "user_not_found": "No se ha encontrado ninguna cuenta para la dirección de correo electrónico especificada",
+      "wrong_password": "La contraseña especificada no es correcta"
     }
   },
   "recipe_overview": {

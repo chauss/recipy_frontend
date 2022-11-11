@@ -5,12 +5,19 @@ import 'package:recipy_frontend/pages/user/registration/registration_controller.
 class FirebaseUserRepository extends RegistrationRepository
     with LoginRepository {
   @override
-  Future<bool> register(String username, String password) {
-    return Future.value(true);
+  Future<UserCredential> register(String email, String password) async {
+    return await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: password);
   }
 
   @override
-  Future<bool> login(String username, String password) {
-    return Future.value(true);
+  Future<UserCredential> login(String email, String password) async {
+    FirebaseAuth.instance.setLanguageCode("de");
+    return await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password);
+  }
+
+  void signOut() {
+    FirebaseAuth.instance.signOut();
   }
 }

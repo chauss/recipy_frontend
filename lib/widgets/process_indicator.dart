@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 
 class ProcessIndicator extends StatelessWidget {
-  const ProcessIndicator({Key? key}) : super(key: key);
+  final Color? color;
+  final double size;
+
+  const ProcessIndicator({Key? key, this.color, this.size = 40})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) => Center(
         child: SizedBox(
-          height: 40,
-          width: 40,
+          height: size,
+          width: size,
           child: CircularProgressIndicator(
-              color: Theme.of(context).colorScheme.secondary),
+              color: color ?? Theme.of(context).colorScheme.secondary),
         ),
       );
 }

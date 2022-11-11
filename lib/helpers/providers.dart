@@ -37,7 +37,7 @@ final registrationRepositoryProvider = Provider<RegistrationRepository>((ref) {
 final StateNotifierProvider<RegistrationController, RegistrationModel>
     registrationControllerProvider =
     StateNotifierProvider<RegistrationController, RegistrationModel>(
-  (ref) => RegistrationControllerImpl(const RegistrationModel()),
+  (ref) => FirebaseRegistrationController(const RegistrationModel()),
 );
 
 // Login
@@ -50,7 +50,7 @@ final loginRepositoryProvider = Provider<LoginRepository>((ref) {
 final StateNotifierProvider<LoginController, LoginModel>
     loginControllerProvider =
     StateNotifierProvider<LoginController, LoginModel>(
-  (ref) => LoginControllerImpl(const LoginModel()),
+  (ref) => FirebaseLoginController(const LoginModel()),
 );
 
 // #############################################################################

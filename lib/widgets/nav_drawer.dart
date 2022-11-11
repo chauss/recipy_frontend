@@ -48,6 +48,15 @@ class NavDrawer extends StatelessWidget {
                   Beamer.of(context).beamToNamed(RecipyRoute.ingredientUnits),
             ),
             Expanded(child: Container()),
+            ListTile(
+              leading: const Icon(Icons.login),
+              title: Text(
+                "user.login.title",
+                style: Theme.of(context).textTheme.headline5,
+              ).tr(),
+              onTap: () => Beamer.of(context).beamToNamed(RecipyRoute.login),
+            ),
+            Expanded(child: Container()),
             const SafeArea(
               top: false,
               child: Padding(

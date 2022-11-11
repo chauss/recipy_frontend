@@ -33,6 +33,7 @@ class TextWithHyperLink extends StatelessWidget {
           TextSpan(text: afterHyperLink),
         ],
       ),
+      textAlign: TextAlign.center,
     );
   }
 }
