@@ -1,7 +1,10 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/config/routes_config.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:recipy_frontend/helpers/providers.dart';
+import 'package:recipy_frontend/pages/user/user_management_repository.dart';
 import 'package:recipy_frontend/widgets/burger_icon.dart';
 import 'package:recipy_frontend/widgets/locale_switcher.dart';
 
@@ -12,6 +15,10 @@ class NavDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final container = ProviderContainer();
+    UserManagementRepository userManagementRepository =
+        container.read(userManagementRepositoryProvider);
+
     return InkWell(
       onTap: iconController.showSmile,
       child: Drawer(
@@ -48,14 +55,7 @@ class NavDrawer extends StatelessWidget {
                   Beamer.of(context).beamToNamed(RecipyRoute.ingredientUnits),
             ),
             Expanded(child: Container()),
-            ListTile(
-              leading: const Icon(Icons.login),
-              title: Text(
-                "user.login.title",
-                style: Theme.of(context).textTheme.headline5,
-              ).tr(),
-              onTap: () => Beamer.of(context).beamToNamed(RecipyRoute.login),
-            ),
+            buildUserTile(context, userManagementRepository),
             Expanded(child: Container()),
             const SafeArea(
               top: false,
@@ -92,5 +92,28 @@ class NavDrawer extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget buildUserTile(
+      BuildContext context, UserManagementRepository userManagementRepository) {
+    if (userManagementRepository.isUserLoggedIn()) {
+      return ListTile(
+        leading: const Icon(Icons.person),
+        title: Text(
+          "user.profile.title",
+          style: Theme.of(context).textTheme.headline5,
+        ).tr(),
+        onTap: () => Beamer.of(context).beamToNamed(RecipyRoute.userProfile),
+      );
+    } else {
+      return ListTile(
+        leading: const Icon(Icons.login),
+        title: Text(
+          "user.login.title",
+          style: Theme.of(context).textTheme.headline5,
+        ).tr(),
+        onTap: () => Beamer.of(context).beamToNamed(RecipyRoute.login),
+      );
+    }
   }
 }

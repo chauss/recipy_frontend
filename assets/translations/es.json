@@ -30,6 +30,11 @@
       },
       "login": "Inicio de sesión"
     },
+    "profile": {
+      "title": "Perfil",
+      "email": "Correo electrónico",
+      "logout": "Cierre de sesión"
+    },
     "error": {
       "invalid_email": "La dirección de correo electrónico que ha introducido no es válida",
       "email_already_in_use": "La dirección de correo electrónico especificada ya está en uso",

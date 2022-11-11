@@ -30,6 +30,12 @@
       },
       "login": "Login"
     },
+    "profile": {
+      "title": "Profil",
+      "user_id": "UserId",
+      "email": "E-Mail",
+      "logout": "Logout"
+    },
     "error": {
       "invalid_email": "Die angegebene E-Mail-Adresse ist nicht gültig",
       "email_already_in_use": "Die angegebene E-Mail-Adresse wird bereits verwendet",

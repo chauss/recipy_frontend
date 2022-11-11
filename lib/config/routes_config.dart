@@ -4,12 +4,14 @@ import 'package:recipy_frontend/pages/ingredients/ingredients_page.dart';
 import 'package:recipy_frontend/pages/user/login/login_page.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_page.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_page.dart';
+import 'package:recipy_frontend/pages/user/profile/profile_page.dart';
 
 import '../pages/user/registration/registration_page.dart';
 
 class RecipyRoute {
   static const String registration = "/registration";
   static const String login = "/login";
+  static const String userProfile = "/profile";
   static const String recipes = "/recipes";
   static const String recipeDetails = "/recipes/:recipeId";
   static const String ingredients = "/ingredients";
@@ -26,6 +28,7 @@ final recipyRouterDelegate = BeamerDelegate(
     routes: {
       RecipyRoute.registration: (context, state, data) => RegistrationPage(),
       RecipyRoute.login: (context, state, data) => LoginPage(),
+      RecipyRoute.userProfile: (context, state, data) => const ProfilePage(),
       RecipyRoute.recipes: (context, state, data) => const RecipeOverviewPage(),
       RecipyRoute.recipeDetails: (context, state, data) {
         final recipeId = state.pathParameters['recipeId']!;

@@ -30,6 +30,11 @@
       },
       "login": "Login"
     },
+    "profile": {
+      "title": "Profile",
+      "email": "Email",
+      "logout": "Logout"
+    },
     "error": {
       "invalid_email": "The email address you entered is not valid",
       "email_already_in_use": "The specified e-mail address is already in use",
