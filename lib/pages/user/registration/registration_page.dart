@@ -2,7 +2,6 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipy_frontend/pages/user/login/login_model.dart';
 import 'package:recipy_frontend/widgets/custom_text_field.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/widgets/info_dialog.dart';
@@ -18,9 +17,11 @@ class RegistrationPage extends ConsumerWidget {
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController displayNameController = TextEditingController();
 
   final FocusNode emailFocusNode = FocusNode();
   final FocusNode passwordFocusNode = FocusNode();
+  final FocusNode displayNameFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -62,6 +63,14 @@ class RegistrationPage extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           CustomTextField(
+            controller: displayNameController,
+            focusNode: displayNameFocusNode,
+            hintText: "user.registration.display_name.textfield.hint".tr(),
+            onSubmitted: (text) =>
+                onDisplayNameSubmitted(text, controller, model),
+          ),
+          const SizedBox(height: 10),
+          CustomTextField(
             controller: emailController,
             focusNode: emailFocusNode,
             hintText: "user.registration.email.textfield.hint".tr(),
@@ -89,6 +98,7 @@ class RegistrationPage extends ConsumerWidget {
                 : () => controller.register(
                       emailController.text,
                       passwordController.text,
+                      displayNameController.text,
                     ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -124,10 +134,13 @@ class RegistrationPage extends ConsumerWidget {
       return;
     }
     String password = passwordController.text;
-    if (email != "" && password != "") {
-      controller.register(email, password);
-    } else {
+    String displayName = displayNameController.text;
+    if (displayName == "") {
+      displayNameFocusNode.requestFocus();
+    } else if (password == "") {
       passwordFocusNode.requestFocus();
+    } else {
+      controller.register(email, password, displayName);
     }
   }
 
@@ -140,10 +153,32 @@ class RegistrationPage extends ConsumerWidget {
       return;
     }
     String email = emailController.text;
-    if (email != "" && password != "") {
-      controller.register(email, password);
-    } else {
+    String displayName = displayNameController.text;
+    if (displayName == "") {
+      displayNameFocusNode.requestFocus();
+    } else if (email == "") {
       emailFocusNode.requestFocus();
+    } else {
+      controller.register(email, password, displayName);
+    }
+  }
+
+  void onDisplayNameSubmitted(
+    String displayName,
+    RegistrationController controller,
+    RegistrationModel model,
+  ) {
+    if (model.registrationInProgress) {
+      return;
+    }
+    String email = emailController.text;
+    String password = passwordController.text;
+    if (email == "") {
+      emailFocusNode.requestFocus();
+    } else if (password == "") {
+      passwordFocusNode.requestFocus();
+    } else {
+      controller.register(email, password, displayName);
     }
   }
 }
@@ -151,6 +186,6 @@ class RegistrationPage extends ConsumerWidget {
 abstract class RegistrationController extends StateNotifier<RegistrationModel> {
   RegistrationController(RegistrationModel state) : super(state);
 
-  Future<void> register(String email, String password);
+  Future<void> register(String email, String password, String displayName);
   void dismissError();
 }

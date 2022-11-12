@@ -14,6 +14,7 @@
       "title": "Registration",
       "email": { "textfield": { "hint": "Email" } },
       "password": { "textfield": { "hint": "Password" } },
+      "display_name": { "textfield": { "hint": "Username" } },
       "already_registered": {
         "message": "Already registered? Then go directly to the login.",
         "hyperlink": "login"
@@ -32,7 +33,9 @@
     },
     "profile": {
       "title": "Profile",
+      "user_id": "UserId",
       "email": "Email",
+      "display_name": "Username",
       "logout": "Logout"
     },
     "error": {
@@ -42,7 +45,8 @@
       "weak_password": "The password you entered is too weak. Please use at least 6 characters",
       "user_disabled": "The account has been temporarily deactivated",
       "user_not_found": "No account was found for the specified e-mail address",
-      "wrong_password": "The specified password is not correct"
+      "wrong_password": "The specified password is not correct",
+      "display_name_too_short": "The username you entered is too short. Please use at least 3 characters"
     }
   },
   "recipe_overview": {

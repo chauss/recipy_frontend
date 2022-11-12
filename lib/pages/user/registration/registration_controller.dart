@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipy_frontend/config/app_config.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 
 import 'registration_model.dart';
@@ -14,18 +15,25 @@ class FirebaseRegistrationController extends RegistrationController {
   }
 
   @override
-  Future<void> register(String email, String password) async {
+  Future<void> register(
+      String email, String password, String displayName) async {
     if (email == "") {
       state = state.copyWith(errorCode: "invalid_email");
       return;
     } else if (password == "") {
       state = state.copyWith(errorCode: "weak_password");
       return;
+    } else if (displayName == "" || displayName.length < displayNameMinLenght) {
+      state = state.copyWith(errorCode: "display_name_too_short");
+      return;
     }
 
     try {
       state = state.copyWith(registrationInProgress: true);
-      await _repository.register(email, password);
+      UserCredential userCredentials =
+          await _repository.register(email, password);
+      await userCredentials.user?.updateDisplayName(displayName);
+      userCredentials.user?.sendEmailVerification();
       state = state.copyWith(
           registrationInProgress: false, successfullyRegistered: true);
     } on FirebaseAuthException catch (e) {
@@ -53,5 +61,5 @@ class FirebaseRegistrationController extends RegistrationController {
 }
 
 abstract class RegistrationRepository {
-  Future<void> register(String email, String password);
+  Future<UserCredential> register(String email, String password);
 }

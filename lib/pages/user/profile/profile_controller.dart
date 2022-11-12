@@ -16,8 +16,11 @@ class ProfileControllerImpl extends ProfileController {
 
   Future<void> init() async {
     User? user = _repository.getCurrentUser();
-    state =
-        state.copyWith(email: user?.email ?? "", userId: user?.userId ?? "");
+    state = state.copyWith(
+      displayName: user?.displayName ?? "",
+      email: user?.email ?? "",
+      userId: user?.userId ?? "",
+    );
   }
 
   @override

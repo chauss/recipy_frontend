@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ProfileModel {
+  String get displayName => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
 
@@ -29,7 +30,7 @@ abstract class $ProfileModelCopyWith<$Res> {
   factory $ProfileModelCopyWith(
           ProfileModel value, $Res Function(ProfileModel) then) =
       _$ProfileModelCopyWithImpl<$Res>;
-  $Res call({String email, String userId});
+  $Res call({String displayName, String email, String userId});
 }
 
 /// @nodoc
@@ -42,10 +43,15 @@ class _$ProfileModelCopyWithImpl<$Res> implements $ProfileModelCopyWith<$Res> {
 
   @override
   $Res call({
+    Object? displayName = freezed,
     Object? email = freezed,
     Object? userId = freezed,
   }) {
     return _then(_value.copyWith(
+      displayName: displayName == freezed
+          ? _value.displayName
+          : displayName // ignore: cast_nullable_to_non_nullable
+              as String,
       email: email == freezed
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -65,7 +71,7 @@ abstract class _$ProfileModelCopyWith<$Res>
           _ProfileModel value, $Res Function(_ProfileModel) then) =
       __$ProfileModelCopyWithImpl<$Res>;
   @override
-  $Res call({String email, String userId});
+  $Res call({String displayName, String email, String userId});
 }
 
 /// @nodoc
@@ -80,10 +86,15 @@ class __$ProfileModelCopyWithImpl<$Res> extends _$ProfileModelCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? displayName = freezed,
     Object? email = freezed,
     Object? userId = freezed,
   }) {
     return _then(_ProfileModel(
+      displayName: displayName == freezed
+          ? _value.displayName
+          : displayName // ignore: cast_nullable_to_non_nullable
+              as String,
       email: email == freezed
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -99,8 +110,12 @@ class __$ProfileModelCopyWithImpl<$Res> extends _$ProfileModelCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_ProfileModel implements _ProfileModel {
-  const _$_ProfileModel({this.email = "", this.userId = ""});
+  const _$_ProfileModel(
+      {this.displayName = "", this.email = "", this.userId = ""});
 
+  @override
+  @JsonKey()
+  final String displayName;
   @override
   @JsonKey()
   final String email;
@@ -110,7 +125,7 @@ class _$_ProfileModel implements _ProfileModel {
 
   @override
   String toString() {
-    return 'ProfileModel(email: $email, userId: $userId)';
+    return 'ProfileModel(displayName: $displayName, email: $email, userId: $userId)';
   }
 
   @override
@@ -118,6 +133,8 @@ class _$_ProfileModel implements _ProfileModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _ProfileModel &&
+            const DeepCollectionEquality()
+                .equals(other.displayName, displayName) &&
             const DeepCollectionEquality().equals(other.email, email) &&
             const DeepCollectionEquality().equals(other.userId, userId));
   }
@@ -125,6 +142,7 @@ class _$_ProfileModel implements _ProfileModel {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      const DeepCollectionEquality().hash(displayName),
       const DeepCollectionEquality().hash(email),
       const DeepCollectionEquality().hash(userId));
 
@@ -135,9 +153,13 @@ class _$_ProfileModel implements _ProfileModel {
 }
 
 abstract class _ProfileModel implements ProfileModel {
-  const factory _ProfileModel({final String email, final String userId}) =
-      _$_ProfileModel;
+  const factory _ProfileModel(
+      {final String displayName,
+      final String email,
+      final String userId}) = _$_ProfileModel;
 
+  @override
+  String get displayName => throw _privateConstructorUsedError;
   @override
   String get email => throw _privateConstructorUsedError;
   @override

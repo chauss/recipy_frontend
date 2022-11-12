@@ -31,6 +31,12 @@ class ProfilePage extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          const Text("user.profile.display_name").tr(),
+          Text(
+            model.displayName,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 20),
           const Text("user.profile.email").tr(),
           Text(
             model.email,

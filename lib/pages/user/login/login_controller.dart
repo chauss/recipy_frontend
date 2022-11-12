@@ -54,5 +54,5 @@ class FirebaseLoginController extends LoginController {
 }
 
 abstract class LoginRepository {
-  Future<void> login(String email, String password);
+  Future<UserCredential> login(String email, String password);
 }

@@ -14,6 +14,7 @@
       "title": "Registrierung",
       "email": { "textfield": { "hint": "E-Mail" } },
       "password": { "textfield": { "hint": "Passwort" } },
+      "display_name": { "textfield": { "hint": "Benutzername" } },
       "already_registered": {
         "message": "Bereits angemeldet? Dann gehe direkt zum Login.",
         "hyperlink": "Login"
@@ -34,6 +35,7 @@
       "title": "Profil",
       "user_id": "UserId",
       "email": "E-Mail",
+      "display_name": "Benutzername",
       "logout": "Logout"
     },
     "error": {
@@ -43,7 +45,8 @@
       "weak_password": "Das angegebene Passwort ist zu schwach. Bitte verwende mindestens 6 Zeichen",
       "user_disabled": "Der Account wurde vorübergehend deaktiviert",
       "user_not_found": "Zu der angegeben E-Mail-Adresse wurde kein Konto gefunden",
-      "wrong_password": "Das angegebene Passwort ist nicht korrekt"
+      "wrong_password": "Das angegebene Passwort ist nicht korrekt",
+      "display_name_too_short": "Der angegebene Benutzername ist zu kurz. Bitte verwende mindestens 3 Zeichen"
     }
   },
   "recipe_overview": {

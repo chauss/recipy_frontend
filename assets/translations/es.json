@@ -14,6 +14,7 @@
       "title": "Inscripción",
       "email": { "textfield": { "hint": "Correo electrónico" } },
       "password": { "textfield": { "hint": "Contraseña" } },
+      "display_name": { "textfield": { "hint": "Nombre de usuario" } },
       "already_registered": {
         "message": "¿Ya está registrado? A continuación, vaya directamente al inicio de sesión.",
         "hyperlink": "inicio de sesión"
@@ -32,7 +33,9 @@
     },
     "profile": {
       "title": "Perfil",
+      "user_id": "Id del usuario",
       "email": "Correo electrónico",
+      "display_name": "Nombre de usuario",
       "logout": "Cierre de sesión"
     },
     "error": {
@@ -42,7 +45,8 @@
       "weak_password": "La contraseña que has introducido es demasiado débil. Por favor, utilice al menos 6 caracteres",
       "user_disabled": "La cuenta ha sido desactivada temporalmente",
       "user_not_found": "No se ha encontrado ninguna cuenta para la dirección de correo electrónico especificada",
-      "wrong_password": "La contraseña especificada no es correcta"
+      "wrong_password": "La contraseña especificada no es correcta",
+      "display_name_too_short": "El nombre de usuario que has introducido es demasiado corto. Por favor, utilice al menos 3 caracteres"
     }
   },
   "recipe_overview": {

@@ -1,7 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:recipy_frontend/main.dart';
-
 void main() {
   testWidgets('MyApp does start', (WidgetTester tester) async {
     // await tester.pumpWidget(const MyApp());

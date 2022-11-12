@@ -29,10 +29,13 @@ class FirebaseUserRepository extends RegistrationRepository
 
   @override
   User? getCurrentUser() {
-    if (_firebaseAuth.currentUser != null) {
+    var firebaseUser = _firebaseAuth.currentUser;
+    if (firebaseUser != null) {
       return User(
-          email: _firebaseAuth.currentUser?.email ?? "anonymous",
-          userId: _firebaseAuth.currentUser?.uid ?? "");
+        email: firebaseUser.email ?? "anonymous",
+        userId: firebaseUser.uid,
+        displayName: firebaseUser.displayName ?? "",
+      );
     }
     return null;
   }
