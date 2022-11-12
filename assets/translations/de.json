@@ -26,7 +26,7 @@
       "email": { "textfield": { "hint": "E-Mail" } },
       "password": { "textfield": { "hint": "Passwort" } },
       "not_registered": {
-        "message": "Nocht nicht angemeldet? Dann registriere dich jetzt.",
+        "message": "Noch nicht angemeldet? Dann registriere dich jetzt.",
         "hyperlink": "registriere"
       },
       "login": "Login"
