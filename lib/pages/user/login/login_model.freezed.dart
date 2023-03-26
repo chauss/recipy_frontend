@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'login_model.dart';
 
@@ -29,78 +29,83 @@ mixin _$LoginModel {
 abstract class $LoginModelCopyWith<$Res> {
   factory $LoginModelCopyWith(
           LoginModel value, $Res Function(LoginModel) then) =
-      _$LoginModelCopyWithImpl<$Res>;
+      _$LoginModelCopyWithImpl<$Res, LoginModel>;
+  @useResult
   $Res call(
       {bool successfullyLoggedIn, bool loginInProgress, String? errorCode});
 }
 
 /// @nodoc
-class _$LoginModelCopyWithImpl<$Res> implements $LoginModelCopyWith<$Res> {
+class _$LoginModelCopyWithImpl<$Res, $Val extends LoginModel>
+    implements $LoginModelCopyWith<$Res> {
   _$LoginModelCopyWithImpl(this._value, this._then);
 
-  final LoginModel _value;
   // ignore: unused_field
-  final $Res Function(LoginModel) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? successfullyLoggedIn = freezed,
-    Object? loginInProgress = freezed,
+    Object? successfullyLoggedIn = null,
+    Object? loginInProgress = null,
     Object? errorCode = freezed,
   }) {
     return _then(_value.copyWith(
-      successfullyLoggedIn: successfullyLoggedIn == freezed
+      successfullyLoggedIn: null == successfullyLoggedIn
           ? _value.successfullyLoggedIn
           : successfullyLoggedIn // ignore: cast_nullable_to_non_nullable
               as bool,
-      loginInProgress: loginInProgress == freezed
+      loginInProgress: null == loginInProgress
           ? _value.loginInProgress
           : loginInProgress // ignore: cast_nullable_to_non_nullable
               as bool,
-      errorCode: errorCode == freezed
+      errorCode: freezed == errorCode
           ? _value.errorCode
           : errorCode // ignore: cast_nullable_to_non_nullable
               as String?,
-    ));
+    ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$LoginModelCopyWith<$Res> implements $LoginModelCopyWith<$Res> {
-  factory _$LoginModelCopyWith(
-          _LoginModel value, $Res Function(_LoginModel) then) =
-      __$LoginModelCopyWithImpl<$Res>;
+abstract class _$$_LoginModelCopyWith<$Res>
+    implements $LoginModelCopyWith<$Res> {
+  factory _$$_LoginModelCopyWith(
+          _$_LoginModel value, $Res Function(_$_LoginModel) then) =
+      __$$_LoginModelCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {bool successfullyLoggedIn, bool loginInProgress, String? errorCode});
 }
 
 /// @nodoc
-class __$LoginModelCopyWithImpl<$Res> extends _$LoginModelCopyWithImpl<$Res>
-    implements _$LoginModelCopyWith<$Res> {
-  __$LoginModelCopyWithImpl(
-      _LoginModel _value, $Res Function(_LoginModel) _then)
-      : super(_value, (v) => _then(v as _LoginModel));
+class __$$_LoginModelCopyWithImpl<$Res>
+    extends _$LoginModelCopyWithImpl<$Res, _$_LoginModel>
+    implements _$$_LoginModelCopyWith<$Res> {
+  __$$_LoginModelCopyWithImpl(
+      _$_LoginModel _value, $Res Function(_$_LoginModel) _then)
+      : super(_value, _then);
 
-  @override
-  _LoginModel get _value => super._value as _LoginModel;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? successfullyLoggedIn = freezed,
-    Object? loginInProgress = freezed,
+    Object? successfullyLoggedIn = null,
+    Object? loginInProgress = null,
     Object? errorCode = freezed,
   }) {
-    return _then(_LoginModel(
-      successfullyLoggedIn: successfullyLoggedIn == freezed
+    return _then(_$_LoginModel(
+      successfullyLoggedIn: null == successfullyLoggedIn
           ? _value.successfullyLoggedIn
           : successfullyLoggedIn // ignore: cast_nullable_to_non_nullable
               as bool,
-      loginInProgress: loginInProgress == freezed
+      loginInProgress: null == loginInProgress
           ? _value.loginInProgress
           : loginInProgress // ignore: cast_nullable_to_non_nullable
               as bool,
-      errorCode: errorCode == freezed
+      errorCode: freezed == errorCode
           ? _value.errorCode
           : errorCode // ignore: cast_nullable_to_non_nullable
               as String?,
@@ -134,25 +139,24 @@ class _$_LoginModel implements _LoginModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _LoginModel &&
-            const DeepCollectionEquality()
-                .equals(other.successfullyLoggedIn, successfullyLoggedIn) &&
-            const DeepCollectionEquality()
-                .equals(other.loginInProgress, loginInProgress) &&
-            const DeepCollectionEquality().equals(other.errorCode, errorCode));
+            other is _$_LoginModel &&
+            (identical(other.successfullyLoggedIn, successfullyLoggedIn) ||
+                other.successfullyLoggedIn == successfullyLoggedIn) &&
+            (identical(other.loginInProgress, loginInProgress) ||
+                other.loginInProgress == loginInProgress) &&
+            (identical(other.errorCode, errorCode) ||
+                other.errorCode == errorCode));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(successfullyLoggedIn),
-      const DeepCollectionEquality().hash(loginInProgress),
-      const DeepCollectionEquality().hash(errorCode));
+      runtimeType, successfullyLoggedIn, loginInProgress, errorCode);
 
   @JsonKey(ignore: true)
   @override
-  _$LoginModelCopyWith<_LoginModel> get copyWith =>
-      __$LoginModelCopyWithImpl<_LoginModel>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$_LoginModelCopyWith<_$_LoginModel> get copyWith =>
+      __$$_LoginModelCopyWithImpl<_$_LoginModel>(this, _$identity);
 }
 
 abstract class _LoginModel implements LoginModel {
@@ -162,13 +166,13 @@ abstract class _LoginModel implements LoginModel {
       final String? errorCode}) = _$_LoginModel;
 
   @override
-  bool get successfullyLoggedIn => throw _privateConstructorUsedError;
+  bool get successfullyLoggedIn;
   @override
-  bool get loginInProgress => throw _privateConstructorUsedError;
+  bool get loginInProgress;
   @override
-  String? get errorCode => throw _privateConstructorUsedError;
+  String? get errorCode;
   @override
   @JsonKey(ignore: true)
-  _$LoginModelCopyWith<_LoginModel> get copyWith =>
+  _$$_LoginModelCopyWith<_$_LoginModel> get copyWith =>
       throw _privateConstructorUsedError;
 }

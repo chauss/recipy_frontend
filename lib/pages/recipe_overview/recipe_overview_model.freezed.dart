@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'recipe_overview_model.dart';
 
@@ -30,81 +30,83 @@ mixin _$RecipeOverviewModel {
 abstract class $RecipeOverviewModelCopyWith<$Res> {
   factory $RecipeOverviewModelCopyWith(
           RecipeOverviewModel value, $Res Function(RecipeOverviewModel) then) =
-      _$RecipeOverviewModelCopyWithImpl<$Res>;
+      _$RecipeOverviewModelCopyWithImpl<$Res, RecipeOverviewModel>;
+  @useResult
   $Res call(
       {List<RecipeOverview> recipeOverviews, bool isLoading, int? errorCode});
 }
 
 /// @nodoc
-class _$RecipeOverviewModelCopyWithImpl<$Res>
+class _$RecipeOverviewModelCopyWithImpl<$Res, $Val extends RecipeOverviewModel>
     implements $RecipeOverviewModelCopyWith<$Res> {
   _$RecipeOverviewModelCopyWithImpl(this._value, this._then);
 
-  final RecipeOverviewModel _value;
   // ignore: unused_field
-  final $Res Function(RecipeOverviewModel) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? recipeOverviews = freezed,
-    Object? isLoading = freezed,
+    Object? recipeOverviews = null,
+    Object? isLoading = null,
     Object? errorCode = freezed,
   }) {
     return _then(_value.copyWith(
-      recipeOverviews: recipeOverviews == freezed
+      recipeOverviews: null == recipeOverviews
           ? _value.recipeOverviews
           : recipeOverviews // ignore: cast_nullable_to_non_nullable
               as List<RecipeOverview>,
-      isLoading: isLoading == freezed
+      isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      errorCode: errorCode == freezed
+      errorCode: freezed == errorCode
           ? _value.errorCode
           : errorCode // ignore: cast_nullable_to_non_nullable
               as int?,
-    ));
+    ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$RecipeOverviewModelCopyWith<$Res>
+abstract class _$$_RecipeOverviewModelCopyWith<$Res>
     implements $RecipeOverviewModelCopyWith<$Res> {
-  factory _$RecipeOverviewModelCopyWith(_RecipeOverviewModel value,
-          $Res Function(_RecipeOverviewModel) then) =
-      __$RecipeOverviewModelCopyWithImpl<$Res>;
+  factory _$$_RecipeOverviewModelCopyWith(_$_RecipeOverviewModel value,
+          $Res Function(_$_RecipeOverviewModel) then) =
+      __$$_RecipeOverviewModelCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {List<RecipeOverview> recipeOverviews, bool isLoading, int? errorCode});
 }
 
 /// @nodoc
-class __$RecipeOverviewModelCopyWithImpl<$Res>
-    extends _$RecipeOverviewModelCopyWithImpl<$Res>
-    implements _$RecipeOverviewModelCopyWith<$Res> {
-  __$RecipeOverviewModelCopyWithImpl(
-      _RecipeOverviewModel _value, $Res Function(_RecipeOverviewModel) _then)
-      : super(_value, (v) => _then(v as _RecipeOverviewModel));
+class __$$_RecipeOverviewModelCopyWithImpl<$Res>
+    extends _$RecipeOverviewModelCopyWithImpl<$Res, _$_RecipeOverviewModel>
+    implements _$$_RecipeOverviewModelCopyWith<$Res> {
+  __$$_RecipeOverviewModelCopyWithImpl(_$_RecipeOverviewModel _value,
+      $Res Function(_$_RecipeOverviewModel) _then)
+      : super(_value, _then);
 
-  @override
-  _RecipeOverviewModel get _value => super._value as _RecipeOverviewModel;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? recipeOverviews = freezed,
-    Object? isLoading = freezed,
+    Object? recipeOverviews = null,
+    Object? isLoading = null,
     Object? errorCode = freezed,
   }) {
-    return _then(_RecipeOverviewModel(
-      recipeOverviews: recipeOverviews == freezed
-          ? _value.recipeOverviews
+    return _then(_$_RecipeOverviewModel(
+      recipeOverviews: null == recipeOverviews
+          ? _value._recipeOverviews
           : recipeOverviews // ignore: cast_nullable_to_non_nullable
               as List<RecipeOverview>,
-      isLoading: isLoading == freezed
+      isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      errorCode: errorCode == freezed
+      errorCode: freezed == errorCode
           ? _value.errorCode
           : errorCode // ignore: cast_nullable_to_non_nullable
               as int?,
@@ -125,6 +127,7 @@ class _$_RecipeOverviewModel implements _RecipeOverviewModel {
   @override
   @JsonKey()
   List<RecipeOverview> get recipeOverviews {
+    if (_recipeOverviews is EqualUnmodifiableListView) return _recipeOverviews;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_recipeOverviews);
   }
@@ -144,24 +147,27 @@ class _$_RecipeOverviewModel implements _RecipeOverviewModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _RecipeOverviewModel &&
+            other is _$_RecipeOverviewModel &&
             const DeepCollectionEquality()
-                .equals(other.recipeOverviews, recipeOverviews) &&
-            const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
-            const DeepCollectionEquality().equals(other.errorCode, errorCode));
+                .equals(other._recipeOverviews, _recipeOverviews) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.errorCode, errorCode) ||
+                other.errorCode == errorCode));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(recipeOverviews),
-      const DeepCollectionEquality().hash(isLoading),
-      const DeepCollectionEquality().hash(errorCode));
+      const DeepCollectionEquality().hash(_recipeOverviews),
+      isLoading,
+      errorCode);
 
   @JsonKey(ignore: true)
   @override
-  _$RecipeOverviewModelCopyWith<_RecipeOverviewModel> get copyWith =>
-      __$RecipeOverviewModelCopyWithImpl<_RecipeOverviewModel>(
+  @pragma('vm:prefer-inline')
+  _$$_RecipeOverviewModelCopyWith<_$_RecipeOverviewModel> get copyWith =>
+      __$$_RecipeOverviewModelCopyWithImpl<_$_RecipeOverviewModel>(
           this, _$identity);
 }
 
@@ -172,14 +178,13 @@ abstract class _RecipeOverviewModel implements RecipeOverviewModel {
       final int? errorCode}) = _$_RecipeOverviewModel;
 
   @override
-  List<RecipeOverview> get recipeOverviews =>
-      throw _privateConstructorUsedError;
+  List<RecipeOverview> get recipeOverviews;
   @override
-  bool get isLoading => throw _privateConstructorUsedError;
+  bool get isLoading;
   @override
-  int? get errorCode => throw _privateConstructorUsedError;
+  int? get errorCode;
   @override
   @JsonKey(ignore: true)
-  _$RecipeOverviewModelCopyWith<_RecipeOverviewModel> get copyWith =>
+  _$$_RecipeOverviewModelCopyWith<_$_RecipeOverviewModel> get copyWith =>
       throw _privateConstructorUsedError;
 }

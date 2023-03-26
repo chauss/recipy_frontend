@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'recipe_detail_model.dart';
 
@@ -35,7 +35,8 @@ mixin _$RecipeDetailModel {
 abstract class $RecipeDetailModelCopyWith<$Res> {
   factory $RecipeDetailModelCopyWith(
           RecipeDetailModel value, $Res Function(RecipeDetailModel) then) =
-      _$RecipeDetailModelCopyWithImpl<$Res>;
+      _$RecipeDetailModelCopyWithImpl<$Res, RecipeDetailModel>;
+  @useResult
   $Res call(
       {String recipeId,
       bool isLoading,
@@ -47,64 +48,67 @@ abstract class $RecipeDetailModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$RecipeDetailModelCopyWithImpl<$Res>
+class _$RecipeDetailModelCopyWithImpl<$Res, $Val extends RecipeDetailModel>
     implements $RecipeDetailModelCopyWith<$Res> {
   _$RecipeDetailModelCopyWithImpl(this._value, this._then);
 
-  final RecipeDetailModel _value;
   // ignore: unused_field
-  final $Res Function(RecipeDetailModel) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? recipeId = freezed,
-    Object? isLoading = freezed,
-    Object? isEditMode = freezed,
-    Object? editableUsages = freezed,
-    Object? editableSteps = freezed,
+    Object? recipeId = null,
+    Object? isLoading = null,
+    Object? isEditMode = null,
+    Object? editableUsages = null,
+    Object? editableSteps = null,
     Object? errorCode = freezed,
     Object? recipe = freezed,
   }) {
     return _then(_value.copyWith(
-      recipeId: recipeId == freezed
+      recipeId: null == recipeId
           ? _value.recipeId
           : recipeId // ignore: cast_nullable_to_non_nullable
               as String,
-      isLoading: isLoading == freezed
+      isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      isEditMode: isEditMode == freezed
+      isEditMode: null == isEditMode
           ? _value.isEditMode
           : isEditMode // ignore: cast_nullable_to_non_nullable
               as bool,
-      editableUsages: editableUsages == freezed
+      editableUsages: null == editableUsages
           ? _value.editableUsages
           : editableUsages // ignore: cast_nullable_to_non_nullable
               as List<EditableIngredientUsage>,
-      editableSteps: editableSteps == freezed
+      editableSteps: null == editableSteps
           ? _value.editableSteps
           : editableSteps // ignore: cast_nullable_to_non_nullable
               as List<EditablePreparationStep>,
-      errorCode: errorCode == freezed
+      errorCode: freezed == errorCode
           ? _value.errorCode
           : errorCode // ignore: cast_nullable_to_non_nullable
               as int?,
-      recipe: recipe == freezed
+      recipe: freezed == recipe
           ? _value.recipe
           : recipe // ignore: cast_nullable_to_non_nullable
               as Recipe?,
-    ));
+    ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$RecipeDetailModelCopyWith<$Res>
+abstract class _$$_RecipeDetailModelCopyWith<$Res>
     implements $RecipeDetailModelCopyWith<$Res> {
-  factory _$RecipeDetailModelCopyWith(
-          _RecipeDetailModel value, $Res Function(_RecipeDetailModel) then) =
-      __$RecipeDetailModelCopyWithImpl<$Res>;
+  factory _$$_RecipeDetailModelCopyWith(_$_RecipeDetailModel value,
+          $Res Function(_$_RecipeDetailModel) then) =
+      __$$_RecipeDetailModelCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String recipeId,
       bool isLoading,
@@ -116,52 +120,50 @@ abstract class _$RecipeDetailModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$RecipeDetailModelCopyWithImpl<$Res>
-    extends _$RecipeDetailModelCopyWithImpl<$Res>
-    implements _$RecipeDetailModelCopyWith<$Res> {
-  __$RecipeDetailModelCopyWithImpl(
-      _RecipeDetailModel _value, $Res Function(_RecipeDetailModel) _then)
-      : super(_value, (v) => _then(v as _RecipeDetailModel));
+class __$$_RecipeDetailModelCopyWithImpl<$Res>
+    extends _$RecipeDetailModelCopyWithImpl<$Res, _$_RecipeDetailModel>
+    implements _$$_RecipeDetailModelCopyWith<$Res> {
+  __$$_RecipeDetailModelCopyWithImpl(
+      _$_RecipeDetailModel _value, $Res Function(_$_RecipeDetailModel) _then)
+      : super(_value, _then);
 
-  @override
-  _RecipeDetailModel get _value => super._value as _RecipeDetailModel;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? recipeId = freezed,
-    Object? isLoading = freezed,
-    Object? isEditMode = freezed,
-    Object? editableUsages = freezed,
-    Object? editableSteps = freezed,
+    Object? recipeId = null,
+    Object? isLoading = null,
+    Object? isEditMode = null,
+    Object? editableUsages = null,
+    Object? editableSteps = null,
     Object? errorCode = freezed,
     Object? recipe = freezed,
   }) {
-    return _then(_RecipeDetailModel(
-      recipeId: recipeId == freezed
+    return _then(_$_RecipeDetailModel(
+      recipeId: null == recipeId
           ? _value.recipeId
           : recipeId // ignore: cast_nullable_to_non_nullable
               as String,
-      isLoading: isLoading == freezed
+      isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      isEditMode: isEditMode == freezed
+      isEditMode: null == isEditMode
           ? _value.isEditMode
           : isEditMode // ignore: cast_nullable_to_non_nullable
               as bool,
-      editableUsages: editableUsages == freezed
-          ? _value.editableUsages
+      editableUsages: null == editableUsages
+          ? _value._editableUsages
           : editableUsages // ignore: cast_nullable_to_non_nullable
               as List<EditableIngredientUsage>,
-      editableSteps: editableSteps == freezed
-          ? _value.editableSteps
+      editableSteps: null == editableSteps
+          ? _value._editableSteps
           : editableSteps // ignore: cast_nullable_to_non_nullable
               as List<EditablePreparationStep>,
-      errorCode: errorCode == freezed
+      errorCode: freezed == errorCode
           ? _value.errorCode
           : errorCode // ignore: cast_nullable_to_non_nullable
               as int?,
-      recipe: recipe == freezed
+      recipe: freezed == recipe
           ? _value.recipe
           : recipe // ignore: cast_nullable_to_non_nullable
               as Recipe?,
@@ -195,6 +197,7 @@ class _$_RecipeDetailModel implements _RecipeDetailModel {
   @override
   @JsonKey()
   List<EditableIngredientUsage> get editableUsages {
+    if (_editableUsages is EqualUnmodifiableListView) return _editableUsages;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_editableUsages);
   }
@@ -203,6 +206,7 @@ class _$_RecipeDetailModel implements _RecipeDetailModel {
   @override
   @JsonKey()
   List<EditablePreparationStep> get editableSteps {
+    if (_editableSteps is EqualUnmodifiableListView) return _editableSteps;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_editableSteps);
   }
@@ -221,34 +225,39 @@ class _$_RecipeDetailModel implements _RecipeDetailModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _RecipeDetailModel &&
-            const DeepCollectionEquality().equals(other.recipeId, recipeId) &&
-            const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
+            other is _$_RecipeDetailModel &&
+            (identical(other.recipeId, recipeId) ||
+                other.recipeId == recipeId) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.isEditMode, isEditMode) ||
+                other.isEditMode == isEditMode) &&
             const DeepCollectionEquality()
-                .equals(other.isEditMode, isEditMode) &&
+                .equals(other._editableUsages, _editableUsages) &&
             const DeepCollectionEquality()
-                .equals(other.editableUsages, editableUsages) &&
-            const DeepCollectionEquality()
-                .equals(other.editableSteps, editableSteps) &&
-            const DeepCollectionEquality().equals(other.errorCode, errorCode) &&
-            const DeepCollectionEquality().equals(other.recipe, recipe));
+                .equals(other._editableSteps, _editableSteps) &&
+            (identical(other.errorCode, errorCode) ||
+                other.errorCode == errorCode) &&
+            (identical(other.recipe, recipe) || other.recipe == recipe));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(recipeId),
-      const DeepCollectionEquality().hash(isLoading),
-      const DeepCollectionEquality().hash(isEditMode),
-      const DeepCollectionEquality().hash(editableUsages),
-      const DeepCollectionEquality().hash(editableSteps),
-      const DeepCollectionEquality().hash(errorCode),
-      const DeepCollectionEquality().hash(recipe));
+      recipeId,
+      isLoading,
+      isEditMode,
+      const DeepCollectionEquality().hash(_editableUsages),
+      const DeepCollectionEquality().hash(_editableSteps),
+      errorCode,
+      recipe);
 
   @JsonKey(ignore: true)
   @override
-  _$RecipeDetailModelCopyWith<_RecipeDetailModel> get copyWith =>
-      __$RecipeDetailModelCopyWithImpl<_RecipeDetailModel>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$_RecipeDetailModelCopyWith<_$_RecipeDetailModel> get copyWith =>
+      __$$_RecipeDetailModelCopyWithImpl<_$_RecipeDetailModel>(
+          this, _$identity);
 }
 
 abstract class _RecipeDetailModel implements RecipeDetailModel {
@@ -262,23 +271,21 @@ abstract class _RecipeDetailModel implements RecipeDetailModel {
       final Recipe? recipe}) = _$_RecipeDetailModel;
 
   @override
-  String get recipeId => throw _privateConstructorUsedError;
+  String get recipeId;
   @override
-  bool get isLoading => throw _privateConstructorUsedError;
+  bool get isLoading;
   @override
-  bool get isEditMode => throw _privateConstructorUsedError;
+  bool get isEditMode;
   @override
-  List<EditableIngredientUsage> get editableUsages =>
-      throw _privateConstructorUsedError;
+  List<EditableIngredientUsage> get editableUsages;
   @override
-  List<EditablePreparationStep> get editableSteps =>
-      throw _privateConstructorUsedError;
+  List<EditablePreparationStep> get editableSteps;
   @override
-  int? get errorCode => throw _privateConstructorUsedError;
+  int? get errorCode;
   @override
-  Recipe? get recipe => throw _privateConstructorUsedError;
+  Recipe? get recipe;
   @override
   @JsonKey(ignore: true)
-  _$RecipeDetailModelCopyWith<_RecipeDetailModel> get copyWith =>
+  _$$_RecipeDetailModelCopyWith<_$_RecipeDetailModel> get copyWith =>
       throw _privateConstructorUsedError;
 }

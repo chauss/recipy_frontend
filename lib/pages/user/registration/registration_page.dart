@@ -47,11 +47,11 @@ class RegistrationPage extends ConsumerWidget {
         title: "common.error".tr(),
         info: "user.error.${model.errorCode}".tr(),
       );
-      SchedulerBinding.instance!.addPostFrameCallback((_) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
         dialog.show().then((_) => controller.dismissError());
       });
     } else if (model.successfullyRegistered) {
-      SchedulerBinding.instance!.addPostFrameCallback((_) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
         Beamer.of(context).beamToNamed(RecipyRoute.recipes);
       });
     }

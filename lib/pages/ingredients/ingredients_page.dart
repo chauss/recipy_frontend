@@ -62,7 +62,7 @@ class IngredientsPage extends ConsumerWidget {
         title: "common.error".tr(),
         info: "error_codes.${model.errorCode}".tr(),
       );
-      SchedulerBinding.instance!.addPostFrameCallback((_) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
         dialog.show().then((_) => controller.dismissError());
       });
     }

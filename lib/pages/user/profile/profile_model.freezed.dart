@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'profile_model.dart';
 
@@ -29,77 +29,81 @@ mixin _$ProfileModel {
 abstract class $ProfileModelCopyWith<$Res> {
   factory $ProfileModelCopyWith(
           ProfileModel value, $Res Function(ProfileModel) then) =
-      _$ProfileModelCopyWithImpl<$Res>;
+      _$ProfileModelCopyWithImpl<$Res, ProfileModel>;
+  @useResult
   $Res call({String displayName, String email, String userId});
 }
 
 /// @nodoc
-class _$ProfileModelCopyWithImpl<$Res> implements $ProfileModelCopyWith<$Res> {
+class _$ProfileModelCopyWithImpl<$Res, $Val extends ProfileModel>
+    implements $ProfileModelCopyWith<$Res> {
   _$ProfileModelCopyWithImpl(this._value, this._then);
 
-  final ProfileModel _value;
   // ignore: unused_field
-  final $Res Function(ProfileModel) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? displayName = freezed,
-    Object? email = freezed,
-    Object? userId = freezed,
+    Object? displayName = null,
+    Object? email = null,
+    Object? userId = null,
   }) {
     return _then(_value.copyWith(
-      displayName: displayName == freezed
+      displayName: null == displayName
           ? _value.displayName
           : displayName // ignore: cast_nullable_to_non_nullable
               as String,
-      email: email == freezed
+      email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      userId: userId == freezed
+      userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$ProfileModelCopyWith<$Res>
+abstract class _$$_ProfileModelCopyWith<$Res>
     implements $ProfileModelCopyWith<$Res> {
-  factory _$ProfileModelCopyWith(
-          _ProfileModel value, $Res Function(_ProfileModel) then) =
-      __$ProfileModelCopyWithImpl<$Res>;
+  factory _$$_ProfileModelCopyWith(
+          _$_ProfileModel value, $Res Function(_$_ProfileModel) then) =
+      __$$_ProfileModelCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String displayName, String email, String userId});
 }
 
 /// @nodoc
-class __$ProfileModelCopyWithImpl<$Res> extends _$ProfileModelCopyWithImpl<$Res>
-    implements _$ProfileModelCopyWith<$Res> {
-  __$ProfileModelCopyWithImpl(
-      _ProfileModel _value, $Res Function(_ProfileModel) _then)
-      : super(_value, (v) => _then(v as _ProfileModel));
+class __$$_ProfileModelCopyWithImpl<$Res>
+    extends _$ProfileModelCopyWithImpl<$Res, _$_ProfileModel>
+    implements _$$_ProfileModelCopyWith<$Res> {
+  __$$_ProfileModelCopyWithImpl(
+      _$_ProfileModel _value, $Res Function(_$_ProfileModel) _then)
+      : super(_value, _then);
 
-  @override
-  _ProfileModel get _value => super._value as _ProfileModel;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? displayName = freezed,
-    Object? email = freezed,
-    Object? userId = freezed,
+    Object? displayName = null,
+    Object? email = null,
+    Object? userId = null,
   }) {
-    return _then(_ProfileModel(
-      displayName: displayName == freezed
+    return _then(_$_ProfileModel(
+      displayName: null == displayName
           ? _value.displayName
           : displayName // ignore: cast_nullable_to_non_nullable
               as String,
-      email: email == freezed
+      email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      userId: userId == freezed
+      userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
@@ -132,24 +136,21 @@ class _$_ProfileModel implements _ProfileModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _ProfileModel &&
-            const DeepCollectionEquality()
-                .equals(other.displayName, displayName) &&
-            const DeepCollectionEquality().equals(other.email, email) &&
-            const DeepCollectionEquality().equals(other.userId, userId));
+            other is _$_ProfileModel &&
+            (identical(other.displayName, displayName) ||
+                other.displayName == displayName) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.userId, userId) || other.userId == userId));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(displayName),
-      const DeepCollectionEquality().hash(email),
-      const DeepCollectionEquality().hash(userId));
+  int get hashCode => Object.hash(runtimeType, displayName, email, userId);
 
   @JsonKey(ignore: true)
   @override
-  _$ProfileModelCopyWith<_ProfileModel> get copyWith =>
-      __$ProfileModelCopyWithImpl<_ProfileModel>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$_ProfileModelCopyWith<_$_ProfileModel> get copyWith =>
+      __$$_ProfileModelCopyWithImpl<_$_ProfileModel>(this, _$identity);
 }
 
 abstract class _ProfileModel implements ProfileModel {
@@ -159,13 +160,13 @@ abstract class _ProfileModel implements ProfileModel {
       final String userId}) = _$_ProfileModel;
 
   @override
-  String get displayName => throw _privateConstructorUsedError;
+  String get displayName;
   @override
-  String get email => throw _privateConstructorUsedError;
+  String get email;
   @override
-  String get userId => throw _privateConstructorUsedError;
+  String get userId;
   @override
   @JsonKey(ignore: true)
-  _$ProfileModelCopyWith<_ProfileModel> get copyWith =>
+  _$$_ProfileModelCopyWith<_$_ProfileModel> get copyWith =>
       throw _privateConstructorUsedError;
 }

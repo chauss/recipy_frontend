@@ -12,6 +12,7 @@ import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/edit_
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/editable_ingredient_usage.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/editable_preparation_step.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/preparation_step_widget.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/recipe/image_stuff_widget.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_model.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/ingredient_usage_widget.dart';
 import 'package:recipy_frontend/widgets/info_dialog.dart';
@@ -56,7 +57,7 @@ class RecipeDetailPage extends ConsumerWidget {
         title: "common.error".tr(),
         info: "error_codes.${model.errorCode}".tr(),
       );
-      SchedulerBinding.instance!.addPostFrameCallback((_) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
         dialog.show().then((_) => controller.dismissError());
       });
     }
@@ -64,6 +65,7 @@ class RecipeDetailPage extends ConsumerWidget {
     return ListView(
       padding: const EdgeInsets.only(left: 24, right: 24, top: 32),
       children: [
+        ImageStuffWidget(recipeImages: model.recipe?.recipeImages),
         Text(
           "recipe_details.heading.ingredients",
           style: Theme.of(context).textTheme.headline5,

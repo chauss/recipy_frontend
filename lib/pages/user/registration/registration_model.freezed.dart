@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'registration_model.dart';
 
@@ -29,7 +29,8 @@ mixin _$RegistrationModel {
 abstract class $RegistrationModelCopyWith<$Res> {
   factory $RegistrationModelCopyWith(
           RegistrationModel value, $Res Function(RegistrationModel) then) =
-      _$RegistrationModelCopyWithImpl<$Res>;
+      _$RegistrationModelCopyWithImpl<$Res, RegistrationModel>;
+  @useResult
   $Res call(
       {bool successfullyRegistered,
       bool registrationInProgress,
@@ -37,44 +38,47 @@ abstract class $RegistrationModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$RegistrationModelCopyWithImpl<$Res>
+class _$RegistrationModelCopyWithImpl<$Res, $Val extends RegistrationModel>
     implements $RegistrationModelCopyWith<$Res> {
   _$RegistrationModelCopyWithImpl(this._value, this._then);
 
-  final RegistrationModel _value;
   // ignore: unused_field
-  final $Res Function(RegistrationModel) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? successfullyRegistered = freezed,
-    Object? registrationInProgress = freezed,
+    Object? successfullyRegistered = null,
+    Object? registrationInProgress = null,
     Object? errorCode = freezed,
   }) {
     return _then(_value.copyWith(
-      successfullyRegistered: successfullyRegistered == freezed
+      successfullyRegistered: null == successfullyRegistered
           ? _value.successfullyRegistered
           : successfullyRegistered // ignore: cast_nullable_to_non_nullable
               as bool,
-      registrationInProgress: registrationInProgress == freezed
+      registrationInProgress: null == registrationInProgress
           ? _value.registrationInProgress
           : registrationInProgress // ignore: cast_nullable_to_non_nullable
               as bool,
-      errorCode: errorCode == freezed
+      errorCode: freezed == errorCode
           ? _value.errorCode
           : errorCode // ignore: cast_nullable_to_non_nullable
               as String?,
-    ));
+    ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$RegistrationModelCopyWith<$Res>
+abstract class _$$_RegistrationModelCopyWith<$Res>
     implements $RegistrationModelCopyWith<$Res> {
-  factory _$RegistrationModelCopyWith(
-          _RegistrationModel value, $Res Function(_RegistrationModel) then) =
-      __$RegistrationModelCopyWithImpl<$Res>;
+  factory _$$_RegistrationModelCopyWith(_$_RegistrationModel value,
+          $Res Function(_$_RegistrationModel) then) =
+      __$$_RegistrationModelCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {bool successfullyRegistered,
       bool registrationInProgress,
@@ -82,32 +86,30 @@ abstract class _$RegistrationModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$RegistrationModelCopyWithImpl<$Res>
-    extends _$RegistrationModelCopyWithImpl<$Res>
-    implements _$RegistrationModelCopyWith<$Res> {
-  __$RegistrationModelCopyWithImpl(
-      _RegistrationModel _value, $Res Function(_RegistrationModel) _then)
-      : super(_value, (v) => _then(v as _RegistrationModel));
+class __$$_RegistrationModelCopyWithImpl<$Res>
+    extends _$RegistrationModelCopyWithImpl<$Res, _$_RegistrationModel>
+    implements _$$_RegistrationModelCopyWith<$Res> {
+  __$$_RegistrationModelCopyWithImpl(
+      _$_RegistrationModel _value, $Res Function(_$_RegistrationModel) _then)
+      : super(_value, _then);
 
-  @override
-  _RegistrationModel get _value => super._value as _RegistrationModel;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? successfullyRegistered = freezed,
-    Object? registrationInProgress = freezed,
+    Object? successfullyRegistered = null,
+    Object? registrationInProgress = null,
     Object? errorCode = freezed,
   }) {
-    return _then(_RegistrationModel(
-      successfullyRegistered: successfullyRegistered == freezed
+    return _then(_$_RegistrationModel(
+      successfullyRegistered: null == successfullyRegistered
           ? _value.successfullyRegistered
           : successfullyRegistered // ignore: cast_nullable_to_non_nullable
               as bool,
-      registrationInProgress: registrationInProgress == freezed
+      registrationInProgress: null == registrationInProgress
           ? _value.registrationInProgress
           : registrationInProgress // ignore: cast_nullable_to_non_nullable
               as bool,
-      errorCode: errorCode == freezed
+      errorCode: freezed == errorCode
           ? _value.errorCode
           : errorCode // ignore: cast_nullable_to_non_nullable
               as String?,
@@ -141,25 +143,25 @@ class _$_RegistrationModel implements _RegistrationModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _RegistrationModel &&
-            const DeepCollectionEquality()
-                .equals(other.successfullyRegistered, successfullyRegistered) &&
-            const DeepCollectionEquality()
-                .equals(other.registrationInProgress, registrationInProgress) &&
-            const DeepCollectionEquality().equals(other.errorCode, errorCode));
+            other is _$_RegistrationModel &&
+            (identical(other.successfullyRegistered, successfullyRegistered) ||
+                other.successfullyRegistered == successfullyRegistered) &&
+            (identical(other.registrationInProgress, registrationInProgress) ||
+                other.registrationInProgress == registrationInProgress) &&
+            (identical(other.errorCode, errorCode) ||
+                other.errorCode == errorCode));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(successfullyRegistered),
-      const DeepCollectionEquality().hash(registrationInProgress),
-      const DeepCollectionEquality().hash(errorCode));
+      runtimeType, successfullyRegistered, registrationInProgress, errorCode);
 
   @JsonKey(ignore: true)
   @override
-  _$RegistrationModelCopyWith<_RegistrationModel> get copyWith =>
-      __$RegistrationModelCopyWithImpl<_RegistrationModel>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$_RegistrationModelCopyWith<_$_RegistrationModel> get copyWith =>
+      __$$_RegistrationModelCopyWithImpl<_$_RegistrationModel>(
+          this, _$identity);
 }
 
 abstract class _RegistrationModel implements RegistrationModel {
@@ -169,13 +171,13 @@ abstract class _RegistrationModel implements RegistrationModel {
       final String? errorCode}) = _$_RegistrationModel;
 
   @override
-  bool get successfullyRegistered => throw _privateConstructorUsedError;
+  bool get successfullyRegistered;
   @override
-  bool get registrationInProgress => throw _privateConstructorUsedError;
+  bool get registrationInProgress;
   @override
-  String? get errorCode => throw _privateConstructorUsedError;
+  String? get errorCode;
   @override
   @JsonKey(ignore: true)
-  _$RegistrationModelCopyWith<_RegistrationModel> get copyWith =>
+  _$$_RegistrationModelCopyWith<_$_RegistrationModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
