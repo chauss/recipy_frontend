@@ -9,6 +9,7 @@ import 'package:recipy_frontend/widgets/process_indicator.dart';
 import 'package:recipy_frontend/widgets/recipy_app_bar.dart';
 import 'package:recipy_frontend/config/routes_config.dart';
 import 'package:recipy_frontend/widgets/text_with_hyperlink.dart';
+import 'package:recipy_frontend/widgets/nav_drawer.dart';
 import 'login_model.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -29,6 +30,7 @@ class LoginPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: RecipyAppBar(title: "user.login.title".tr()),
+      drawer: NavDrawer(),
       body: buildBody(controller, model, context),
     );
   }
