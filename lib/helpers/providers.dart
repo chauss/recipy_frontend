@@ -5,6 +5,9 @@ import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_page.dar
 import 'package:recipy_frontend/pages/ingredients/ingredients_controller.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_model.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_page.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/recipe_images/recipe_images_controller.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/recipe_images/recipe_images_model.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/recipe_images/recipe_images_widget.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_controller.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_model.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_page.dart';
@@ -19,6 +22,7 @@ import 'package:recipy_frontend/pages/user/user_management_repository.dart';
 import 'package:recipy_frontend/repositories/ingredient_repository.dart';
 import 'package:recipy_frontend/repositories/ingredient_unit_repository.dart';
 import 'package:recipy_frontend/repositories/firebase_user_repository.dart';
+import 'package:recipy_frontend/repositories/recipe_images_repository.dart';
 import 'package:recipy_frontend/repositories/recipe_repository.dart';
 import 'package:recipy_frontend/storage/in_memory_storage.dart';
 import 'package:recipy_frontend/pages/user/login/login_controller.dart';
@@ -151,3 +155,20 @@ final inMemoryStorageIngredientUnitRepositoryProvider =
     Provider<InMemoryStorageIngredientUnitRepository>((ref) {
   return RecipyIngredientUnitRepository();
 });
+
+// #############################################################################
+// # Recipe Images
+// #############################################################################
+final recipeImagesRepositoryProvider = Provider<RecipeImagesRepository>((ref) {
+  final repository = RecipyRecipeImagesRepository();
+
+  return repository;
+});
+
+final StateNotifierProviderFamily<RecipeImagesController, RecipeImagesModel,
+        String> recipeImagesControllerProvider =
+    StateNotifierProvider.family<RecipeImagesController, RecipeImagesModel,
+        String>(
+  (ref, recipeId) =>
+      RecipeImagesControllerImpl(RecipeImagesModel(recipeId: recipeId)),
+);

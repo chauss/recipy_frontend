@@ -121,7 +121,6 @@ class RecipeDetailPage extends ConsumerWidget {
       RecipeDetailController controller, BuildContext context) {
     return ElevatedButton(
       onPressed: controller.addNewIngredientUsage,
-      child: const Icon(Icons.add),
       style: ButtonStyle(
         fixedSize: MaterialStateProperty.all(const Size.square(50)),
         shape: MaterialStateProperty.all<CircleBorder>(
@@ -130,6 +129,7 @@ class RecipeDetailPage extends ConsumerWidget {
           ),
         ),
       ),
+      child: const Icon(Icons.add),
     );
   }
 
@@ -137,7 +137,6 @@ class RecipeDetailPage extends ConsumerWidget {
       RecipeDetailController controller, BuildContext context) {
     return ElevatedButton(
       onPressed: controller.addNewPreparationStep,
-      child: const Icon(Icons.add),
       style: ButtonStyle(
         fixedSize: MaterialStateProperty.all(const Size.square(50)),
         shape: MaterialStateProperty.all<CircleBorder>(
@@ -146,6 +145,7 @@ class RecipeDetailPage extends ConsumerWidget {
           ),
         ),
       ),
+      child: const Icon(Icons.add),
     );
   }
 
@@ -211,11 +211,11 @@ class RecipeDetailPage extends ConsumerWidget {
         ReorderableListView(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
+          onReorder: controller.reorderPreparationSteps,
           children: model.editableSteps
               .map((editableStep) =>
                   buildEditablePreparationStep(controller, model, editableStep))
               .toList(),
-          onReorder: controller.reorderPreparationSteps,
         )
       ];
     }
@@ -311,6 +311,8 @@ class RecipeDetailPage extends ConsumerWidget {
     BuildContext context,
     RecipeDetailController controller,
   ) {
+    goBack() => Navigator.pop(context);
+
     var dialog = YesNoDialog(
       context: context,
       title: "recipe_details.delete.dialog.title".tr(),
@@ -319,7 +321,7 @@ class RecipeDetailPage extends ConsumerWidget {
         var success = await controller
             .deleteRecipe(DeleteRecipeRequest(recipeId: recipeId));
         if (success) {
-          Navigator.pop(context);
+          goBack();
         }
       },
     );

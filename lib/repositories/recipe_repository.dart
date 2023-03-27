@@ -25,7 +25,7 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
   @override
   Future<HttpReadResult<List<RecipeOverview>>> fetchRecipesAsOverview() async {
     var uri =
-        Uri.parse(APIConfiguration.backendBaseUri + "/v1/recipes/overview");
+        Uri.parse("${APIConfiguration.backendBaseUri}/v1/recipes/overview");
     http.Response response;
     try {
       response = await http.get(uri);
@@ -49,7 +49,7 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
 
   @override
   Future<HttpWriteResult> addRecipe(AddRecipeRequest request) async {
-    var uri = Uri.parse(APIConfiguration.backendBaseUri + "/v1/recipe");
+    var uri = Uri.parse("${APIConfiguration.backendBaseUri}/v1/recipe");
     http.Response response;
     try {
       response = await http.post(uri,
@@ -75,7 +75,7 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
   @override
   Future<HttpReadResult<Recipe>> fetchRecipeById(String recipeId) async {
     var uri =
-        Uri.parse(APIConfiguration.backendBaseUri + "/v1/recipe/$recipeId");
+        Uri.parse("${APIConfiguration.backendBaseUri}/v1/recipe/$recipeId");
     http.Response response;
     try {
       response = await http.get(uri);
@@ -100,7 +100,7 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
   Future<HttpWriteResult> createIngredientUsage(
       CreateIngredientUsageRequest request) async {
     var uri =
-        Uri.parse(APIConfiguration.backendBaseUri + "/v1/ingredient/usage");
+        Uri.parse("${APIConfiguration.backendBaseUri}/v1/ingredient/usage");
     http.Response response;
     try {
       response = await http.post(uri,
@@ -130,8 +130,8 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
   @override
   Future<HttpWriteResult> updateIngredientUsage(
       UpdateIngredientUsageRequest request) async {
-    var uri = Uri.parse(APIConfiguration.backendBaseUri +
-        "/v1/ingredient/usage/${request.ingredientUsageId}");
+    var uri = Uri.parse(
+        "${APIConfiguration.backendBaseUri}/v1/ingredient/usage/${request.ingredientUsageId}");
 
     http.Response response;
     try {
@@ -161,8 +161,8 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
   @override
   Future<HttpWriteResult> deleteIngredientUsage(
       String ingredientUsageId) async {
-    var uri = Uri.parse(APIConfiguration.backendBaseUri +
-        "/v1/ingredient/usage/$ingredientUsageId");
+    var uri = Uri.parse(
+        "${APIConfiguration.backendBaseUri}/v1/ingredient/usage/$ingredientUsageId");
     http.Response response;
     try {
       response = await http.delete(uri);
@@ -183,7 +183,7 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
   @override
   Future<HttpWriteResult> deleteRecipeById(DeleteRecipeRequest request) async {
     var uri = Uri.parse(
-        APIConfiguration.backendBaseUri + "/v1/recipe/${request.recipeId}");
+        "${APIConfiguration.backendBaseUri}/v1/recipe/${request.recipeId}");
     http.Response response;
     try {
       response = await http.delete(uri);
@@ -205,7 +205,7 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
   Future<HttpWriteResult> createPreparationStep(
       CreatePreparationStepRequest request) async {
     var uri = Uri.parse(
-        APIConfiguration.backendBaseUri + "/v1/recipe/preparationStep");
+        "${APIConfiguration.backendBaseUri}/v1/recipe/preparationStep");
     http.Response response;
     try {
       response = await http.post(uri,
@@ -235,8 +235,8 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
   @override
   Future<HttpWriteResult> deletePreparationStep(
       String preparationStepId) async {
-    var uri = Uri.parse(APIConfiguration.backendBaseUri +
-        "/v1/recipe/preparationStep/$preparationStepId");
+    var uri = Uri.parse(
+        "${APIConfiguration.backendBaseUri}/v1/recipe/preparationStep/$preparationStepId");
     http.Response response;
     try {
       response = await http.delete(uri);
@@ -257,8 +257,8 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
   @override
   Future<HttpWriteResult> updatePreparationStep(
       UpdatePreparationStepRequest request) async {
-    var uri = Uri.parse(APIConfiguration.backendBaseUri +
-        "/v1/recipe/preparationStep/${request.preparationStepId}");
+    var uri = Uri.parse(
+        "${APIConfiguration.backendBaseUri}/v1/recipe/preparationStep/${request.preparationStepId}");
 
     http.Response response;
     try {

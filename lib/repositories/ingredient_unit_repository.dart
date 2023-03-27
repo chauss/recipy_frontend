@@ -20,7 +20,7 @@ class RecipyIngredientUnitRepository extends IngredientUnitRepository
   @override
   Future<HttpReadResult<List<IngredientUnit>>> fetchIngredientUnits() async {
     var uri =
-        Uri.parse(APIConfiguration.backendBaseUri + "/v1/ingredient/units");
+        Uri.parse("${APIConfiguration.backendBaseUri}/v1/ingredient/units");
     http.Response response;
     try {
       response = await http.get(uri);
@@ -46,7 +46,7 @@ class RecipyIngredientUnitRepository extends IngredientUnitRepository
   Future<HttpWriteResult> addIngredientUnit(
       AddIngredientUnitRequest request) async {
     var uri =
-        Uri.parse(APIConfiguration.backendBaseUri + "/v1/ingredient/unit");
+        Uri.parse("${APIConfiguration.backendBaseUri}/v1/ingredient/unit");
     http.Response response;
     try {
       response = await http.post(uri,
@@ -71,8 +71,8 @@ class RecipyIngredientUnitRepository extends IngredientUnitRepository
   @override
   Future<HttpWriteResult> deleteIngredientUnitById(
       DeleteIngredientUnitRequest request) async {
-    var uri = Uri.parse(APIConfiguration.backendBaseUri +
-        "/v1/ingredient/unit/${request.ingredientUnitId}");
+    var uri = Uri.parse(
+        "${APIConfiguration.backendBaseUri}/v1/ingredient/unit/${request.ingredientUnitId}");
     http.Response response;
     try {
       response = await http.delete(uri);
