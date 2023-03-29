@@ -14,6 +14,7 @@ import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/edita
 import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/preparation_step_widget.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/recipe/image_stuff_widget.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_model.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/recipe_images/recipe_images_widget.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/ingredient_usage_widget.dart';
 import 'package:recipy_frontend/widgets/info_dialog.dart';
 import 'package:recipy_frontend/widgets/process_indicator.dart';
@@ -65,7 +66,7 @@ class RecipeDetailPage extends ConsumerWidget {
     return ListView(
       padding: const EdgeInsets.only(left: 24, right: 24, top: 32),
       children: [
-        ImageStuffWidget(recipeImages: model.recipe?.recipeImages),
+        RecipeImagesWidget(recipeId: model.recipeId),
         Text(
           "recipe_details.heading.ingredients",
           style: Theme.of(context).textTheme.headline5,

@@ -52,11 +52,13 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
     var uri = Uri.parse("${APIConfiguration.backendBaseUri}/v1/recipe");
     http.Response response;
     try {
-      response = await http.post(uri,
-          body: json.encode(<String, String>{"name": request.name}),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          });
+      response = await http.post(
+        uri,
+        body: json.encode(<String, String>{"name": request.name}),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
     } on SocketException catch (_) {
       log.warning(
           "Could not add recipe \"${request.name}\": Server unreachable");

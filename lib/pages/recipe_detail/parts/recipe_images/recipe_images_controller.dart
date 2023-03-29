@@ -8,6 +8,7 @@ import 'package:recipy_frontend/pages/recipe_detail/parts/recipe_images/loadable
 import 'package:recipy_frontend/pages/recipe_detail/parts/recipe_images/recipe_images_model.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/recipe_images/recipe_images_widget.dart';
 import 'package:recipy_frontend/repositories/http_read_result.dart';
+import 'package:recipy_frontend/repositories/http_write_result.dart';
 
 class RecipeImagesControllerImpl extends RecipeImagesController {
   static final log = Logger('RecipeImagesControllerImpl');
@@ -75,8 +76,9 @@ class RecipeImagesControllerImpl extends RecipeImagesController {
 
   @override
   void addNewRecipeImage(
-      String recipeId, Uint8List imageBytes, String fileExtension) {
-    // TODO: implement addNewRecipeImage
+      String recipeId, Uint8List imageBytes, String fileExtension) async {
+    await _repository.addRecipeImage(recipeId, imageBytes, fileExtension);
+    _fetchRecipeImages();
   }
 
   @override
@@ -96,4 +98,6 @@ abstract class RecipeImagesRepository {
       String recipeId);
   Future<HttpReadResult<Uint8List>> getImageForRecipe(
       String recipeId, String imageId);
+  Future<HttpWriteResult> addRecipeImage(
+      String recipeId, Uint8List bytes, String fileExtension);
 }
