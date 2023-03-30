@@ -9,10 +9,10 @@ class BurgerIcon extends StatefulWidget {
       : super(key: key);
 
   @override
-  _BurgerIconState createState() => _BurgerIconState();
+  BurgerIconState createState() => BurgerIconState();
 }
 
-class _BurgerIconState extends State<BurgerIcon> {
+class BurgerIconState extends State<BurgerIcon> {
   final String cuteEyesBurgerAsset = 'assets/icons/burger_cute_eyes.png';
   final String smilingBurgerAsset = 'assets/icons/burger_smiling.png';
   bool showSmilingBurger = false;

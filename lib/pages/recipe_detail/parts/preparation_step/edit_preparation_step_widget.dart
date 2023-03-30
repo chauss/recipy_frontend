@@ -46,11 +46,11 @@ class EditPreparationStepWidget extends StatelessWidget {
         ).tr(namedArgs: {'stepNumber': step.stepNumber.toString()}),
         Expanded(child: Container()),
         InkWell(
+          onTap: onDeletePreparationStepCallback,
           child: Image.asset(
             'assets/icons/trash.png',
             width: 20,
           ),
-          onTap: onDeletePreparationStepCallback,
         ),
         const SizedBox(width: 20),
         ReorderableDragStartListener(

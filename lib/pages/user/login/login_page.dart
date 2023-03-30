@@ -87,6 +87,8 @@ class LoginPage extends ConsumerWidget {
                       emailController.text,
                       passwordController.text,
                     ),
+            style: TextButton.styleFrom(
+                backgroundColor: Theme.of(context).primaryColor),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -104,8 +106,6 @@ class LoginPage extends ConsumerWidget {
                     : Container()
               ],
             ),
-            style: TextButton.styleFrom(
-                backgroundColor: Theme.of(context).primaryColor),
           )
         ],
       ),

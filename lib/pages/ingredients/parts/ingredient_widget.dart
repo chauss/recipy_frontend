@@ -38,11 +38,11 @@ class IngredientWidget extends StatelessWidget {
               Align(
                 alignment: Alignment.centerRight,
                 child: InkWell(
+                  onTap: onDeleteIngredientCallback,
                   child: Image.asset(
                     'assets/icons/trash.png',
                     height: 24,
                   ),
-                  onTap: onDeleteIngredientCallback,
                 ),
               ),
             ],

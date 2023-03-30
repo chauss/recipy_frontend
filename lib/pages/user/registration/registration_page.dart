@@ -102,6 +102,8 @@ class RegistrationPage extends ConsumerWidget {
                       passwordController.text,
                       displayNameController.text,
                     ),
+            style: TextButton.styleFrom(
+                backgroundColor: Theme.of(context).primaryColor),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -119,8 +121,6 @@ class RegistrationPage extends ConsumerWidget {
                     : Container()
               ],
             ),
-            style: TextButton.styleFrom(
-                backgroundColor: Theme.of(context).primaryColor),
           )
         ],
       ),

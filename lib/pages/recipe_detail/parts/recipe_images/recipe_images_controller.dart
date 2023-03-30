@@ -82,14 +82,9 @@ class RecipeImagesControllerImpl extends RecipeImagesController {
   }
 
   @override
-  void deleteRecipeImage(String recipeId, String imageId) {
-    // TODO: implement deleteRecipeImage
-  }
-
-  @override
-  Future<Uint8List> getRecipeImage(String recipeId, String imageId) {
-    // TODO: implement getRecipeImage
-    throw UnimplementedError();
+  void deleteRecipeImage(String imageId) async {
+    await _repository.removeRecipeImage(state.recipeId, imageId);
+    _fetchRecipeImages();
   }
 }
 
@@ -100,4 +95,5 @@ abstract class RecipeImagesRepository {
       String recipeId, String imageId);
   Future<HttpWriteResult> addRecipeImage(
       String recipeId, Uint8List bytes, String fileExtension);
+  Future<HttpWriteResult> removeRecipeImage(String recipeId, String imageId);
 }

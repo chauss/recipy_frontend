@@ -39,11 +39,11 @@ class IngredientUnitWidget extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: InkWell(
+                onTap: onDeleteIngredientUnitCallback,
                 child: Image.asset(
                   'assets/icons/trash.png',
                   height: 24,
                 ),
-                onTap: onDeleteIngredientUnitCallback,
               ),
             ),
           ],

@@ -97,4 +97,27 @@ class RecipyRecipeImagesRepository extends RecipeImagesRepository {
     return handleHttpWriteFailed(
         log, response, "Failed to add (recipe)Image to recipe $recipeId");
   }
+
+  @override
+  Future<HttpWriteResult> removeRecipeImage(
+      String recipeId, String imageId) async {
+    var uri = Uri.parse(
+        "${APIConfiguration.backendBaseUri}/v1/recipe/$recipeId/image/$imageId");
+    http.Response response;
+    try {
+      response = await http.delete(uri);
+    } on SocketException catch (_) {
+      log.warning(
+          "Could not delete recipeImage $imageId from recipe $recipeId: Server unreachable");
+      return HttpWriteResult(
+          success: false, errorCode: ErrorCodes.serverUnreachable);
+    }
+
+    if (is2xx(response.statusCode)) {
+      log.fine("Deleted recipeImage $imageId from recipe $recipeId");
+      return HttpWriteResult(success: true);
+    }
+    return handleHttpWriteFailed(log, response,
+        "Failed to delete recipeImage $imageId from recipe $recipeId");
+  }
 }

@@ -51,11 +51,11 @@ class EditIngredientUsageWidget extends StatelessWidget {
         ),
         Expanded(child: Container()),
         InkWell(
+          onTap: onDeleteIngredientUsageCallback,
           child: Image.asset(
             'assets/icons/trash.png',
             width: 28,
           ),
-          onTap: onDeleteIngredientUsageCallback,
         ),
       ],
     );

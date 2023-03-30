@@ -17,6 +17,7 @@ class RecipeImagesWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var currentPage = 0;
     RecipeImagesController controller =
         ref.read(recipeImagesControllerProvider(recipeId).notifier);
 
@@ -27,9 +28,9 @@ class RecipeImagesWidget extends ConsumerWidget {
       children: [
         CarouselSlider(
           options: CarouselOptions(
-            disableCenter: true,
-            enableInfiniteScroll: false,
-          ),
+              disableCenter: true,
+              enableInfiniteScroll: false,
+              onPageChanged: (page, reason) => currentPage = page),
           items: buildImages(model.loadableRecipeImages),
         ),
         Align(
@@ -37,6 +38,18 @@ class RecipeImagesWidget extends ConsumerWidget {
           child: ElevatedButton(
             onPressed: () => pickImage(model, controller),
             child: const Icon(Icons.add),
+          ),
+        ),
+        Align(
+          alignment: Alignment.topLeft,
+          child: ElevatedButton(
+            onPressed: () {
+              print("currentPage = $currentPage");
+              var imageId =
+                  model.loadableRecipeImages[currentPage].recipeImage.imageId;
+              controller.deleteRecipeImage(imageId);
+            },
+            child: const Icon(Icons.delete),
           ),
         )
       ],
@@ -59,7 +72,7 @@ class RecipeImagesWidget extends ConsumerWidget {
     final ImagePicker picker = ImagePicker();
     try {
       XFile? selectedImage = await picker.pickImage(
-        source: ImageSource.camera,
+        source: ImageSource.gallery,
         maxWidth: 1920,
         maxHeight: 1080,
         requestFullMetadata: true,
@@ -80,6 +93,5 @@ abstract class RecipeImagesController extends StateNotifier<RecipeImagesModel> {
 
   void addNewRecipeImage(
       String recipeId, Uint8List imageBytes, String fileExtension);
-  Future<Uint8List> getRecipeImage(String recipeId, String imageId);
-  void deleteRecipeImage(String recipeId, String imageId);
+  void deleteRecipeImage(String imageId);
 }

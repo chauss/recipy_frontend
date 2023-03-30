@@ -12,7 +12,6 @@ import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/edit_
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/editable_ingredient_usage.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/editable_preparation_step.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/preparation_step_widget.dart';
-import 'package:recipy_frontend/pages/recipe_detail/parts/recipe/image_stuff_widget.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_model.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/recipe_images/recipe_images_widget.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/ingredient_usage_widget.dart';

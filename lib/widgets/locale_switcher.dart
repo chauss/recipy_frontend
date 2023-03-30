@@ -11,6 +11,9 @@ class LocaleSwitcher extends StatelessWidget {
       children: supportedLocales
           .map(
             (locale) => TextButton(
+              onPressed: context.locale == locale
+                  ? null
+                  : () => context.setLocale(locale),
               child: Text(
                 locale.toString(),
                 style: TextStyle(
@@ -21,9 +24,6 @@ class LocaleSwitcher extends StatelessWidget {
                       : FontWeight.normal,
                 ),
               ),
-              onPressed: context.locale == locale
-                  ? null
-                  : () => context.setLocale(locale),
             ),
           )
           .toList(),
