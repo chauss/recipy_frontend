@@ -13,7 +13,6 @@ import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/creat
 import 'package:recipy_frontend/pages/recipe_detail/parts/recipe/delete_recipe_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_controller.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/update_ingredient_usage_request.dart';
-import 'package:recipy_frontend/pages/recipe_overview/parts/add_recipe_request.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_controller.dart';
 import 'package:recipy_frontend/repositories/http_read_result.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
@@ -48,30 +47,32 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
   }
 
   @override
-  Future<HttpWriteResult> addRecipe(AddRecipeRequest request) async {
+  Future<HttpWriteResult> addRecipe(String name, String userToken) async {
     var uri = Uri.parse("${APIConfiguration.backendBaseUri}/v1/recipe");
     http.Response response;
     try {
       response = await http.post(
         uri,
-        body: json.encode(<String, String>{"name": request.name}),
+        body: json.encode(<String, String>{
+          "name": name,
+          "userToken": userToken,
+        }),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
     } on SocketException catch (_) {
-      log.warning(
-          "Could not add recipe \"${request.name}\": Server unreachable");
+      log.warning("Could not add recipe \"$name\": Server unreachable");
       return HttpWriteResult(
           success: false, errorCode: ErrorCodes.serverUnreachable);
     }
 
     if (is2xx(response.statusCode)) {
-      log.fine("Added recipe \"${request.name}\"");
+      log.fine("Added recipe \"$name\"");
       return HttpWriteResult(success: true);
     }
     return handleHttpWriteFailed(
-        log, response, "Failed to add recipe \"${request.name}\"");
+        log, response, "Failed to add recipe \"$name\"");
   }
 
   @override

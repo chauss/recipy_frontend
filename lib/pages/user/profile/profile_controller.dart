@@ -15,7 +15,7 @@ class ProfileControllerImpl extends ProfileController {
   }
 
   Future<void> init() async {
-    User? user = _repository.getCurrentUser();
+    User? user = await _repository.getCurrentUser();
     state = state.copyWith(
       displayName: user?.displayName ?? "",
       email: user?.email ?? "",
@@ -30,6 +30,6 @@ class ProfileControllerImpl extends ProfileController {
 }
 
 abstract class ProfileRepository {
-  User? getCurrentUser();
+  Future<User?> getCurrentUser();
   Future<void> logoutUser();
 }

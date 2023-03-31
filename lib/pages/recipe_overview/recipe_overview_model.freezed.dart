@@ -19,6 +19,7 @@ mixin _$RecipeOverviewModel {
   List<RecipeOverview> get recipeOverviews =>
       throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
+  bool get canAddNewRecipe => throw _privateConstructorUsedError;
   int? get errorCode => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -33,7 +34,10 @@ abstract class $RecipeOverviewModelCopyWith<$Res> {
       _$RecipeOverviewModelCopyWithImpl<$Res, RecipeOverviewModel>;
   @useResult
   $Res call(
-      {List<RecipeOverview> recipeOverviews, bool isLoading, int? errorCode});
+      {List<RecipeOverview> recipeOverviews,
+      bool isLoading,
+      bool canAddNewRecipe,
+      int? errorCode});
 }
 
 /// @nodoc
@@ -51,6 +55,7 @@ class _$RecipeOverviewModelCopyWithImpl<$Res, $Val extends RecipeOverviewModel>
   $Res call({
     Object? recipeOverviews = null,
     Object? isLoading = null,
+    Object? canAddNewRecipe = null,
     Object? errorCode = freezed,
   }) {
     return _then(_value.copyWith(
@@ -61,6 +66,10 @@ class _$RecipeOverviewModelCopyWithImpl<$Res, $Val extends RecipeOverviewModel>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      canAddNewRecipe: null == canAddNewRecipe
+          ? _value.canAddNewRecipe
+          : canAddNewRecipe // ignore: cast_nullable_to_non_nullable
               as bool,
       errorCode: freezed == errorCode
           ? _value.errorCode
@@ -79,7 +88,10 @@ abstract class _$$_RecipeOverviewModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<RecipeOverview> recipeOverviews, bool isLoading, int? errorCode});
+      {List<RecipeOverview> recipeOverviews,
+      bool isLoading,
+      bool canAddNewRecipe,
+      int? errorCode});
 }
 
 /// @nodoc
@@ -95,6 +107,7 @@ class __$$_RecipeOverviewModelCopyWithImpl<$Res>
   $Res call({
     Object? recipeOverviews = null,
     Object? isLoading = null,
+    Object? canAddNewRecipe = null,
     Object? errorCode = freezed,
   }) {
     return _then(_$_RecipeOverviewModel(
@@ -105,6 +118,10 @@ class __$$_RecipeOverviewModelCopyWithImpl<$Res>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      canAddNewRecipe: null == canAddNewRecipe
+          ? _value.canAddNewRecipe
+          : canAddNewRecipe // ignore: cast_nullable_to_non_nullable
               as bool,
       errorCode: freezed == errorCode
           ? _value.errorCode
@@ -120,6 +137,7 @@ class _$_RecipeOverviewModel implements _RecipeOverviewModel {
   const _$_RecipeOverviewModel(
       {final List<RecipeOverview> recipeOverviews = const [],
       this.isLoading = false,
+      this.canAddNewRecipe = false,
       this.errorCode})
       : _recipeOverviews = recipeOverviews;
 
@@ -136,11 +154,14 @@ class _$_RecipeOverviewModel implements _RecipeOverviewModel {
   @JsonKey()
   final bool isLoading;
   @override
+  @JsonKey()
+  final bool canAddNewRecipe;
+  @override
   final int? errorCode;
 
   @override
   String toString() {
-    return 'RecipeOverviewModel(recipeOverviews: $recipeOverviews, isLoading: $isLoading, errorCode: $errorCode)';
+    return 'RecipeOverviewModel(recipeOverviews: $recipeOverviews, isLoading: $isLoading, canAddNewRecipe: $canAddNewRecipe, errorCode: $errorCode)';
   }
 
   @override
@@ -152,6 +173,8 @@ class _$_RecipeOverviewModel implements _RecipeOverviewModel {
                 .equals(other._recipeOverviews, _recipeOverviews) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.canAddNewRecipe, canAddNewRecipe) ||
+                other.canAddNewRecipe == canAddNewRecipe) &&
             (identical(other.errorCode, errorCode) ||
                 other.errorCode == errorCode));
   }
@@ -161,6 +184,7 @@ class _$_RecipeOverviewModel implements _RecipeOverviewModel {
       runtimeType,
       const DeepCollectionEquality().hash(_recipeOverviews),
       isLoading,
+      canAddNewRecipe,
       errorCode);
 
   @JsonKey(ignore: true)
@@ -175,12 +199,15 @@ abstract class _RecipeOverviewModel implements RecipeOverviewModel {
   const factory _RecipeOverviewModel(
       {final List<RecipeOverview> recipeOverviews,
       final bool isLoading,
+      final bool canAddNewRecipe,
       final int? errorCode}) = _$_RecipeOverviewModel;
 
   @override
   List<RecipeOverview> get recipeOverviews;
   @override
   bool get isLoading;
+  @override
+  bool get canAddNewRecipe;
   @override
   int? get errorCode;
   @override

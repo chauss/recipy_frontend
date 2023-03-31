@@ -44,7 +44,6 @@ class RecipeImagesWidget extends ConsumerWidget {
           alignment: Alignment.topLeft,
           child: ElevatedButton(
             onPressed: () {
-              print("currentPage = $currentPage");
               var imageId =
                   model.loadableRecipeImages[currentPage].recipeImage.imageId;
               controller.deleteRecipeImage(imageId);

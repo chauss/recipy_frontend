@@ -8,6 +8,7 @@ class RecipeOverviewModel with _$RecipeOverviewModel {
   const factory RecipeOverviewModel({
     @Default([]) List<RecipeOverview> recipeOverviews,
     @Default(false) bool isLoading,
+    @Default(false) bool canAddNewRecipe,
     int? errorCode,
   }) = _RecipeOverviewModel;
 }

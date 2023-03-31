@@ -6,9 +6,10 @@ import 'package:recipy_frontend/pages/user/registration/registration_controller.
 import 'package:recipy_frontend/pages/user/user_management_repository.dart';
 
 class FirebaseUserRepository extends RegistrationRepository
-    with LoginRepository, UserManagementRepository, ProfileRepository {
+    with LoginRepository, ProfileRepository, UserManagementRepository {
   final firebase.FirebaseAuth _firebaseAuth = firebase.FirebaseAuth.instance;
 
+  // TODO dont return firebase stuff
   @override
   Future<firebase.UserCredential> register(
       String email, String password) async {
@@ -17,24 +18,20 @@ class FirebaseUserRepository extends RegistrationRepository
   }
 
   @override
-  Future<firebase.UserCredential> login(String email, String password) async {
-    return await _firebaseAuth.signInWithEmailAndPassword(
+  Future<void> login(String email, String password) async {
+    await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
   }
 
   @override
-  bool isUserLoggedIn() {
-    return _firebaseAuth.currentUser != null;
-  }
-
-  @override
-  User? getCurrentUser() {
+  Future<User?> getCurrentUser() async {
     var firebaseUser = _firebaseAuth.currentUser;
     if (firebaseUser != null) {
       return User(
         email: firebaseUser.email ?? "anonymous",
         userId: firebaseUser.uid,
         displayName: firebaseUser.displayName ?? "",
+        authToken: await firebaseUser.getIdToken(),
       );
     }
     return null;
@@ -43,5 +40,28 @@ class FirebaseUserRepository extends RegistrationRepository
   @override
   Future<void> logoutUser() async {
     await _firebaseAuth.signOut();
+  }
+
+  @override
+  void addOnUserStateChangedListener(UserChangedCalback callback) {
+    _firebaseAuth.authStateChanges().listen((firebaseUser) async {
+      if (firebaseUser != null) {
+        callback(
+          User(
+            email: firebaseUser.email ?? "anonymous",
+            userId: firebaseUser.uid,
+            displayName: firebaseUser.displayName ?? "",
+            authToken: await firebaseUser.getIdToken(),
+          ),
+        );
+      } else {
+        callback(null);
+      }
+    });
+  }
+
+  @override
+  bool isUserLoggedIn() {
+    return _firebaseAuth.currentUser != null;
   }
 }
