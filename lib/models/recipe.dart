@@ -8,6 +8,7 @@ class Recipe {
   final List<IngredientUsage> ingredientUsages;
   final List<PreparationStep> preparationSteps;
   final List<RecipeImage> recipeImages;
+  final String creator;
   final DateTime created;
 
   const Recipe({
@@ -16,6 +17,7 @@ class Recipe {
     required this.ingredientUsages,
     required this.preparationSteps,
     required this.recipeImages,
+    required this.creator,
     required this.created,
   });
 
@@ -42,6 +44,7 @@ class Recipe {
       ingredientUsages: usages,
       preparationSteps: preparationSteps,
       recipeImages: recipeImages,
+      creator: recipeJson['creator'],
       created: DateTime.fromMillisecondsSinceEpoch(recipeJson['created']),
     );
   }

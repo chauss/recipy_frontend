@@ -10,7 +10,6 @@ import 'package:recipy_frontend/models/recipe_overview.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/create_ingredient_usage_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/update_preparation_step_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/create_preparation_step_request.dart';
-import 'package:recipy_frontend/pages/recipe_detail/parts/recipe/delete_recipe_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_controller.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/update_ingredient_usage_request.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_controller.dart';
@@ -184,12 +183,23 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
   }
 
   @override
-  Future<HttpWriteResult> deleteRecipeById(DeleteRecipeRequest request) async {
-    var uri = Uri.parse(
-        "${APIConfiguration.backendBaseUri}/v1/recipe/${request.recipeId}");
+  Future<HttpWriteResult> deleteRecipeById(
+      String recipeId, String userToken) async {
+    var uri =
+        Uri.parse("${APIConfiguration.backendBaseUri}/v1/recipe/$recipeId");
     http.Response response;
     try {
-      response = await http.delete(uri);
+      response = await http.delete(
+        uri,
+        body: json.encode(
+          <String, Object>{
+            "userToken": userToken,
+          },
+        ),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
     } on SocketException catch (_) {
       log.warning("Could not delete recipe by id: Server unreachable");
       return HttpWriteResult(
@@ -197,7 +207,7 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
     }
 
     if (is2xx(response.statusCode)) {
-      log.fine("Deleted recipe ${request.recipeId}");
+      log.fine("Deleted recipe $recipeId");
       return HttpWriteResult(success: true);
     }
     return handleHttpWriteFailed(

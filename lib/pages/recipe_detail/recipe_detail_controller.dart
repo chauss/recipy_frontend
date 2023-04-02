@@ -5,18 +5,19 @@ import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/ingredient_usage.dart';
 import 'package:recipy_frontend/models/preparation_step.dart';
 import 'package:recipy_frontend/models/recipe.dart';
+import 'package:recipy_frontend/models/user.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/create_ingredient_usage_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/delete_ingredient_usage_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/create_preparation_step_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/delete_preparation_step_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/update_preparation_step_request.dart';
-import 'package:recipy_frontend/pages/recipe_detail/parts/recipe/delete_recipe_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/editable_ingredient_usage.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/editable_preparation_step.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/save_exception.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_model.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_page.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/update_ingredient_usage_request.dart';
+import 'package:recipy_frontend/pages/user/user_management_repository.dart';
 import 'package:recipy_frontend/repositories/http_read_result.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
 
@@ -24,15 +25,24 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   static final log = Logger('RecipeDetailControllerImpl');
 
   late RecipeDetailRepository _repository;
+  late UserManagementRepository _userManagementRepository;
 
   RecipeDetailControllerImpl(RecipeDetailModel state) : super(state) {
     final container = ProviderContainer();
     _repository = container.read(recipeDetailRepositoryProvider);
+
+    _userManagementRepository =
+        container.read(userManagementRepositoryProvider);
+
+    _userManagementRepository.addOnUserStateChangedListener(_onUserChanged);
+
     _init();
   }
 
   void _init() async {
     await _fetchRecipe();
+    // NOTE: must come after _fetchRecipe because we compare user with the recipe creator
+    _onUserChanged(await _userManagementRepository.getCurrentUser());
   }
 
   Future<void> _fetchRecipe() async {
@@ -288,9 +298,18 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   }
 
   @override
-  Future<bool> deleteRecipe(DeleteRecipeRequest request) async {
+  Future<bool> deleteRecipe() async {
     state = state.copyWith(isLoading: true);
-    var result = await _repository.deleteRecipeById(request);
+    User? currentUser = await _userManagementRepository.getCurrentUser();
+    if (currentUser == null) {
+      state = state.copyWith(
+        errorCode: ErrorCodes.couldNotFindUserToDeleteRecipeWith,
+        isLoading: false,
+      );
+      return false;
+    }
+    var result = await _repository.deleteRecipeById(
+        state.recipeId, currentUser.authToken);
     if (result.success) {
       state = state.copyWith(
         recipe: null,
@@ -373,11 +392,17 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
     }
     state = state.copyWith(editableSteps: newEditableSteps);
   }
+
+  void _onUserChanged(User? newUser) {
+    var canDeleteRecipe =
+        newUser != null && newUser.userId == state.recipe?.creator;
+    state = state.copyWith(canDeleteRecipe: canDeleteRecipe);
+  }
 }
 
 abstract class RecipeDetailRepository {
   Future<HttpReadResult<Recipe>> fetchRecipeById(String recipeId);
-  Future<HttpWriteResult> deleteRecipeById(DeleteRecipeRequest request);
+  Future<HttpWriteResult> deleteRecipeById(String recipeId, String userToken);
 
   Future<HttpWriteResult> createIngredientUsage(
       CreateIngredientUsageRequest request);

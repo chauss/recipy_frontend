@@ -6,7 +6,6 @@ import 'package:recipy_frontend/models/ingredient_usage.dart';
 import 'package:recipy_frontend/models/preparation_step.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/delete_ingredient_usage_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/delete_preparation_step_request.dart';
-import 'package:recipy_frontend/pages/recipe_detail/parts/recipe/delete_recipe_request.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/edit_ingredient_usage_widget.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/edit_preparation_step_widget.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/editable_ingredient_usage.dart';
@@ -274,34 +273,39 @@ class RecipeDetailPage extends ConsumerWidget {
     return [
       PopupMenuButton(
         icon: const Icon(Icons.more_vert),
-        itemBuilder: (context) => [
-          PopupMenuItem<Function>(
-            value: controller.enterEditMode,
-            child: Row(
-              children: [
-                Image.asset(
-                  "assets/icons/edit.png",
-                  width: 24,
-                ),
-                const SizedBox(width: 12),
-                const Text("common.edit").tr(),
-              ],
+        itemBuilder: (context) {
+          var items = [
+            PopupMenuItem<Function>(
+              value: controller.enterEditMode,
+              child: Row(
+                children: [
+                  Image.asset(
+                    "assets/icons/edit.png",
+                    width: 24,
+                  ),
+                  const SizedBox(width: 12),
+                  const Text("common.edit").tr(),
+                ],
+              ),
             ),
-          ),
-          PopupMenuItem<Function>(
-            value: () => showDeleteRecipeDialog(context, controller),
-            child: Row(
-              children: [
-                Image.asset(
-                  "assets/icons/trash.png",
-                  width: 24,
-                ),
-                const SizedBox(width: 12),
-                const Text("common.delete").tr(),
-              ],
-            ),
-          ),
-        ],
+          ];
+          if (model.canDeleteRecipe) {
+            items.add(PopupMenuItem<Function>(
+              value: () => showDeleteRecipeDialog(context, controller),
+              child: Row(
+                children: [
+                  Image.asset(
+                    "assets/icons/trash.png",
+                    width: 24,
+                  ),
+                  const SizedBox(width: 12),
+                  const Text("common.delete").tr(),
+                ],
+              ),
+            ));
+          }
+          return items;
+        },
         onSelected: (Function action) => action(),
       ),
     ];
@@ -318,8 +322,7 @@ class RecipeDetailPage extends ConsumerWidget {
       title: "recipe_details.delete.dialog.title".tr(),
       info: "recipe_details.delete.dialog.info".tr(),
       onYesCallback: () async {
-        var success = await controller
-            .deleteRecipe(DeleteRecipeRequest(recipeId: recipeId));
+        var success = await controller.deleteRecipe();
         if (success) {
           goBack();
         }
@@ -343,7 +346,7 @@ abstract class RecipeDetailController extends StateNotifier<RecipeDetailModel> {
   void updateUsageIngredientUnit(
       EditableIngredientUsage usage, String? ingredientUnitId);
   void deleteIngredientUsage(DeleteIngredientUsageRequest request);
-  Future<bool> deleteRecipe(DeleteRecipeRequest request);
+  Future<bool> deleteRecipe();
 
   void addNewPreparationStep();
   void reorderPreparationSteps(int start, int current);

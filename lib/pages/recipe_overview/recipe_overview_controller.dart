@@ -74,5 +74,5 @@ class RecipeOverviewControllerImpl extends RecipeOverviewController {
 
 abstract class RecipeOverviewRepository {
   Future<HttpReadResult<List<RecipeOverview>>> fetchRecipesAsOverview();
-  Future<HttpWriteResult> addRecipe(String name, String userId);
+  Future<HttpWriteResult> addRecipe(String name, String userToken);
 }

@@ -3,4 +3,5 @@ class ErrorCodes {
   static const ingredientUsageCanNotBeSaved = 20;
   static const couldNotFindUserToCreateNewRecipeWith = 30;
   static const triedToAddRecipeWhileItWasNotAllowed = 31;
+  static const couldNotFindUserToDeleteRecipeWith = 41;
 }

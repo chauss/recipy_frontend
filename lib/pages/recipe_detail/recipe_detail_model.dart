@@ -13,6 +13,7 @@ class RecipeDetailModel with _$RecipeDetailModel {
     @Default(false) bool isEditMode,
     @Default([]) List<EditableIngredientUsage> editableUsages,
     @Default([]) List<EditablePreparationStep> editableSteps,
+    @Default(false) canDeleteRecipe,
     int? errorCode,
     Recipe? recipe,
   }) = _RecipeDetailModel;
