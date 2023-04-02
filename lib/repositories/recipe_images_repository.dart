@@ -12,14 +12,21 @@ import 'package:recipy_frontend/models/recipe_image.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/recipe_images/recipe_images_controller.dart';
 import 'package:recipy_frontend/repositories/http_read_result.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
+import 'package:recipy_frontend/storage/recipy_image_cache.dart';
 
 class RecipyRecipeImagesRepository extends RecipeImagesRepository {
   static final log = Logger('RecipyRecipeImagesRepository');
+  final RecipyImageCache imageCache = RecipyImageCache();
 
   @override
   Future<HttpReadResult<Uint8List>> getImageForRecipe(
       String recipeId, String imageId) async {
-    var uri = Uri.parse(
+    final cachedImage = await imageCache.lookupImage(recipeId, imageId);
+    if (cachedImage != null) {
+      log.fine("Found image in cache: $recipeId/$imageId");
+      return HttpReadResult(success: true, data: cachedImage);
+    }
+    final uri = Uri.parse(
         "${APIConfiguration.backendBaseUri}/v1/recipe/$recipeId/image/$imageId");
     http.Response response;
     try {
@@ -31,6 +38,7 @@ class RecipyRecipeImagesRepository extends RecipeImagesRepository {
     }
 
     if (is2xx(response.statusCode)) {
+      imageCache.addImage(recipeId, imageId, response.bodyBytes);
       return HttpReadResult(success: true, data: response.bodyBytes);
     }
     return handleHttpReadFailed(
@@ -40,7 +48,7 @@ class RecipyRecipeImagesRepository extends RecipeImagesRepository {
   @override
   Future<HttpReadResult<List<RecipeImage>>> getRecipeImagesForRecipeId(
       String recipeId) async {
-    var uri = Uri.parse(
+    final uri = Uri.parse(
         "${APIConfiguration.backendBaseUri}/v1/recipe/$recipeId/images");
     http.Response response;
     try {
@@ -115,6 +123,7 @@ class RecipyRecipeImagesRepository extends RecipeImagesRepository {
 
     if (is2xx(response.statusCode)) {
       log.fine("Deleted recipeImage $imageId from recipe $recipeId");
+      imageCache.removeImage(recipeId, imageId);
       return HttpWriteResult(success: true);
     }
     return handleHttpWriteFailed(log, response,
