@@ -42,7 +42,7 @@ class EditPreparationStepWidget extends StatelessWidget {
       children: [
         Text(
           "recipe_details.step_number",
-          style: Theme.of(context).textTheme.subtitle1,
+          style: Theme.of(context).textTheme.titleMedium,
         ).tr(namedArgs: {'stepNumber': step.stepNumber.toString()}),
         Expanded(child: Container()),
         InkWell(

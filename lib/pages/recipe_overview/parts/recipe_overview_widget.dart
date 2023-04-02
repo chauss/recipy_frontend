@@ -25,7 +25,7 @@ class RecipeOverviewWidget extends StatelessWidget {
           child: Column(
             children: [
               Text(recipeOverview.name,
-                  style: Theme.of(context).textTheme.headline5),
+                  style: Theme.of(context).textTheme.headlineSmall),
               Text(DateFormat.Hm().format(recipeOverview.created)),
               Text(DateFormat.yMMMd().format(recipeOverview.created)),
             ],

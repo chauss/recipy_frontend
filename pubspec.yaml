@@ -26,6 +26,7 @@ dependencies:
   carousel_slider: ^4.2.1
   http_parser: ^4.0.2
   path: ^1.8.2
+  path_provider: ^2.0.14
 
 dev_dependencies:
   flutter_test:
@@ -62,9 +63,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: IndieFlower
+    - family: Roboto
       fonts:
-        - asset: assets/fonts/IndieFlower-Regular.ttf
+        - asset: assets/fonts/Roboto-Regular.ttf
           style: normal
   #   - family: Trajan Pro
   #     fonts:

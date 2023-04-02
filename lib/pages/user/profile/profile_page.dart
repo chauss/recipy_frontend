@@ -58,7 +58,7 @@ class ProfilePage extends ConsumerWidget {
               "user.profile.logout",
               style: Theme.of(context)
                   .textTheme
-                  .subtitle1
+                  .titleMedium
                   ?.copyWith(color: Theme.of(context).colorScheme.error),
             ).tr(),
           )

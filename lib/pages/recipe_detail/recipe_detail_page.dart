@@ -67,7 +67,7 @@ class RecipeDetailPage extends ConsumerWidget {
         RecipeImagesWidget(recipeId: model.recipeId),
         Text(
           "recipe_details.heading.ingredients",
-          style: Theme.of(context).textTheme.headline5,
+          style: Theme.of(context).textTheme.headlineSmall,
         ).tr(),
         ...buildIngredientUsages(controller, model),
         model.isEditMode
@@ -78,7 +78,7 @@ class RecipeDetailPage extends ConsumerWidget {
             : Container(),
         Text(
           "recipe_details.heading.preparation",
-          style: Theme.of(context).textTheme.headline5,
+          style: Theme.of(context).textTheme.headlineSmall,
         ).tr(),
         ...buildPreparationSteps(controller, model),
         model.isEditMode

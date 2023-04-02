@@ -113,7 +113,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           textInputAction: widget._textInputAction,
           keyboardType: widget._keyboardType,
           obscureText: widget._keyboardType == TextInputType.visiblePassword,
-          style: Theme.of(context).textTheme.bodyText1,
+          style: Theme.of(context).textTheme.bodyLarge,
           decoration: InputDecoration.collapsed(hintText: widget._hintText),
           onChanged: (text) {
             _onChangedDebounce?.cancel();

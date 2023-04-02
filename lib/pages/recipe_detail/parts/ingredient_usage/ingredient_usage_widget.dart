@@ -35,14 +35,14 @@ class IngredientUsageWidget extends StatelessWidget {
           textAlign: TextAlign.end,
           text: TextSpan(
             style:
-                Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 18),
+                Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 18),
             children: <TextSpan>[
               TextSpan(text: "${getAmountAsString()} "),
               TextSpan(
                 text: ingredientUnit.name,
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText1
+                    .bodyLarge
                     ?.copyWith(fontSize: 16),
               ),
             ],

@@ -31,10 +31,7 @@ class IngredientUnitsPage extends ConsumerWidget {
           child: Column(
             children: [
               Expanded(
-                child: Container(
-                  color: Colors.white,
-                  child: buildBody(context, model, controller),
-                ),
+                child: buildBody(context, model, controller),
               ),
               ExecutiveTextfield(
                 addFunction: (name) => controller

@@ -70,7 +70,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1089021017346',
     projectId: 'recipy-9b8ad',
     storageBucket: 'recipy-9b8ad.appspot.com',
-    iosClientId: '1089021017346-mpi811mchv24ps0ngvc2uu6ssrgecbci.apps.googleusercontent.com',
+    iosClientId:
+        '1089021017346-mpi811mchv24ps0ngvc2uu6ssrgecbci.apps.googleusercontent.com',
     iosBundleId: 'de.chauss.recipyFrontend',
   );
 }

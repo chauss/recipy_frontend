@@ -29,7 +29,7 @@ class NavDrawer extends StatelessWidget {
               leading: const Icon(Icons.home),
               title: Text(
                 "recipe_overview.title",
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headlineSmall,
               ).tr(),
               onTap: () => Beamer.of(context).beamToNamed(RecipyRoute.recipes),
             ),
@@ -37,19 +37,19 @@ class NavDrawer extends StatelessWidget {
               leading: Image.asset("assets/icons/ingredients.png", width: 30),
               title: Text(
                 "ingredients.title",
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headlineSmall,
               ).tr(),
               onTap: () =>
                   Beamer.of(context).beamToNamed(RecipyRoute.ingredients),
             ),
             ListTile(
-              leading: Padding(
-                padding: const EdgeInsets.only(left: 4),
-                child: Image.asset("assets/icons/units.png", width: 24),
+              leading: const Padding(
+                padding: EdgeInsets.only(left: 4),
+                child: Icon(Icons.tornado),
               ),
               title: Text(
                 "ingredient_units.title",
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headlineSmall,
               ).tr(),
               onTap: () =>
                   Beamer.of(context).beamToNamed(RecipyRoute.ingredientUnits),
@@ -72,9 +72,6 @@ class NavDrawer extends StatelessWidget {
 
   DrawerHeader buildDrawerHeader(BuildContext context) {
     return DrawerHeader(
-      decoration: BoxDecoration(
-        color: Theme.of(context).backgroundColor,
-      ),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -101,7 +98,7 @@ class NavDrawer extends StatelessWidget {
         leading: const Icon(Icons.person),
         title: Text(
           "user.profile.title",
-          style: Theme.of(context).textTheme.headline5,
+          style: Theme.of(context).textTheme.headlineSmall,
         ).tr(),
         onTap: () => Beamer.of(context).beamToNamed(RecipyRoute.userProfile),
       );
@@ -110,7 +107,7 @@ class NavDrawer extends StatelessWidget {
         leading: const Icon(Icons.login),
         title: Text(
           "user.login.title",
-          style: Theme.of(context).textTheme.headline5,
+          style: Theme.of(context).textTheme.headlineSmall,
         ).tr(),
         onTap: () => Beamer.of(context).beamToNamed(RecipyRoute.login),
       );
