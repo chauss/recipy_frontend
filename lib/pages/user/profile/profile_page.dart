@@ -1,9 +1,10 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/config/routes_config.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
-import 'package:recipy_frontend/widgets/nav_drawer.dart';
+import 'package:recipy_frontend/widgets/process_indicator.dart';
 import 'package:recipy_frontend/widgets/recipy_app_bar.dart';
 import 'profile_model.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -19,13 +20,17 @@ class ProfilePage extends ConsumerWidget {
 
     return Scaffold(
       appBar: RecipyAppBar(title: "user.profile.title".tr()),
-      drawer: NavDrawer(),
       body: buildBody(controller, model, context),
     );
   }
 
   Widget buildBody(
       ProfileController controller, ProfileModel model, BuildContext context) {
+    if (model.successfullyLoggedOut) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        context.beamToNamed(RecipyRoute.login);
+      });
+    }
     return Container(
       margin: const EdgeInsets.only(top: 30, left: 24, right: 24),
       child: Column(
@@ -50,17 +55,26 @@ class ProfilePage extends ConsumerWidget {
           ),
           const SizedBox(height: 40),
           TextButton(
-            onPressed: () {
-              controller.logoutUser().then((value) =>
-                  Beamer.of(context).beamToNamed(RecipyRoute.recipes));
-            },
-            child: Text(
-              "user.profile.logout",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(color: Theme.of(context).colorScheme.error),
-            ).tr(),
+            onPressed: () =>
+                model.logoutInProgress ? null : controller.logoutUser(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "user.profile.logout",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(color: Theme.of(context).colorScheme.error),
+                ).tr(),
+                model.logoutInProgress
+                    ? const Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: ProcessIndicator(color: Colors.white, size: 20),
+                      )
+                    : Container()
+              ],
+            ),
           )
         ],
       ),

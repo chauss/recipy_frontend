@@ -8,5 +8,7 @@ class ProfileModel with _$ProfileModel {
     @Default("") String displayName,
     @Default("") String email,
     @Default("") String userId,
+    @Default(false) bool logoutInProgress,
+    @Default(false) bool successfullyLoggedOut,
   }) = _ProfileModel;
 }

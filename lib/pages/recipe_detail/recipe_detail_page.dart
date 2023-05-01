@@ -16,6 +16,7 @@ import 'package:recipy_frontend/pages/recipe_detail/parts/recipe_images/recipe_i
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/ingredient_usage_widget.dart';
 import 'package:recipy_frontend/widgets/info_dialog.dart';
 import 'package:recipy_frontend/widgets/process_indicator.dart';
+import 'package:recipy_frontend/widgets/recipy_app_bar.dart';
 import 'package:recipy_frontend/widgets/yes_no_dialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -35,8 +36,8 @@ class RecipeDetailPage extends ConsumerWidget {
     return WillPopScope(
       onWillPop: () => discardChangesWithPrompt(context, controller, model),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(model.recipe?.name ?? ""),
+        appBar: RecipyAppBar(
+          title: model.recipe?.name ?? "",
           actions: buildAppBarActions(context, controller, model),
         ),
         body: buildBody(controller, model, context),

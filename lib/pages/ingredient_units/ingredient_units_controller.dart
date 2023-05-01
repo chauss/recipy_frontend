@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/pages/ingredient_units/parts/add_unit_request.dart';
-import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_model.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_page.dart';
 import 'package:recipy_frontend/pages/ingredient_units/parts/delete_ingredient_unit_request.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
@@ -10,7 +9,7 @@ import 'package:recipy_frontend/storage/in_memory_storage.dart';
 class IngredientUnitsControllerImpl extends IngredientUnitsController {
   late IngredientUnitRepository _repository;
 
-  IngredientUnitsControllerImpl(IngredientUnitsModel state) : super(state) {
+  IngredientUnitsControllerImpl(super.state) {
     final container = ProviderContainer();
     _repository = container.read(ingredientUnitRepositoryProvider);
     _init();

@@ -6,7 +6,6 @@ import 'package:recipy_frontend/config/routes_config.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_model.dart';
 import 'package:recipy_frontend/widgets/info_dialog.dart';
-import 'package:recipy_frontend/widgets/nav_drawer.dart';
 import 'package:recipy_frontend/widgets/process_indicator.dart';
 import 'package:recipy_frontend/pages/recipe_overview/parts/recipe_overview_widget.dart';
 import 'package:recipy_frontend/widgets/recipy_app_bar.dart';
@@ -25,7 +24,6 @@ class RecipeOverviewPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: RecipyAppBar(title: "recipe_overview.title".tr()),
-      drawer: NavDrawer(),
       body: buildBody(context, model, controller),
       floatingActionButton: model.canAddNewRecipe
           ? FloatingActionButton(

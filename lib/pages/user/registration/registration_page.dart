@@ -54,7 +54,7 @@ class RegistrationPage extends ConsumerWidget {
       });
     } else if (model.successfullyRegistered) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
-        Beamer.of(context).beamToNamed(RecipyRoute.recipes);
+        Beamer.of(context).beamToNamed(RecipyRoute.userProfile);
       });
     }
 

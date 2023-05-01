@@ -25,7 +25,18 @@ class ProfileControllerImpl extends ProfileController {
 
   @override
   Future<void> logoutUser() async {
+    if (state.logoutInProgress) {
+      return;
+    }
+    state = state.copyWith(logoutInProgress: true);
     await _repository.logoutUser();
+    state = state.copyWith(
+      logoutInProgress: false,
+      displayName: "",
+      email: "",
+      userId: "",
+      successfullyLoggedOut: true,
+    );
   }
 }
 

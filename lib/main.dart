@@ -45,7 +45,10 @@ class MyApp extends StatelessWidget {
         locale: context.locale,
         theme: appTheme,
         routeInformationParser: BeamerParser(),
-        routerDelegate: recipyRouterDelegate,
+        routerDelegate: routerDelegate,
+        backButtonDispatcher: BeamerBackButtonDispatcher(
+          delegate: routerDelegate,
+        ),
       ),
     );
   }

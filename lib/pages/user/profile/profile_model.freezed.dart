@@ -19,6 +19,8 @@ mixin _$ProfileModel {
   String get displayName => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
+  bool get logoutInProgress => throw _privateConstructorUsedError;
+  bool get successfullyLoggedOut => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProfileModelCopyWith<ProfileModel> get copyWith =>
@@ -31,7 +33,12 @@ abstract class $ProfileModelCopyWith<$Res> {
           ProfileModel value, $Res Function(ProfileModel) then) =
       _$ProfileModelCopyWithImpl<$Res, ProfileModel>;
   @useResult
-  $Res call({String displayName, String email, String userId});
+  $Res call(
+      {String displayName,
+      String email,
+      String userId,
+      bool logoutInProgress,
+      bool successfullyLoggedOut});
 }
 
 /// @nodoc
@@ -50,6 +57,8 @@ class _$ProfileModelCopyWithImpl<$Res, $Val extends ProfileModel>
     Object? displayName = null,
     Object? email = null,
     Object? userId = null,
+    Object? logoutInProgress = null,
+    Object? successfullyLoggedOut = null,
   }) {
     return _then(_value.copyWith(
       displayName: null == displayName
@@ -64,6 +73,14 @@ class _$ProfileModelCopyWithImpl<$Res, $Val extends ProfileModel>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
+      logoutInProgress: null == logoutInProgress
+          ? _value.logoutInProgress
+          : logoutInProgress // ignore: cast_nullable_to_non_nullable
+              as bool,
+      successfullyLoggedOut: null == successfullyLoggedOut
+          ? _value.successfullyLoggedOut
+          : successfullyLoggedOut // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -76,7 +93,12 @@ abstract class _$$_ProfileModelCopyWith<$Res>
       __$$_ProfileModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String displayName, String email, String userId});
+  $Res call(
+      {String displayName,
+      String email,
+      String userId,
+      bool logoutInProgress,
+      bool successfullyLoggedOut});
 }
 
 /// @nodoc
@@ -93,6 +115,8 @@ class __$$_ProfileModelCopyWithImpl<$Res>
     Object? displayName = null,
     Object? email = null,
     Object? userId = null,
+    Object? logoutInProgress = null,
+    Object? successfullyLoggedOut = null,
   }) {
     return _then(_$_ProfileModel(
       displayName: null == displayName
@@ -107,6 +131,14 @@ class __$$_ProfileModelCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
+      logoutInProgress: null == logoutInProgress
+          ? _value.logoutInProgress
+          : logoutInProgress // ignore: cast_nullable_to_non_nullable
+              as bool,
+      successfullyLoggedOut: null == successfullyLoggedOut
+          ? _value.successfullyLoggedOut
+          : successfullyLoggedOut // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -115,7 +147,11 @@ class __$$_ProfileModelCopyWithImpl<$Res>
 
 class _$_ProfileModel implements _ProfileModel {
   const _$_ProfileModel(
-      {this.displayName = "", this.email = "", this.userId = ""});
+      {this.displayName = "",
+      this.email = "",
+      this.userId = "",
+      this.logoutInProgress = false,
+      this.successfullyLoggedOut = false});
 
   @override
   @JsonKey()
@@ -126,10 +162,16 @@ class _$_ProfileModel implements _ProfileModel {
   @override
   @JsonKey()
   final String userId;
+  @override
+  @JsonKey()
+  final bool logoutInProgress;
+  @override
+  @JsonKey()
+  final bool successfullyLoggedOut;
 
   @override
   String toString() {
-    return 'ProfileModel(displayName: $displayName, email: $email, userId: $userId)';
+    return 'ProfileModel(displayName: $displayName, email: $email, userId: $userId, logoutInProgress: $logoutInProgress, successfullyLoggedOut: $successfullyLoggedOut)';
   }
 
   @override
@@ -140,11 +182,16 @@ class _$_ProfileModel implements _ProfileModel {
             (identical(other.displayName, displayName) ||
                 other.displayName == displayName) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.userId, userId) || other.userId == userId));
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.logoutInProgress, logoutInProgress) ||
+                other.logoutInProgress == logoutInProgress) &&
+            (identical(other.successfullyLoggedOut, successfullyLoggedOut) ||
+                other.successfullyLoggedOut == successfullyLoggedOut));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, displayName, email, userId);
+  int get hashCode => Object.hash(runtimeType, displayName, email, userId,
+      logoutInProgress, successfullyLoggedOut);
 
   @JsonKey(ignore: true)
   @override
@@ -157,7 +204,9 @@ abstract class _ProfileModel implements ProfileModel {
   const factory _ProfileModel(
       {final String displayName,
       final String email,
-      final String userId}) = _$_ProfileModel;
+      final String userId,
+      final bool logoutInProgress,
+      final bool successfullyLoggedOut}) = _$_ProfileModel;
 
   @override
   String get displayName;
@@ -165,6 +214,10 @@ abstract class _ProfileModel implements ProfileModel {
   String get email;
   @override
   String get userId;
+  @override
+  bool get logoutInProgress;
+  @override
+  bool get successfullyLoggedOut;
   @override
   @JsonKey(ignore: true)
   _$$_ProfileModelCopyWith<_$_ProfileModel> get copyWith =>

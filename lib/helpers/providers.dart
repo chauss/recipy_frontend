@@ -1,4 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipy_frontend/pages/home/home_controller.dart';
+import 'package:recipy_frontend/pages/home/home_model.dart';
+import 'package:recipy_frontend/pages/home/home_page.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_controller.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_model.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_page.dart';
@@ -172,3 +175,11 @@ final StateNotifierProviderFamily<RecipeImagesController, RecipeImagesModel,
   (ref, recipeId) =>
       RecipeImagesControllerImpl(RecipeImagesModel(recipeId: recipeId)),
 );
+
+// #############################################################################
+// # Bottom Navigation Bar
+// #############################################################################
+final StateNotifierProvider<HomeController, HomeModel>
+    recipyBottomNavigationBarProvider =
+    StateNotifierProvider<HomeController, HomeModel>(
+        (ref) => HomeControllerImpl(const HomeModel()));
