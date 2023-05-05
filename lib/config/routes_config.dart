@@ -1,39 +1,34 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
-import 'package:recipy_frontend/locations/recipe_location.dart';
+import 'package:recipy_frontend/locations/home_location.dart';
 import 'package:recipy_frontend/locations/user_location.dart';
-import 'package:recipy_frontend/pages/home/home_page.dart';
-import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_page.dart';
-import 'package:recipy_frontend/pages/ingredients/ingredients_page.dart';
-import 'package:recipy_frontend/pages/user/login/login_page.dart';
-import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_page.dart';
-import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_page.dart';
-import 'package:recipy_frontend/pages/user/profile/profile_page.dart';
-
-import '../pages/user/registration/registration_page.dart';
+import 'package:recipy_frontend/pages/app_screen/app_screen_page.dart';
 
 class RecipyRoute {
+  // home
+  static const String homeRecipeOverview = "/home/overview";
+  static const String homeRecipeDetails = "/home/recipe/:recipeId";
+  static const String homeSettings = "/home/settings";
+
   static const String registration = "/user/registration";
   static const String login = "/user/login";
   static const String userProfile = "/user/profile";
-  static const String recipes = "/recipes";
-  static const String recipeDetails = "/recipes/:recipeId";
   static const String ingredients = "/ingredients";
   static const String ingredientUnits = "/ingredientUnits";
 
   static String recipeDetailsRouteForId(String recipeId) {
-    return recipeDetails.replaceFirst(":recipeId", recipeId);
+    return homeRecipeDetails.replaceFirst(":recipeId", recipeId);
   }
 }
 
-final recipyHomeBeamerLocations = [
+final recipyBeamerLocations = [
   BeamerDelegate(
-    initialPath: RecipyRoute.recipes,
+    initialPath: RecipyRoute.homeRecipeOverview,
     locationBuilder: (routeInformation, _) {
       BeamLocation result = NotFound(path: routeInformation.location!);
-      if (routeInformation.location!.contains('/recipes')) {
-        result = RecipeLocation(routeInformation);
+      if (routeInformation.location!.contains('/home')) {
+        result = HomeLocation(routeInformation);
       }
       return result;
     },
@@ -64,10 +59,10 @@ final recipyHomeBeamerLocations = [
 ];
 
 var routerDelegate = BeamerDelegate(
-  initialPath: "/",
+  initialPath: RecipyRoute.homeRecipeOverview,
   locationBuilder: RoutesLocationBuilder(
     routes: {
-      '*': (context, state, data) => const HomePage(),
+      '*': (context, state, data) => const AppScreenPage(),
     },
   ),
 );

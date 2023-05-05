@@ -99,6 +99,9 @@
       "textfield": { "hint": "Füge eine neue Einheit hinzu" }
     }
   },
+  "settings": {
+    "title": "Einstellungen"
+  },
   "error_codes": {
     "10": "Der Server konnte nicht erreicht werden",
     "20": "Eine der Zutaten im Rezept ist nicht vollständig",

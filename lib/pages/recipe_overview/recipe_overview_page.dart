@@ -23,7 +23,15 @@ class RecipeOverviewPage extends ConsumerWidget {
     RecipeOverviewModel model = ref.watch(recipeOverviewControllerProvider);
 
     return Scaffold(
-      appBar: RecipyAppBar(title: "recipe_overview.title".tr()),
+      appBar: RecipyAppBar(
+        title: "recipe_overview.title".tr(),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () => context.beamToNamed(RecipyRoute.homeSettings),
+          )
+        ],
+      ),
       body: buildBody(context, model, controller),
       floatingActionButton: model.canAddNewRecipe
           ? FloatingActionButton(
@@ -71,7 +79,7 @@ class RecipeOverviewPage extends ConsumerWidget {
             .map(
               (recipeOverview) => RecipeOverviewWidget(
                 recipeOverview: recipeOverview,
-                onClick: () => Beamer.of(context).beamToNamed(
+                onClick: () => context.beamToNamed(
                     RecipyRoute.recipeDetailsRouteForId(recipeOverview.id)),
               ),
             )

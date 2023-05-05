@@ -31,7 +31,8 @@ class NavDrawer extends StatelessWidget {
                 "recipe_overview.title",
                 style: Theme.of(context).textTheme.headlineSmall,
               ).tr(),
-              onTap: () => Beamer.of(context).beamToNamed(RecipyRoute.recipes),
+              onTap: () => Beamer.of(context)
+                  .beamToNamed(RecipyRoute.homeRecipeOverview),
             ),
             ListTile(
               leading: Image.asset("assets/icons/ingredients.png", width: 30),

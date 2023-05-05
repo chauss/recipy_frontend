@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipy_frontend/pages/home/home_controller.dart';
-import 'package:recipy_frontend/pages/home/home_model.dart';
-import 'package:recipy_frontend/pages/home/home_page.dart';
+import 'package:recipy_frontend/pages/app_screen/app_screen_controller.dart';
+import 'package:recipy_frontend/pages/app_screen/app_screen_model.dart';
+import 'package:recipy_frontend/pages/app_screen/app_screen_page.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_controller.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_model.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_page.dart';
@@ -17,6 +17,9 @@ import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_page.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_controller.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_model.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_page.dart';
+import 'package:recipy_frontend/pages/settings/settings_controller.dart';
+import 'package:recipy_frontend/pages/settings/settings_model.dart';
+import 'package:recipy_frontend/pages/settings/settings_page.dart';
 import 'package:recipy_frontend/pages/user/profile/profile_controller.dart';
 import 'package:recipy_frontend/pages/user/profile/profile_model.dart';
 import 'package:recipy_frontend/pages/user/profile/profile_page.dart';
@@ -147,6 +150,15 @@ final StateNotifierProviderFamily<RecipeDetailController, RecipeDetailModel,
 );
 
 // #############################################################################
+// # Settings
+// #############################################################################
+final StateNotifierProvider<SettingsController, SettingsModel>
+    settingsControllerProvider =
+    StateNotifierProvider<SettingsController, SettingsModel>(
+  (ref) => SettingsControllerImpl(const SettingsModel()),
+);
+
+// #############################################################################
 // # Storage
 // #############################################################################
 final inMemoryStorageIngredientRepositoryProvider =
@@ -179,7 +191,7 @@ final StateNotifierProviderFamily<RecipeImagesController, RecipeImagesModel,
 // #############################################################################
 // # Bottom Navigation Bar
 // #############################################################################
-final StateNotifierProvider<HomeController, HomeModel>
-    recipyBottomNavigationBarProvider =
-    StateNotifierProvider<HomeController, HomeModel>(
-        (ref) => HomeControllerImpl(const HomeModel()));
+final StateNotifierProvider<AppScreenController, AppScreenModel>
+    recipyAppScreenControllerProvider =
+    StateNotifierProvider<AppScreenController, AppScreenModel>(
+        (ref) => AppScreenControllerImpl(const AppScreenModel()));

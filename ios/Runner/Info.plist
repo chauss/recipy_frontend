@@ -52,5 +52,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app wants to access your photo library to enable you to add images to your recipes</string>
 </dict>
 </plist>
