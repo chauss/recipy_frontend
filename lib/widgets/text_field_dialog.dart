@@ -30,10 +30,7 @@ class TextfieldDialog {
         ),
         actions: <Widget>[
           TextButton(
-            child: Text(
-              "common.cancel",
-              style: TextStyle(color: Theme.of(context).primaryColorDark),
-            ).tr(),
+            child: const Text("common.cancel").tr(),
             onPressed: () {
               _canceled = true;
               Navigator.pop(context);
@@ -42,7 +39,9 @@ class TextfieldDialog {
           TextButton(
               child: Text(
                 "common.done",
-                style: TextStyle(color: Theme.of(context).primaryColorDark),
+                style: DefaultTextStyle.of(context)
+                    .style
+                    .copyWith(color: Theme.of(context).primaryColor),
               ).tr(),
               onPressed: () {
                 _canceled = false;

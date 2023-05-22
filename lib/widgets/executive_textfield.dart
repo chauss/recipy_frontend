@@ -20,33 +20,29 @@ class ExecutiveTextfield<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Theme.of(context).colorScheme.secondaryContainer,
-      child: Row(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 8, left: 20.0, bottom: 10),
-              child: TextField(
-                controller: controller,
-                onSubmitted: (_) => safeCallAddFunction(),
-                decoration: InputDecoration(
-                  fillColor: Colors.white,
-                  filled: true,
-                  border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30))),
-                  hintText: hintText,
-                ),
-                enabled: enabled,
+    return Row(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8, left: 20.0, bottom: 10),
+            child: TextField(
+              controller: controller,
+              onSubmitted: (_) => safeCallAddFunction(),
+              decoration: InputDecoration(
+                filled: true,
+                border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30))),
+                hintText: hintText,
               ),
+              enabled: enabled,
             ),
           ),
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: safeCallAddFunction,
-          ),
-        ],
-      ),
+        ),
+        IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: safeCallAddFunction,
+        ),
+      ],
     );
   }
 

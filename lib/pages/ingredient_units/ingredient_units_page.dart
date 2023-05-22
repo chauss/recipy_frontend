@@ -25,22 +25,19 @@ class IngredientUnitsPage extends ConsumerWidget {
     return Scaffold(
       drawer: NavDrawer(),
       appBar: RecipyAppBar(title: "ingredient_units.title".tr()),
-      body: Container(
-        color: Theme.of(context).colorScheme.secondaryContainer,
-        child: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: buildBody(context, model, controller),
-              ),
-              ExecutiveTextfield(
-                addFunction: (name) => controller
-                    .addIngredientUnit(AddIngredientUnitRequest(name: name)),
-                hintText: 'ingredient_units.add.textfield.hint'.tr(),
-                enabled: !model.isLoading,
-              ),
-            ],
-          ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: buildBody(context, model, controller),
+            ),
+            ExecutiveTextfield(
+              addFunction: (name) => controller
+                  .addIngredientUnit(AddIngredientUnitRequest(name: name)),
+              hintText: 'ingredient_units.add.textfield.hint'.tr(),
+              enabled: !model.isLoading,
+            ),
+          ],
         ),
       ),
     );

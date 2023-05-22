@@ -25,7 +25,9 @@ class InfoDialog {
           TextButton(
             child: Text(
               "common.ok",
-              style: TextStyle(color: Theme.of(context).primaryColorDark),
+              style: DefaultTextStyle.of(context)
+                  .style
+                  .copyWith(color: Theme.of(context).primaryColor),
             ).tr(),
             onPressed: () => Navigator.pop(context),
           ),

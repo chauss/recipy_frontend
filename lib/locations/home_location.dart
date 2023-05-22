@@ -1,6 +1,8 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:recipy_frontend/config/routes_config.dart';
+import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_page.dart';
+import 'package:recipy_frontend/pages/ingredients/ingredients_page.dart';
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_page.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_page.dart';
 import 'package:recipy_frontend/pages/settings/settings_page.dart';
@@ -13,6 +15,8 @@ class HomeLocation extends BeamLocation<BeamState> {
         RecipyRoute.homeRecipeOverview,
         RecipyRoute.homeRecipeDetails,
         RecipyRoute.homeSettings,
+        RecipyRoute.ingredientUnits,
+        RecipyRoute.ingredients,
       ];
 
   @override
@@ -47,6 +51,20 @@ class HomeLocation extends BeamLocation<BeamState> {
           title: "Settings",
           child: SettingsPage(),
         ));
+        if (state.routeInformation.location == RecipyRoute.ingredients) {
+          pages.add(const BeamPage(
+            key: ValueKey('home-settings-ingredients'),
+            title: "Ingredients",
+            child: IngredientsPage(),
+          ));
+        } else if (state.routeInformation.location ==
+            RecipyRoute.ingredientUnits) {
+          pages.add(const BeamPage(
+            key: ValueKey('home-settings-ingredientUnits'),
+            title: "IngredientUnits",
+            child: IngredientUnitsPage(),
+          ));
+        }
       }
     }
 

@@ -26,32 +26,29 @@ class IngredientsPage extends ConsumerWidget {
     return Scaffold(
       drawer: NavDrawer(),
       appBar: RecipyAppBar(title: "ingredients.title".tr()),
-      body: Container(
-        color: Theme.of(context).colorScheme.secondaryContainer,
-        child: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: Container(
-                  color: Colors.white,
-                  child: buildBody(context, model, controller),
-                ),
-              ),
-              ExecutiveTextfield(
-                addFunction: (name) =>
-                    controller.addIngredient(AddIngredientRequest(name: name)),
-                hintText: 'ingredients.add.textfield.hint'.tr(),
-                enabled: !model.isLoading,
-              ),
-            ],
-          ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: buildBody(context, model, controller),
+            ),
+            ExecutiveTextfield(
+              addFunction: (name) =>
+                  controller.addIngredient(AddIngredientRequest(name: name)),
+              hintText: 'ingredients.add.textfield.hint'.tr(),
+              enabled: !model.isLoading,
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget buildBody(BuildContext context, IngredientsModel model,
-      IngredientsController controller) {
+  Widget buildBody(
+    BuildContext context,
+    IngredientsModel model,
+    IngredientsController controller,
+  ) {
     if (model.isLoading) {
       return const ProcessIndicator();
     }

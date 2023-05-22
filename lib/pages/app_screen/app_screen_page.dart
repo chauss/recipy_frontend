@@ -18,7 +18,6 @@ class AppScreenPage extends ConsumerWidget {
         ref.read(recipyAppScreenControllerProvider.notifier);
     AppScreenModel model = ref.watch(recipyAppScreenControllerProvider);
 
-    print("Building AppScreen with currentIndex: ${model.currentPageIndex}");
     return Scaffold(
       body: IndexedStack(
         index: model.currentPageIndex,

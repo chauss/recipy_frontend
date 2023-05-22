@@ -28,21 +28,25 @@ ThemeData appTheme = ThemeData(
   ),
   appBarTheme: const AppBarTheme(backgroundColor: Colors.transparent),
   textTheme: TextTheme(
-    titleMedium: TextStyle(
-      color: primaryColorSwatch.shade700,
+    titleMedium: const TextStyle(
+      color: Colors.white,
     ),
-    labelLarge: TextStyle(
-      color: primaryColorSwatch.shade900,
-    ),
-    headlineMedium: TextStyle(
-      color: primaryColorSwatch.shade900,
-    ),
+    // labelLarge: TextStyle(
+    //   color: primaryColorSwatch.shade900,
+    // ),
+    // headlineMedium: TextStyle(
+    //   color: primaryColorSwatch.shade900,
+    // ),
     headlineSmall: TextStyle(
       color: primaryColorSwatch.shade900,
     ),
-    titleLarge: TextStyle(
-      color: primaryColorSwatch.shade900,
-      fontSize: 20,
+    // titleLarge: TextStyle(
+    //   color: primaryColorSwatch.shade900,
+    //   fontSize: 20,
+    // ),
+    bodyMedium: const TextStyle(
+      color: Colors.white,
+      fontSize: 18,
     ),
   ),
 );

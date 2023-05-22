@@ -10,12 +10,12 @@ class RecipyRoute {
   static const String homeRecipeOverview = "/home/overview";
   static const String homeRecipeDetails = "/home/recipe/:recipeId";
   static const String homeSettings = "/home/settings";
+  static const String ingredients = "/home/settings/ingredients";
+  static const String ingredientUnits = "/home/settings/ingredientUnits";
 
   static const String registration = "/user/registration";
   static const String login = "/user/login";
   static const String userProfile = "/user/profile";
-  static const String ingredients = "/ingredients";
-  static const String ingredientUnits = "/ingredientUnits";
 
   static String recipeDetailsRouteForId(String recipeId) {
     return homeRecipeDetails.replaceFirst(":recipeId", recipeId);
