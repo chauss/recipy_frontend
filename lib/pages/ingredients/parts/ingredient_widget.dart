@@ -18,7 +18,7 @@ class IngredientWidget extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
               border: Border.all(
-                  color: Theme.of(context).primaryColorDark, width: 2),
+                  color: Theme.of(context).primaryColorLight, width: 0.3),
               borderRadius: const BorderRadius.all(Radius.circular(4))),
           child: Stack(
             children: [
@@ -28,10 +28,7 @@ class IngredientWidget extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 16),
                   child: Text(
                     ingredient.name,
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColorDark,
-                      fontSize: 16,
-                    ),
+                    style: const TextStyle(fontSize: 16),
                   ),
                 ),
               ),
@@ -42,6 +39,7 @@ class IngredientWidget extends StatelessWidget {
                   child: Image.asset(
                     'assets/icons/trash.png',
                     height: 24,
+                    color: Colors.white70,
                   ),
                 ),
               ),

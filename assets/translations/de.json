@@ -9,6 +9,10 @@
     "yes": "Ja",
     "no": "Nein"
   },
+  "bottom_navigation": {
+    "home": "Start",
+    "profile": "Profil"
+  },
   "user": {
     "registration": {
       "title": "Registrierung",

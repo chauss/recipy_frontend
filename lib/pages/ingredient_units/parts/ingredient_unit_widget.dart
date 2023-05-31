@@ -18,8 +18,8 @@ class IngredientUnitWidget extends StatelessWidget {
         width: 200,
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-            border:
-                Border.all(color: Theme.of(context).primaryColorDark, width: 2),
+            border: Border.all(
+                color: Theme.of(context).primaryColorLight, width: .3),
             borderRadius: const BorderRadius.all(Radius.circular(4))),
         child: Stack(
           children: [
@@ -29,10 +29,7 @@ class IngredientUnitWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 16),
                 child: Text(
                   ingredientUnit.name,
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColorDark,
-                    fontSize: 16,
-                  ),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ),
             ),
@@ -40,10 +37,8 @@ class IngredientUnitWidget extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: InkWell(
                 onTap: onDeleteIngredientUnitCallback,
-                child: Image.asset(
-                  'assets/icons/trash.png',
-                  height: 24,
-                ),
+                child: Image.asset('assets/icons/trash.png',
+                    height: 24, color: Colors.white70),
               ),
             ),
           ],

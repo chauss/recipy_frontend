@@ -8,7 +8,6 @@ import 'package:recipy_frontend/pages/ingredients/parts/delete_ingredient_reques
 import 'package:recipy_frontend/widgets/executive_textfield.dart';
 import 'package:recipy_frontend/pages/ingredients/parts/ingredient_widget.dart';
 import 'package:recipy_frontend/widgets/info_dialog.dart';
-import 'package:recipy_frontend/widgets/nav_drawer.dart';
 import 'package:recipy_frontend/widgets/process_indicator.dart';
 import 'package:recipy_frontend/widgets/recipy_app_bar.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -24,7 +23,6 @@ class IngredientsPage extends ConsumerWidget {
     IngredientsModel model = ref.watch(ingredientsControllerProvider);
 
     return Scaffold(
-      drawer: NavDrawer(),
       appBar: RecipyAppBar(title: "ingredients.title".tr()),
       body: SafeArea(
         child: Column(

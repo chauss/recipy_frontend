@@ -9,6 +9,10 @@
     "yes": "Si",
     "no": "No"
   },
+  "bottom_navigation": {
+    "home": "Inicio",
+    "profile": "Perfil"
+  },
   "user": {
     "registration": {
       "title": "Inscripción",
@@ -98,6 +102,9 @@
     "add": {
       "textfield": { "hint": "Añade una nueva unidad" }
     }
+  },
+  "settings": {
+    "title": "Ajustes"
   },
   "error_codes": {
     "10": "No se ha podido conectar al servidor",

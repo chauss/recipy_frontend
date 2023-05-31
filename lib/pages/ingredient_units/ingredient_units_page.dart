@@ -10,7 +10,6 @@ import 'package:recipy_frontend/widgets/process_indicator.dart';
 import 'package:recipy_frontend/widgets/recipy_app_bar.dart';
 import 'package:recipy_frontend/widgets/executive_textfield.dart';
 import 'package:recipy_frontend/pages/ingredient_units/parts/ingredient_unit_widget.dart';
-import 'package:recipy_frontend/widgets/nav_drawer.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class IngredientUnitsPage extends ConsumerWidget {
@@ -23,7 +22,6 @@ class IngredientUnitsPage extends ConsumerWidget {
     IngredientUnitsModel model = ref.watch(ingredientUnitControllerProvider);
 
     return Scaffold(
-      drawer: NavDrawer(),
       appBar: RecipyAppBar(title: "ingredient_units.title".tr()),
       body: SafeArea(
         child: Column(

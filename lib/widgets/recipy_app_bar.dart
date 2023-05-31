@@ -4,8 +4,9 @@ import 'package:recipy_frontend/widgets/burger_icon.dart';
 class RecipyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final List<Widget> actions;
+  final BurgerIconController iconController = BurgerIconController();
 
-  const RecipyAppBar({
+  RecipyAppBar({
     Key? key,
     required this.title,
     this.actions = const [],
@@ -28,7 +29,7 @@ class RecipyAppBar extends StatelessWidget implements PreferredSizeWidget {
     if (ModalRoute.of(context)?.canPop ?? false) {
       return const BackButton();
     } else {
-      return const BurgerIcon();
+      return BurgerIcon(controller: iconController);
     }
   }
 

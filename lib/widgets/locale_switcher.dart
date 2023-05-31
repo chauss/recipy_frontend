@@ -17,8 +17,10 @@ class LocaleSwitcher extends StatelessWidget {
               child: Text(
                 locale.toString(),
                 style: TextStyle(
-                  color: Colors.black,
-                  fontSize: context.locale == locale ? 18 : 14,
+                  color: context.locale == locale
+                      ? Theme.of(context).primaryColor
+                      : Theme.of(context).primaryColorLight,
+                  fontSize: context.locale == locale ? 20 : 16,
                   fontWeight: context.locale == locale
                       ? FontWeight.bold
                       : FontWeight.normal,

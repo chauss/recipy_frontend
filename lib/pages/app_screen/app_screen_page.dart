@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/config/routes_config.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/pages/app_screen/app_screen_model.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AppScreenPage extends ConsumerWidget {
   static GlobalKey<NavigatorState> homeNavigatorKey =
@@ -34,14 +35,15 @@ class AppScreenPage extends ConsumerWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: model.currentPageIndex,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home), label: "Home"), // TODO Label translation
-          // BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
+            icon: const Icon(Icons.home),
+            label: "bottom_navigation.home".tr(),
+          ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Profile",
-          ), // TODO Label translation
+            icon: const Icon(Icons.person),
+            label: "bottom_navigation.profile".tr(),
+          ),
         ],
         onTap: controller.setCurrentIndexPage,
       ),

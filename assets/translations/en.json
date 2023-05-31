@@ -9,6 +9,10 @@
     "yes": "Yes",
     "no": "No"
   },
+  "bottom_navigation": {
+    "home": "Home",
+    "profile": "Profile"
+  },
   "user": {
     "registration": {
       "title": "Registration",
@@ -98,6 +102,9 @@
     "add": {
       "textfield": { "hint": "Add a new unit" }
     }
+  },
+  "settings": {
+    "title": "Settings"
   },
   "error_codes": {
     "10": "Could not reach the server",
