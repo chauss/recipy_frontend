@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:recipy_frontend/models/recipe_overview.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/recipe_images/recipe_images_widget.dart';
 
 class RecipeOverviewWidget extends StatelessWidget {
   final RecipeOverview recipeOverview;
@@ -15,21 +16,32 @@ class RecipeOverviewWidget extends StatelessWidget {
     return TextButton(
       onPressed: onClick,
       child: Card(
-        child: Container(
-          width: 300,
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-              border: Border.all(
-                  color: Theme.of(context).colorScheme.primaryContainer),
-              borderRadius: const BorderRadius.all(Radius.circular(4))),
-          child: Column(
-            children: [
-              Text(recipeOverview.name,
-                  style: Theme.of(context).textTheme.headlineSmall),
-              Text(DateFormat.Hm().format(recipeOverview.created)),
-              Text(DateFormat.yMMMd().format(recipeOverview.created)),
-            ],
-          ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        clipBehavior: Clip.hardEdge,
+        elevation: 8,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              flex: 2,
+              child: RecipeImagesWidget(
+                recipeId: recipeOverview.id,
+                onlyDisplayTitleImage: true,
+              ),
+            ),
+            Flexible(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 6),
+                child: Center(
+                  child: Text(
+                    recipeOverview.name,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

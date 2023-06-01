@@ -70,6 +70,7 @@ class RecipeDetailPage extends ConsumerWidget {
           "recipe_details.heading.ingredients",
           style: Theme.of(context).textTheme.headlineSmall,
         ).tr(),
+        const SizedBox(height: 8),
         ...buildIngredientUsages(controller, model),
         model.isEditMode
             ? Padding(
@@ -77,10 +78,12 @@ class RecipeDetailPage extends ConsumerWidget {
                 child: buildAddUsageButton(controller, context),
               )
             : Container(),
+        const SizedBox(height: 12),
         Text(
           "recipe_details.heading.preparation",
           style: Theme.of(context).textTheme.headlineSmall,
         ).tr(),
+        const SizedBox(height: 8),
         ...buildPreparationSteps(controller, model),
         model.isEditMode
             ? Padding(
@@ -88,6 +91,7 @@ class RecipeDetailPage extends ConsumerWidget {
                 child: buildAddStepButton(controller, context),
               )
             : Container(),
+        const SizedBox(height: 20),
       ],
     );
   }

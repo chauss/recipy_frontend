@@ -11,19 +11,47 @@ import 'package:recipy_frontend/widgets/process_indicator.dart';
 
 class RecipeImagesWidget extends ConsumerWidget {
   final String recipeId;
+  final bool onlyDisplayTitleImage;
 
-  const RecipeImagesWidget({Key? key, required this.recipeId})
-      : super(key: key);
+  const RecipeImagesWidget({
+    Key? key,
+    required this.recipeId,
+    this.onlyDisplayTitleImage = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var currentPage = 0;
     RecipeImagesController controller =
         ref.read(recipeImagesControllerProvider(recipeId).notifier);
 
     RecipeImagesModel model =
         ref.watch(recipeImagesControllerProvider(recipeId));
 
+    return onlyDisplayTitleImage
+        ? _buildTitleImageOnly(controller, model)
+        : _buildImageCarousel(controller, model);
+  }
+
+  Widget _buildTitleImageOnly(
+    RecipeImagesController controller,
+    RecipeImagesModel model,
+  ) {
+    if (model.loadableRecipeImages.isNotEmpty) {
+      return _buildImages([model.loadableRecipeImages.first]).first;
+    } else {
+      return const SizedBox(
+        height: 60,
+        width: double.infinity,
+        child: Icon(Icons.image_not_supported_outlined),
+      );
+    }
+  }
+
+  Widget _buildImageCarousel(
+    RecipeImagesController controller,
+    RecipeImagesModel model,
+  ) {
+    var currentPage = 0;
     return Stack(
       children: [
         CarouselSlider(
@@ -31,12 +59,12 @@ class RecipeImagesWidget extends ConsumerWidget {
               disableCenter: true,
               enableInfiniteScroll: false,
               onPageChanged: (page, reason) => currentPage = page),
-          items: buildImages(model.loadableRecipeImages),
+          items: _buildImages(model.loadableRecipeImages),
         ),
         Align(
           alignment: Alignment.bottomRight,
           child: ElevatedButton(
-            onPressed: () => pickImage(model, controller),
+            onPressed: () => _pickImage(model, controller),
             child: const Icon(Icons.add),
           ),
         ),
@@ -55,7 +83,10 @@ class RecipeImagesWidget extends ConsumerWidget {
     );
   }
 
-  List<Widget> buildImages(List<LoadableRecipeImage> loadableImages) {
+  List<Widget> _buildImages(List<LoadableRecipeImage> loadableImages) {
+    if (loadableImages.isEmpty) {
+      return [const Icon(Icons.image_not_supported_outlined)];
+    }
     return loadableImages.map((loadableImage) {
       if (loadableImage.isLoading) {
         return const ProcessIndicator();
@@ -66,7 +97,7 @@ class RecipeImagesWidget extends ConsumerWidget {
     }).toList();
   }
 
-  void pickImage(
+  void _pickImage(
       RecipeImagesModel model, RecipeImagesController controller) async {
     final ImagePicker picker = ImagePicker();
     try {

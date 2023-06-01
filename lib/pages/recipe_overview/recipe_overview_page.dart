@@ -73,19 +73,22 @@ class RecipeOverviewPage extends ConsumerWidget {
       });
     }
     return RefreshIndicator(
-      onRefresh: controller.refetchRecipes,
-      child: ListView(
-        children: model.recipeOverviews
-            .map(
-              (recipeOverview) => RecipeOverviewWidget(
-                recipeOverview: recipeOverview,
-                onClick: () => context.beamToNamed(
-                    RecipyRoute.recipeDetailsRouteForId(recipeOverview.id)),
-              ),
-            )
-            .toList(),
-      ),
-    );
+        onRefresh: controller.refetchRecipes,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: GridView.count(
+            crossAxisCount: 2,
+            children: model.recipeOverviews
+                .map(
+                  (recipeOverview) => RecipeOverviewWidget(
+                    recipeOverview: recipeOverview,
+                    onClick: () => context.beamToNamed(
+                        RecipyRoute.recipeDetailsRouteForId(recipeOverview.id)),
+                  ),
+                )
+                .toList(),
+          ),
+        ));
   }
 }
 
