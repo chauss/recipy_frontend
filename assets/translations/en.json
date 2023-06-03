@@ -64,6 +64,8 @@
     }
   },
   "recipe_details": {
+    "delete_image": "Delete image",
+    "add_image": "Add image",
     "heading": {
       "ingredients": "Ingredients",
       "preparation": "Preparation"

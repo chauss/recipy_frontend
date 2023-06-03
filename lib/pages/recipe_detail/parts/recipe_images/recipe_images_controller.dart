@@ -55,7 +55,8 @@ class RecipeImagesControllerImpl extends RecipeImagesController {
   void loadBytesForRecipeImage(String imageId) async {
     var result = await _repository.getImageForRecipe(state.recipeId, imageId);
 
-    // TODO propably will conflict with each other
+    // TODO propably will conflict with each other because this is running
+    // TODO parallel for each image and every thread tries to update the state
     var newLoadableRecipeImages =
         state.loadableRecipeImages.map((loadableRecipeImage) {
       if (loadableRecipeImage.recipeImage.imageId == imageId) {
@@ -85,6 +86,11 @@ class RecipeImagesControllerImpl extends RecipeImagesController {
   void deleteRecipeImage(String imageId) async {
     await _repository.removeRecipeImage(state.recipeId, imageId);
     _fetchRecipeImages();
+  }
+
+  @override
+  void changeCurrentImageIndex(int newIndex) {
+    state = state.copyWith(currentImageIndex: newIndex);
   }
 }
 

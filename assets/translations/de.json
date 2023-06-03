@@ -64,6 +64,8 @@
     }
   },
   "recipe_details": {
+    "delete_image": "Bild löschen",
+    "add_image": "Bild hinzufügen",
     "heading": {
       "ingredients": "Zutaten",
       "preparation": "Zubereitung"

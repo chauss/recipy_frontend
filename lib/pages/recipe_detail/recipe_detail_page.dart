@@ -22,8 +22,10 @@ import 'package:easy_localization/easy_localization.dart';
 
 class RecipeDetailPage extends ConsumerWidget {
   final String recipeId;
+  final DeleteImageController deleteImageController = DeleteImageController();
+  final AddImageController addImageController = AddImageController();
 
-  const RecipeDetailPage({Key? key, required this.recipeId}) : super(key: key);
+  RecipeDetailPage({Key? key, required this.recipeId}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -65,7 +67,11 @@ class RecipeDetailPage extends ConsumerWidget {
     return ListView(
       padding: const EdgeInsets.only(left: 24, right: 24, top: 32),
       children: [
-        RecipeImagesWidget(recipeId: model.recipeId),
+        RecipeImagesWidget(
+          recipeId: model.recipeId,
+          deleteController: deleteImageController,
+          addController: addImageController,
+        ),
         Text(
           "recipe_details.heading.ingredients",
           style: Theme.of(context).textTheme.headlineSmall,
@@ -284,12 +290,29 @@ class RecipeDetailPage extends ConsumerWidget {
               value: controller.enterEditMode,
               child: Row(
                 children: [
-                  Image.asset(
-                    "assets/icons/edit.png",
-                    width: 24,
-                  ),
+                  const Icon(Icons.edit),
                   const SizedBox(width: 12),
                   const Text("common.edit").tr(),
+                ],
+              ),
+            ),
+            PopupMenuItem<Function>(
+              value: addImageController.addImage,
+              child: Row(
+                children: [
+                  const Icon(Icons.add_a_photo),
+                  const SizedBox(width: 12),
+                  const Text("recipe_details.add_image").tr(),
+                ],
+              ),
+            ),
+            PopupMenuItem<Function>(
+              value: deleteImageController.deleteCurrentImage,
+              child: Row(
+                children: [
+                  const Icon(Icons.delete_forever_outlined),
+                  const SizedBox(width: 12),
+                  const Text("recipe_details.delete_image").tr(),
                 ],
               ),
             ),

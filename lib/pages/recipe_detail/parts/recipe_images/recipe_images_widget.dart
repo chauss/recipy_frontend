@@ -9,25 +9,41 @@ import 'package:recipy_frontend/pages/recipe_detail/parts/recipe_images/loadable
 import 'package:recipy_frontend/pages/recipe_detail/parts/recipe_images/recipe_images_model.dart';
 import 'package:recipy_frontend/widgets/process_indicator.dart';
 
-class RecipeImagesWidget extends ConsumerWidget {
+class RecipeImagesWidget extends ConsumerStatefulWidget {
   final String recipeId;
   final bool onlyDisplayTitleImage;
+  final DeleteImageController? deleteController;
+  final AddImageController? addController;
 
   const RecipeImagesWidget({
     Key? key,
     required this.recipeId,
     this.onlyDisplayTitleImage = false,
+    this.deleteController,
+    this.addController,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<RecipeImagesWidget> createState() => _RecipeImagesWidgetState();
+}
+
+class _RecipeImagesWidgetState extends ConsumerState<RecipeImagesWidget> {
+  @override
+  void initState() {
+    widget.deleteController?.addListener(deleteCurrentImage);
+    widget.addController?.addListener(addImage);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     RecipeImagesController controller =
-        ref.read(recipeImagesControllerProvider(recipeId).notifier);
+        ref.read(recipeImagesControllerProvider(widget.recipeId).notifier);
 
     RecipeImagesModel model =
-        ref.watch(recipeImagesControllerProvider(recipeId));
+        ref.watch(recipeImagesControllerProvider(widget.recipeId));
 
-    return onlyDisplayTitleImage
+    return widget.onlyDisplayTitleImage
         ? _buildTitleImageOnly(controller, model)
         : _buildImageCarousel(controller, model);
   }
@@ -51,36 +67,36 @@ class RecipeImagesWidget extends ConsumerWidget {
     RecipeImagesController controller,
     RecipeImagesModel model,
   ) {
-    var currentPage = 0;
     return Stack(
       children: [
         CarouselSlider(
           options: CarouselOptions(
               disableCenter: true,
               enableInfiniteScroll: false,
-              onPageChanged: (page, reason) => currentPage = page),
+              onPageChanged: (page, reason) =>
+                  controller.changeCurrentImageIndex(page)),
           items: _buildImages(model.loadableRecipeImages),
         ),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: ElevatedButton(
-            onPressed: () => _pickImage(model, controller),
-            child: const Icon(Icons.add),
-          ),
-        ),
-        Align(
-          alignment: Alignment.topLeft,
-          child: ElevatedButton(
-            onPressed: () {
-              var imageId =
-                  model.loadableRecipeImages[currentPage].recipeImage.imageId;
-              controller.deleteRecipeImage(imageId);
-            },
-            child: const Icon(Icons.delete),
-          ),
-        )
       ],
     );
+  }
+
+  void deleteCurrentImage() {
+    RecipeImagesController controller =
+        ref.read(recipeImagesControllerProvider(widget.recipeId).notifier);
+    RecipeImagesModel model =
+        ref.watch(recipeImagesControllerProvider(widget.recipeId));
+    var imageId =
+        model.loadableRecipeImages[model.currentImageIndex].recipeImage.imageId;
+    controller.deleteRecipeImage(imageId);
+  }
+
+  void addImage() {
+    RecipeImagesController controller =
+        ref.read(recipeImagesControllerProvider(widget.recipeId).notifier);
+    RecipeImagesModel model =
+        ref.watch(recipeImagesControllerProvider(widget.recipeId));
+    _pickImage(model, controller);
   }
 
   List<Widget> _buildImages(List<LoadableRecipeImage> loadableImages) {
@@ -124,4 +140,13 @@ abstract class RecipeImagesController extends StateNotifier<RecipeImagesModel> {
   void addNewRecipeImage(
       String recipeId, Uint8List imageBytes, String fileExtension);
   void deleteRecipeImage(String imageId);
+  void changeCurrentImageIndex(int newIndex);
+}
+
+class DeleteImageController extends ChangeNotifier {
+  void deleteCurrentImage() => notifyListeners();
+}
+
+class AddImageController extends ChangeNotifier {
+  void addImage() => notifyListeners();
 }

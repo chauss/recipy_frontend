@@ -20,6 +20,7 @@ mixin _$RecipeImagesModel {
   bool get isLoading => throw _privateConstructorUsedError;
   List<LoadableRecipeImage> get loadableRecipeImages =>
       throw _privateConstructorUsedError;
+  int get currentImageIndex => throw _privateConstructorUsedError;
   int? get errorCode => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -37,6 +38,7 @@ abstract class $RecipeImagesModelCopyWith<$Res> {
       {String recipeId,
       bool isLoading,
       List<LoadableRecipeImage> loadableRecipeImages,
+      int currentImageIndex,
       int? errorCode});
 }
 
@@ -56,6 +58,7 @@ class _$RecipeImagesModelCopyWithImpl<$Res, $Val extends RecipeImagesModel>
     Object? recipeId = null,
     Object? isLoading = null,
     Object? loadableRecipeImages = null,
+    Object? currentImageIndex = null,
     Object? errorCode = freezed,
   }) {
     return _then(_value.copyWith(
@@ -71,6 +74,10 @@ class _$RecipeImagesModelCopyWithImpl<$Res, $Val extends RecipeImagesModel>
           ? _value.loadableRecipeImages
           : loadableRecipeImages // ignore: cast_nullable_to_non_nullable
               as List<LoadableRecipeImage>,
+      currentImageIndex: null == currentImageIndex
+          ? _value.currentImageIndex
+          : currentImageIndex // ignore: cast_nullable_to_non_nullable
+              as int,
       errorCode: freezed == errorCode
           ? _value.errorCode
           : errorCode // ignore: cast_nullable_to_non_nullable
@@ -91,6 +98,7 @@ abstract class _$$_RecipeImagesModelCopyWith<$Res>
       {String recipeId,
       bool isLoading,
       List<LoadableRecipeImage> loadableRecipeImages,
+      int currentImageIndex,
       int? errorCode});
 }
 
@@ -108,6 +116,7 @@ class __$$_RecipeImagesModelCopyWithImpl<$Res>
     Object? recipeId = null,
     Object? isLoading = null,
     Object? loadableRecipeImages = null,
+    Object? currentImageIndex = null,
     Object? errorCode = freezed,
   }) {
     return _then(_$_RecipeImagesModel(
@@ -123,6 +132,10 @@ class __$$_RecipeImagesModelCopyWithImpl<$Res>
           ? _value._loadableRecipeImages
           : loadableRecipeImages // ignore: cast_nullable_to_non_nullable
               as List<LoadableRecipeImage>,
+      currentImageIndex: null == currentImageIndex
+          ? _value.currentImageIndex
+          : currentImageIndex // ignore: cast_nullable_to_non_nullable
+              as int,
       errorCode: freezed == errorCode
           ? _value.errorCode
           : errorCode // ignore: cast_nullable_to_non_nullable
@@ -138,6 +151,7 @@ class _$_RecipeImagesModel implements _RecipeImagesModel {
       {required this.recipeId,
       this.isLoading = true,
       final List<LoadableRecipeImage> loadableRecipeImages = const [],
+      this.currentImageIndex = 0,
       this.errorCode})
       : _loadableRecipeImages = loadableRecipeImages;
 
@@ -157,11 +171,14 @@ class _$_RecipeImagesModel implements _RecipeImagesModel {
   }
 
   @override
+  @JsonKey()
+  final int currentImageIndex;
+  @override
   final int? errorCode;
 
   @override
   String toString() {
-    return 'RecipeImagesModel(recipeId: $recipeId, isLoading: $isLoading, loadableRecipeImages: $loadableRecipeImages, errorCode: $errorCode)';
+    return 'RecipeImagesModel(recipeId: $recipeId, isLoading: $isLoading, loadableRecipeImages: $loadableRecipeImages, currentImageIndex: $currentImageIndex, errorCode: $errorCode)';
   }
 
   @override
@@ -175,13 +192,20 @@ class _$_RecipeImagesModel implements _RecipeImagesModel {
                 other.isLoading == isLoading) &&
             const DeepCollectionEquality()
                 .equals(other._loadableRecipeImages, _loadableRecipeImages) &&
+            (identical(other.currentImageIndex, currentImageIndex) ||
+                other.currentImageIndex == currentImageIndex) &&
             (identical(other.errorCode, errorCode) ||
                 other.errorCode == errorCode));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, recipeId, isLoading,
-      const DeepCollectionEquality().hash(_loadableRecipeImages), errorCode);
+  int get hashCode => Object.hash(
+      runtimeType,
+      recipeId,
+      isLoading,
+      const DeepCollectionEquality().hash(_loadableRecipeImages),
+      currentImageIndex,
+      errorCode);
 
   @JsonKey(ignore: true)
   @override
@@ -196,6 +220,7 @@ abstract class _RecipeImagesModel implements RecipeImagesModel {
       {required final String recipeId,
       final bool isLoading,
       final List<LoadableRecipeImage> loadableRecipeImages,
+      final int currentImageIndex,
       final int? errorCode}) = _$_RecipeImagesModel;
 
   @override
@@ -204,6 +229,8 @@ abstract class _RecipeImagesModel implements RecipeImagesModel {
   bool get isLoading;
   @override
   List<LoadableRecipeImage> get loadableRecipeImages;
+  @override
+  int get currentImageIndex;
   @override
   int? get errorCode;
   @override

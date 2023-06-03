@@ -9,6 +9,7 @@ class RecipeImagesModel with _$RecipeImagesModel {
     required String recipeId,
     @Default(true) bool isLoading,
     @Default([]) List<LoadableRecipeImage> loadableRecipeImages,
+    @Default(0) int currentImageIndex,
     int? errorCode,
   }) = _RecipeImagesModel;
 }
