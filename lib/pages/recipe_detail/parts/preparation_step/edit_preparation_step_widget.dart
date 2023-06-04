@@ -47,10 +47,7 @@ class EditPreparationStepWidget extends StatelessWidget {
         Expanded(child: Container()),
         InkWell(
           onTap: onDeletePreparationStepCallback,
-          child: Image.asset(
-            'assets/icons/trash.png',
-            width: 20,
-          ),
+          child: const Icon(Icons.delete_forever_outlined),
         ),
         const SizedBox(width: 20),
         ReorderableDragStartListener(

@@ -14,19 +14,19 @@ dependencies:
   http: ^0.13.5
   cupertino_icons: ^1.0.5
   logging: ^1.1.1
-  intl: ^0.17.0
-  flutter_riverpod: ^2.3.2
+  intl: ^0.18.0
+  flutter_riverpod: ^2.3.6
   freezed_annotation: ^2.2.0
-  flutter_keyboard_visibility: ^5.4.0
-  beamer: ^1.5.4
-  firebase_auth: ^4.3.0
-  firebase_core: ^2.8.0
+  firebase_auth: ^4.6.2
+  firebase_core: ^2.13.1
+  flutter_keyboard_visibility: ^5.4.1
+  beamer: ^1.5.5
   image_picker: ^0.8.7
-  easy_localization: ^3.0.0
+  easy_localization: ^3.0.2
   carousel_slider: ^4.2.1
   http_parser: ^4.0.2
-  path: ^1.8.2
-  path_provider: ^2.0.14
+  path: ^1.8.3
+  path_provider: ^2.0.15
 
 dev_dependencies:
   flutter_test:

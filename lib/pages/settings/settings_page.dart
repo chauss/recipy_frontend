@@ -79,11 +79,11 @@ class SettingsPage extends ConsumerWidget {
   }
 
   Widget _buildLocaleSwitcherTile() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 24),
+    return const Padding(
+      padding: EdgeInsets.only(top: 24),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [LocaleSwitcher()],
+        children: [LocaleSwitcher()],
       ),
     );
   }

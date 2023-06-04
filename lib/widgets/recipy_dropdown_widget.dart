@@ -30,7 +30,7 @@ class RecipyDropdownWidget<T> extends StatelessWidget {
       elevation: 16,
       underline: Container(
         height: 2,
-        color: Theme.of(context).colorScheme.primary,
+        color: Theme.of(context).colorScheme.secondaryContainer,
       ),
       onChanged: onSelection,
       items: getAssortment().map<DropdownMenuItem<T>>(

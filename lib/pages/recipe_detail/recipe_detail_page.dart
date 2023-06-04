@@ -322,10 +322,7 @@ class RecipeDetailPage extends ConsumerWidget {
               value: () => showDeleteRecipeDialog(context, controller),
               child: Row(
                 children: [
-                  Image.asset(
-                    "assets/icons/trash.png",
-                    width: 24,
-                  ),
+                  const Icon(Icons.delete_forever_outlined),
                   const SizedBox(width: 12),
                   const Text("common.delete").tr(),
                 ],

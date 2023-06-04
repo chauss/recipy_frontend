@@ -59,7 +59,7 @@ final recipyBeamerLocations = [
 ];
 
 var routerDelegate = BeamerDelegate(
-  initialPath: RecipyRoute.homeRecipeOverview,
+  initialPath: "/home/recipe/recipe_a1885b4c-fe88-4f5d-91fe-742432db15c2",
   locationBuilder: RoutesLocationBuilder(
     routes: {
       '*': (context, state, data) => const AppScreenPage(),
