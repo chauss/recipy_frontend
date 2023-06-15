@@ -396,7 +396,10 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   void _onUserChanged(User? newUser) {
     var canDeleteRecipe =
         newUser != null && newUser.userId == state.recipe?.creator;
-    state = state.copyWith(canDeleteRecipe: canDeleteRecipe);
+    state = state.copyWith(
+      canDeleteRecipe: canDeleteRecipe,
+      canEditRecipe: canDeleteRecipe,
+    );
   }
 }
 

@@ -24,6 +24,7 @@ mixin _$RecipeDetailModel {
   List<EditablePreparationStep> get editableSteps =>
       throw _privateConstructorUsedError;
   dynamic get canDeleteRecipe => throw _privateConstructorUsedError;
+  dynamic get canEditRecipe => throw _privateConstructorUsedError;
   int? get errorCode => throw _privateConstructorUsedError;
   Recipe? get recipe => throw _privateConstructorUsedError;
 
@@ -45,6 +46,7 @@ abstract class $RecipeDetailModelCopyWith<$Res> {
       List<EditableIngredientUsage> editableUsages,
       List<EditablePreparationStep> editableSteps,
       dynamic canDeleteRecipe,
+      dynamic canEditRecipe,
       int? errorCode,
       Recipe? recipe});
 }
@@ -68,6 +70,7 @@ class _$RecipeDetailModelCopyWithImpl<$Res, $Val extends RecipeDetailModel>
     Object? editableUsages = null,
     Object? editableSteps = null,
     Object? canDeleteRecipe = freezed,
+    Object? canEditRecipe = freezed,
     Object? errorCode = freezed,
     Object? recipe = freezed,
   }) {
@@ -96,6 +99,10 @@ class _$RecipeDetailModelCopyWithImpl<$Res, $Val extends RecipeDetailModel>
           ? _value.canDeleteRecipe
           : canDeleteRecipe // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      canEditRecipe: freezed == canEditRecipe
+          ? _value.canEditRecipe
+          : canEditRecipe // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       errorCode: freezed == errorCode
           ? _value.errorCode
           : errorCode // ignore: cast_nullable_to_non_nullable
@@ -123,6 +130,7 @@ abstract class _$$_RecipeDetailModelCopyWith<$Res>
       List<EditableIngredientUsage> editableUsages,
       List<EditablePreparationStep> editableSteps,
       dynamic canDeleteRecipe,
+      dynamic canEditRecipe,
       int? errorCode,
       Recipe? recipe});
 }
@@ -144,6 +152,7 @@ class __$$_RecipeDetailModelCopyWithImpl<$Res>
     Object? editableUsages = null,
     Object? editableSteps = null,
     Object? canDeleteRecipe = freezed,
+    Object? canEditRecipe = freezed,
     Object? errorCode = freezed,
     Object? recipe = freezed,
   }) {
@@ -171,6 +180,8 @@ class __$$_RecipeDetailModelCopyWithImpl<$Res>
       canDeleteRecipe: freezed == canDeleteRecipe
           ? _value.canDeleteRecipe!
           : canDeleteRecipe,
+      canEditRecipe:
+          freezed == canEditRecipe ? _value.canEditRecipe! : canEditRecipe,
       errorCode: freezed == errorCode
           ? _value.errorCode
           : errorCode // ignore: cast_nullable_to_non_nullable
@@ -193,6 +204,7 @@ class _$_RecipeDetailModel implements _RecipeDetailModel {
       final List<EditableIngredientUsage> editableUsages = const [],
       final List<EditablePreparationStep> editableSteps = const [],
       this.canDeleteRecipe = false,
+      this.canEditRecipe = false,
       this.errorCode,
       this.recipe})
       : _editableUsages = editableUsages,
@@ -228,13 +240,16 @@ class _$_RecipeDetailModel implements _RecipeDetailModel {
   @JsonKey()
   final dynamic canDeleteRecipe;
   @override
+  @JsonKey()
+  final dynamic canEditRecipe;
+  @override
   final int? errorCode;
   @override
   final Recipe? recipe;
 
   @override
   String toString() {
-    return 'RecipeDetailModel(recipeId: $recipeId, isLoading: $isLoading, isEditMode: $isEditMode, editableUsages: $editableUsages, editableSteps: $editableSteps, canDeleteRecipe: $canDeleteRecipe, errorCode: $errorCode, recipe: $recipe)';
+    return 'RecipeDetailModel(recipeId: $recipeId, isLoading: $isLoading, isEditMode: $isEditMode, editableUsages: $editableUsages, editableSteps: $editableSteps, canDeleteRecipe: $canDeleteRecipe, canEditRecipe: $canEditRecipe, errorCode: $errorCode, recipe: $recipe)';
   }
 
   @override
@@ -254,6 +269,8 @@ class _$_RecipeDetailModel implements _RecipeDetailModel {
                 .equals(other._editableSteps, _editableSteps) &&
             const DeepCollectionEquality()
                 .equals(other.canDeleteRecipe, canDeleteRecipe) &&
+            const DeepCollectionEquality()
+                .equals(other.canEditRecipe, canEditRecipe) &&
             (identical(other.errorCode, errorCode) ||
                 other.errorCode == errorCode) &&
             (identical(other.recipe, recipe) || other.recipe == recipe));
@@ -268,6 +285,7 @@ class _$_RecipeDetailModel implements _RecipeDetailModel {
       const DeepCollectionEquality().hash(_editableUsages),
       const DeepCollectionEquality().hash(_editableSteps),
       const DeepCollectionEquality().hash(canDeleteRecipe),
+      const DeepCollectionEquality().hash(canEditRecipe),
       errorCode,
       recipe);
 
@@ -287,6 +305,7 @@ abstract class _RecipeDetailModel implements RecipeDetailModel {
       final List<EditableIngredientUsage> editableUsages,
       final List<EditablePreparationStep> editableSteps,
       final dynamic canDeleteRecipe,
+      final dynamic canEditRecipe,
       final int? errorCode,
       final Recipe? recipe}) = _$_RecipeDetailModel;
 
@@ -302,6 +321,8 @@ abstract class _RecipeDetailModel implements RecipeDetailModel {
   List<EditablePreparationStep> get editableSteps;
   @override
   dynamic get canDeleteRecipe;
+  @override
+  dynamic get canEditRecipe;
   @override
   int? get errorCode;
   @override

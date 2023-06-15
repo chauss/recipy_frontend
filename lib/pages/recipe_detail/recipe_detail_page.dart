@@ -281,59 +281,70 @@ class RecipeDetailPage extends ConsumerWidget {
         )
       ];
     }
-    return [
-      PopupMenuButton(
-        icon: const Icon(Icons.more_vert),
-        itemBuilder: (context) {
-          var items = [
-            PopupMenuItem<Function>(
-              value: controller.enterEditMode,
-              child: Row(
-                children: [
-                  const Icon(Icons.edit),
-                  const SizedBox(width: 12),
-                  const Text("common.edit").tr(),
-                ],
-              ),
-            ),
-            PopupMenuItem<Function>(
-              value: addImageController.addImage,
-              child: Row(
-                children: [
-                  const Icon(Icons.add_a_photo),
-                  const SizedBox(width: 12),
-                  const Text("recipe_details.add_image").tr(),
-                ],
-              ),
-            ),
-            PopupMenuItem<Function>(
-              value: deleteImageController.deleteCurrentImage,
-              child: Row(
-                children: [
-                  const Icon(Icons.delete_forever_outlined),
-                  const SizedBox(width: 12),
-                  const Text("recipe_details.delete_image").tr(),
-                ],
-              ),
-            ),
-          ];
-          if (model.canDeleteRecipe) {
-            items.add(PopupMenuItem<Function>(
-              value: () => showDeleteRecipeDialog(context, controller),
-              child: Row(
-                children: [
-                  const Icon(Icons.delete_forever_outlined),
-                  const SizedBox(width: 12),
-                  const Text("common.delete").tr(),
-                ],
-              ),
-            ));
-          }
-          return items;
-        },
-        onSelected: (Function action) => action(),
-      ),
-    ];
+    List<PopupMenuItem<Function>> items = [];
+    if (model.canEditRecipe) {
+      items.add(
+        PopupMenuItem<Function>(
+          value: controller.enterEditMode,
+          child: Row(
+            children: [
+              const Icon(Icons.edit),
+              const SizedBox(width: 12),
+              const Text("common.edit").tr(),
+            ],
+          ),
+        ),
+      );
+      items.add(
+        PopupMenuItem<Function>(
+          value: addImageController.addImage,
+          child: Row(
+            children: [
+              const Icon(Icons.add_a_photo),
+              const SizedBox(width: 12),
+              const Text("recipe_details.add_image").tr(),
+            ],
+          ),
+        ),
+      );
+      items.add(
+        PopupMenuItem<Function>(
+          value: deleteImageController.deleteCurrentImage,
+          child: Row(
+            children: [
+              const Icon(Icons.delete_forever_outlined),
+              const SizedBox(width: 12),
+              const Text("recipe_details.delete_image").tr(),
+            ],
+          ),
+        ),
+      );
+    }
+    if (model.canDeleteRecipe) {
+      items.add(
+        PopupMenuItem<Function>(
+          value: () => showDeleteRecipeDialog(context, controller),
+          child: Row(
+            children: [
+              const Icon(Icons.delete_forever_outlined),
+              const SizedBox(width: 12),
+              const Text("common.delete").tr(),
+            ],
+          ),
+        ),
+      );
+    }
+    if (items.isEmpty) {
+      return [];
+    } else {
+      return [
+        PopupMenuButton(
+          icon: const Icon(Icons.more_vert),
+          itemBuilder: (context) => items,
+          onSelected: (Function action) => action(),
+        ),
+      ];
+    }
   }
 
   void showDeleteRecipeDialog(

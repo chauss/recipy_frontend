@@ -14,6 +14,7 @@ class RecipeDetailModel with _$RecipeDetailModel {
     @Default([]) List<EditableIngredientUsage> editableUsages,
     @Default([]) List<EditablePreparationStep> editableSteps,
     @Default(false) canDeleteRecipe,
+    @Default(false) canEditRecipe,
     int? errorCode,
     Recipe? recipe,
   }) = _RecipeDetailModel;

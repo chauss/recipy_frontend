@@ -56,8 +56,8 @@ final registrationRepositoryProvider = Provider<RegistrationRepository>((ref) {
   return repository;
 });
 
-final registrationControllerProvider = StateNotifierProvider.autoDispose<
-    RegistrationController, RegistrationModel>(
+final registrationControllerProvider =
+    StateNotifierProvider<RegistrationController, RegistrationModel>(
   (ref) => FirebaseRegistrationController(const RegistrationModel()),
 );
 

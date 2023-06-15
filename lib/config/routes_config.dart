@@ -1,6 +1,4 @@
 import 'package:beamer/beamer.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/locations/home_location.dart';
 import 'package:recipy_frontend/locations/user_location.dart';
 import 'package:recipy_frontend/pages/app_screen/app_screen_page.dart';
@@ -34,32 +32,19 @@ final recipyBeamerLocations = [
     },
   ),
   BeamerDelegate(
-      initialPath: RecipyRoute.userProfile,
-      locationBuilder: (routeInformation, _) {
-        BeamLocation result = NotFound(path: routeInformation.location!);
-        if (routeInformation.location!.contains('/user')) {
-          result = UserLocation(routeInformation);
-        }
-        return result;
-      },
-      guards: [
-        BeamGuard(
-          pathPatterns: [RecipyRoute.userProfile],
-          guardNonMatching: false,
-          check: (context, state) {
-            var signedIn = ProviderContainer()
-                .read(userManagementRepositoryProvider)
-                .isUserLoggedIn();
-
-            return signedIn;
-          },
-          beamToNamed: (origin, target) => RecipyRoute.login,
-        ),
-      ])
+    initialPath: RecipyRoute.userProfile,
+    locationBuilder: (routeInformation, _) {
+      BeamLocation result = NotFound(path: routeInformation.location!);
+      if (routeInformation.location!.contains('/user')) {
+        result = UserLocation(routeInformation);
+      }
+      return result;
+    },
+  )
 ];
 
 var routerDelegate = BeamerDelegate(
-  initialPath: "/home/recipe/recipe_a1885b4c-fe88-4f5d-91fe-742432db15c2",
+  initialPath: RecipyRoute.homeRecipeOverview,
   locationBuilder: RoutesLocationBuilder(
     routes: {
       '*': (context, state, data) => const AppScreenPage(),

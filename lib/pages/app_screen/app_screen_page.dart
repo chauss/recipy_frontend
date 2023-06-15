@@ -7,10 +7,6 @@ import 'package:recipy_frontend/pages/app_screen/app_screen_model.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class AppScreenPage extends ConsumerWidget {
-  static GlobalKey<NavigatorState> homeNavigatorKey =
-      GlobalKey(debugLabel: "home-location-beamer-key");
-  static GlobalKey<NavigatorState> userNavigatorKey =
-      GlobalKey(debugLabel: "user-location-beamer-key");
   const AppScreenPage({super.key});
 
   @override
@@ -23,14 +19,8 @@ class AppScreenPage extends ConsumerWidget {
       body: IndexedStack(
         index: model.currentPageIndex,
         children: [
-          Beamer(
-            key: GlobalKey(debugLabel: "home-location-beamer-key"),
-            routerDelegate: recipyBeamerLocations[0],
-          ),
-          Beamer(
-            key: GlobalKey(debugLabel: "user-location-beamer-key"),
-            routerDelegate: recipyBeamerLocations[1],
-          )
+          Beamer(routerDelegate: recipyBeamerLocations[0]),
+          Beamer(routerDelegate: recipyBeamerLocations[1])
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -45,7 +35,10 @@ class AppScreenPage extends ConsumerWidget {
             label: "bottom_navigation.profile".tr(),
           ),
         ],
-        onTap: controller.setCurrentIndexPage,
+        onTap: (idx) {
+          recipyBeamerLocations[idx].update(rebuild: false);
+          controller.setCurrentIndexPage(idx);
+        },
       ),
     );
   }

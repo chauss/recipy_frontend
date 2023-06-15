@@ -33,7 +33,7 @@ class FirebaseRegistrationController extends RegistrationController {
       UserCredential userCredentials =
           await _repository.register(email, password);
       await userCredentials.user?.updateDisplayName(displayName);
-      userCredentials.user?.sendEmailVerification();
+      await userCredentials.user?.sendEmailVerification();
       state = state.copyWith(
           registrationInProgress: false, successfullyRegistered: true);
     } on FirebaseAuthException catch (e) {
