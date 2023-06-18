@@ -91,9 +91,18 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   Future<void> saveChanges() async {
     bool somethingChanged = false;
 
+    User? currentUser = await _userManagementRepository.getCurrentUser();
+    if (currentUser == null) {
+      state = state.copyWith(
+        errorCode: ErrorCodes.couldNotFindUserToAuthorizeActionWith,
+        isLoading: false,
+      );
+      return;
+    }
+
     try {
-      somethingChanged |= await _saveIngredientUsages();
-      somethingChanged |= await _savePreparationSteps();
+      somethingChanged |= await _saveIngredientUsages(currentUser.authToken);
+      somethingChanged |= await _savePreparationSteps(currentUser.authToken);
     } on SaveException catch (e) {
       log.warning(
           "Error occured while saving recipe changes: ErrorCode(${e.errorCode}) => ${e.message}");
@@ -112,8 +121,17 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
     }
   }
 
-  Future<bool> _saveIngredientUsages() async {
+  Future<bool> _saveIngredientUsages(String userToken) async {
     bool somethingChanged = false;
+
+    User? currentUser = await _userManagementRepository.getCurrentUser();
+    if (currentUser == null) {
+      state = state.copyWith(
+        errorCode: ErrorCodes.couldNotFindUserToAuthorizeActionWith,
+        isLoading: false,
+      );
+      return false;
+    }
 
     for (EditableIngredientUsage editableUsage in state.editableUsages) {
       if (!editableUsage.canBeSaved()) {
@@ -146,6 +164,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
           amount: newAmount,
           ingredientId: correspondingEditableUsage.ingredientId!,
           ingredientUnitId: correspondingEditableUsage.ingredientUnitId!,
+          userToken: userToken,
         ));
         if (!result.success) {
           throw SaveException(
@@ -154,7 +173,10 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
       } on StateError catch (_) {
         // DELETE: EditableUsage has been deleted by user so delete existing on remote
         somethingChanged = true;
-        var result = await _repository.deleteIngredientUsage(existingUsage.id);
+        var result = await _repository.deleteIngredientUsage(
+          existingUsage.id,
+          currentUser.authToken,
+        );
         if (!result.success) {
           throw SaveException(
               message: result.message ?? "", errorCode: result.errorCode ?? -1);
@@ -177,6 +199,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
           amount: double.parse(editableUsage.amount!),
           ingredientId: editableUsage.ingredientId!,
           ingredientUnitId: editableUsage.ingredientUnitId!,
+          userToken: userToken,
         ));
         if (!result.success) {
           throw SaveException(
@@ -188,8 +211,17 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
     return somethingChanged;
   }
 
-  Future<bool> _savePreparationSteps() async {
+  Future<bool> _savePreparationSteps(String userToken) async {
     bool somethingChanged = false;
+
+    User? currentUser = await _userManagementRepository.getCurrentUser();
+    if (currentUser == null) {
+      state = state.copyWith(
+        errorCode: ErrorCodes.couldNotFindUserToAuthorizeActionWith,
+        isLoading: false,
+      );
+      return false;
+    }
 
     for (PreparationStep existingStep in state.recipe?.preparationSteps ?? []) {
       try {
@@ -208,6 +240,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
           preparationStepId: existingStep.id,
           stepNumber: correspondingEditableStep.stepNumber,
           description: correspondingEditableStep.description,
+          userToken: userToken,
         ));
         if (!result.success) {
           throw SaveException(
@@ -216,7 +249,10 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
       } on StateError catch (_) {
         // DELETE: Existing step does not exist anymore and needs to be deleted on remote
         somethingChanged = true;
-        var result = await _repository.deletePreparationStep(existingStep.id);
+        var result = await _repository.deletePreparationStep(
+          existingStep.id,
+          currentUser.authToken,
+        );
         if (!result.success) {
           throw SaveException(
               message: result.message ?? "", errorCode: result.errorCode ?? -1);
@@ -234,6 +270,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
           recipeId: state.recipeId,
           stepNumber: editableStep.stepNumber,
           description: editableStep.description,
+          userToken: userToken,
         ));
         if (!result.success) {
           throw SaveException(
@@ -303,7 +340,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
     User? currentUser = await _userManagementRepository.getCurrentUser();
     if (currentUser == null) {
       state = state.copyWith(
-        errorCode: ErrorCodes.couldNotFindUserToDeleteRecipeWith,
+        errorCode: ErrorCodes.couldNotFindUserToAuthorizeActionWith,
         isLoading: false,
       );
       return false;
@@ -411,11 +448,17 @@ abstract class RecipeDetailRepository {
       CreateIngredientUsageRequest request);
   Future<HttpWriteResult> updateIngredientUsage(
       UpdateIngredientUsageRequest request);
-  Future<HttpWriteResult> deleteIngredientUsage(String ingredientUsageId);
+  Future<HttpWriteResult> deleteIngredientUsage(
+    String ingredientUsageId,
+    String userToken,
+  );
 
   Future<HttpWriteResult> createPreparationStep(
       CreatePreparationStepRequest request);
   Future<HttpWriteResult> updatePreparationStep(
       UpdatePreparationStepRequest request);
-  Future<HttpWriteResult> deletePreparationStep(String preparationStepId);
+  Future<HttpWriteResult> deletePreparationStep(
+    String preparationStepId,
+    String userToken,
+  );
 }

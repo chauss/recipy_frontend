@@ -2,11 +2,14 @@ import 'dart:typed_data';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:recipy_frontend/config/error_config.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/recipe_image.dart';
+import 'package:recipy_frontend/models/user.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/recipe_images/loadable_recipe_image.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/recipe_images/recipe_images_model.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/recipe_images/recipe_images_widget.dart';
+import 'package:recipy_frontend/pages/user/user_management_repository.dart';
 import 'package:recipy_frontend/repositories/http_read_result.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
 
@@ -14,10 +17,16 @@ class RecipeImagesControllerImpl extends RecipeImagesController {
   static final log = Logger('RecipeImagesControllerImpl');
 
   late RecipeImagesRepository _repository;
+  late UserManagementRepository _userManagementRepository;
 
   RecipeImagesControllerImpl(RecipeImagesModel state) : super(state) {
     final container = ProviderContainer();
     _repository = container.read(recipeImagesRepositoryProvider);
+
+    _userManagementRepository =
+        container.read(userManagementRepositoryProvider);
+
+    _userManagementRepository.addOnUserStateChangedListener(_onUserChanged);
     _init();
   }
 
@@ -77,14 +86,44 @@ class RecipeImagesControllerImpl extends RecipeImagesController {
 
   @override
   void addNewRecipeImage(
-      String recipeId, Uint8List imageBytes, String fileExtension) async {
-    await _repository.addRecipeImage(recipeId, imageBytes, fileExtension);
+    String recipeId,
+    Uint8List imageBytes,
+    String fileExtension,
+  ) async {
+    User? currentUser = await _userManagementRepository.getCurrentUser();
+    if (currentUser == null) {
+      state = state.copyWith(
+        errorCode: ErrorCodes.couldNotFindUserToAuthorizeActionWith,
+        isLoading: false,
+      );
+      return;
+    }
+
+    await _repository.addRecipeImage(
+      recipeId,
+      imageBytes,
+      fileExtension,
+      currentUser.authToken,
+    );
     _fetchRecipeImages();
   }
 
   @override
   void deleteRecipeImage(String imageId) async {
-    await _repository.removeRecipeImage(state.recipeId, imageId);
+    User? currentUser = await _userManagementRepository.getCurrentUser();
+    if (currentUser == null) {
+      state = state.copyWith(
+        errorCode: ErrorCodes.couldNotFindUserToAuthorizeActionWith,
+        isLoading: false,
+      );
+      return;
+    }
+
+    await _repository.removeRecipeImage(
+      state.recipeId,
+      imageId,
+      currentUser.authToken,
+    );
     _fetchRecipeImages();
   }
 
@@ -92,6 +131,8 @@ class RecipeImagesControllerImpl extends RecipeImagesController {
   void changeCurrentImageIndex(int newIndex) {
     state = state.copyWith(currentImageIndex: newIndex);
   }
+
+  void _onUserChanged(User? newUser) {}
 }
 
 abstract class RecipeImagesRepository {
@@ -100,6 +141,7 @@ abstract class RecipeImagesRepository {
   Future<HttpReadResult<Uint8List>> getImageForRecipe(
       String recipeId, String imageId);
   Future<HttpWriteResult> addRecipeImage(
-      String recipeId, Uint8List bytes, String fileExtension);
-  Future<HttpWriteResult> removeRecipeImage(String recipeId, String imageId);
+      String recipeId, Uint8List bytes, String fileExtension, String userToken);
+  Future<HttpWriteResult> removeRecipeImage(
+      String recipeId, String imageId, String userToken);
 }

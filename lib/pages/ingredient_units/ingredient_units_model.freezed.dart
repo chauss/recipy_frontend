@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$IngredientUnitsModel {
   List<IngredientUnit> get units => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
+  bool get canAddIngredientUnits => throw _privateConstructorUsedError;
+  bool get canDeleteIngredientUnits => throw _privateConstructorUsedError;
   int? get errorCode => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -31,7 +33,12 @@ abstract class $IngredientUnitsModelCopyWith<$Res> {
           $Res Function(IngredientUnitsModel) then) =
       _$IngredientUnitsModelCopyWithImpl<$Res, IngredientUnitsModel>;
   @useResult
-  $Res call({List<IngredientUnit> units, bool isLoading, int? errorCode});
+  $Res call(
+      {List<IngredientUnit> units,
+      bool isLoading,
+      bool canAddIngredientUnits,
+      bool canDeleteIngredientUnits,
+      int? errorCode});
 }
 
 /// @nodoc
@@ -50,6 +57,8 @@ class _$IngredientUnitsModelCopyWithImpl<$Res,
   $Res call({
     Object? units = null,
     Object? isLoading = null,
+    Object? canAddIngredientUnits = null,
+    Object? canDeleteIngredientUnits = null,
     Object? errorCode = freezed,
   }) {
     return _then(_value.copyWith(
@@ -60,6 +69,14 @@ class _$IngredientUnitsModelCopyWithImpl<$Res,
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      canAddIngredientUnits: null == canAddIngredientUnits
+          ? _value.canAddIngredientUnits
+          : canAddIngredientUnits // ignore: cast_nullable_to_non_nullable
+              as bool,
+      canDeleteIngredientUnits: null == canDeleteIngredientUnits
+          ? _value.canDeleteIngredientUnits
+          : canDeleteIngredientUnits // ignore: cast_nullable_to_non_nullable
               as bool,
       errorCode: freezed == errorCode
           ? _value.errorCode
@@ -77,7 +94,12 @@ abstract class _$$_IngredientUnitsModelCopyWith<$Res>
       __$$_IngredientUnitsModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<IngredientUnit> units, bool isLoading, int? errorCode});
+  $Res call(
+      {List<IngredientUnit> units,
+      bool isLoading,
+      bool canAddIngredientUnits,
+      bool canDeleteIngredientUnits,
+      int? errorCode});
 }
 
 /// @nodoc
@@ -93,6 +115,8 @@ class __$$_IngredientUnitsModelCopyWithImpl<$Res>
   $Res call({
     Object? units = null,
     Object? isLoading = null,
+    Object? canAddIngredientUnits = null,
+    Object? canDeleteIngredientUnits = null,
     Object? errorCode = freezed,
   }) {
     return _then(_$_IngredientUnitsModel(
@@ -103,6 +127,14 @@ class __$$_IngredientUnitsModelCopyWithImpl<$Res>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      canAddIngredientUnits: null == canAddIngredientUnits
+          ? _value.canAddIngredientUnits
+          : canAddIngredientUnits // ignore: cast_nullable_to_non_nullable
+              as bool,
+      canDeleteIngredientUnits: null == canDeleteIngredientUnits
+          ? _value.canDeleteIngredientUnits
+          : canDeleteIngredientUnits // ignore: cast_nullable_to_non_nullable
               as bool,
       errorCode: freezed == errorCode
           ? _value.errorCode
@@ -118,6 +150,8 @@ class _$_IngredientUnitsModel implements _IngredientUnitsModel {
   const _$_IngredientUnitsModel(
       {final List<IngredientUnit> units = const [],
       this.isLoading = false,
+      this.canAddIngredientUnits = false,
+      this.canDeleteIngredientUnits = false,
       this.errorCode})
       : _units = units;
 
@@ -134,11 +168,17 @@ class _$_IngredientUnitsModel implements _IngredientUnitsModel {
   @JsonKey()
   final bool isLoading;
   @override
+  @JsonKey()
+  final bool canAddIngredientUnits;
+  @override
+  @JsonKey()
+  final bool canDeleteIngredientUnits;
+  @override
   final int? errorCode;
 
   @override
   String toString() {
-    return 'IngredientUnitsModel(units: $units, isLoading: $isLoading, errorCode: $errorCode)';
+    return 'IngredientUnitsModel(units: $units, isLoading: $isLoading, canAddIngredientUnits: $canAddIngredientUnits, canDeleteIngredientUnits: $canDeleteIngredientUnits, errorCode: $errorCode)';
   }
 
   @override
@@ -149,13 +189,23 @@ class _$_IngredientUnitsModel implements _IngredientUnitsModel {
             const DeepCollectionEquality().equals(other._units, _units) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.canAddIngredientUnits, canAddIngredientUnits) ||
+                other.canAddIngredientUnits == canAddIngredientUnits) &&
+            (identical(
+                    other.canDeleteIngredientUnits, canDeleteIngredientUnits) ||
+                other.canDeleteIngredientUnits == canDeleteIngredientUnits) &&
             (identical(other.errorCode, errorCode) ||
                 other.errorCode == errorCode));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_units), isLoading, errorCode);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_units),
+      isLoading,
+      canAddIngredientUnits,
+      canDeleteIngredientUnits,
+      errorCode);
 
   @JsonKey(ignore: true)
   @override
@@ -169,12 +219,18 @@ abstract class _IngredientUnitsModel implements IngredientUnitsModel {
   const factory _IngredientUnitsModel(
       {final List<IngredientUnit> units,
       final bool isLoading,
+      final bool canAddIngredientUnits,
+      final bool canDeleteIngredientUnits,
       final int? errorCode}) = _$_IngredientUnitsModel;
 
   @override
   List<IngredientUnit> get units;
   @override
   bool get isLoading;
+  @override
+  bool get canAddIngredientUnits;
+  @override
+  bool get canDeleteIngredientUnits;
   @override
   int? get errorCode;
   @override

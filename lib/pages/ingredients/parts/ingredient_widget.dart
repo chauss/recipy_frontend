@@ -32,13 +32,15 @@ class IngredientWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: InkWell(
-                  onTap: onDeleteIngredientCallback,
-                  child: const Icon(Icons.delete_forever_outlined),
-                ),
-              ),
+              onDeleteIngredientCallback != null
+                  ? Align(
+                      alignment: Alignment.centerRight,
+                      child: InkWell(
+                        onTap: onDeleteIngredientCallback,
+                        child: const Icon(Icons.delete_forever_outlined),
+                      ),
+                    )
+                  : Container(),
             ],
           )),
     );

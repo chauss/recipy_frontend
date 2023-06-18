@@ -46,22 +46,25 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
   }
 
   @override
-  Future<HttpWriteResult> addRecipe(String name, String userToken) async {
+  Future<HttpWriteResult> addRecipe(
+    String name,
+    String userToken,
+  ) async {
     var uri = Uri.parse("${APIConfiguration.backendBaseUri}/v1/recipe");
     http.Response response;
     try {
       response = await http.post(
         uri,
+        headers: <String, String>{
+          HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+          HttpHeaders.authorizationHeader: 'Bearer $userToken',
+        },
         body: json.encode(<String, String>{
           "name": name,
-          "userToken": userToken,
         }),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
       );
-    } on SocketException catch (_) {
-      log.warning("Could not add recipe \"$name\": Server unreachable");
+    } on SocketException catch (e) {
+      log.warning("Could not add recipe \"$name\": $e");
       return HttpWriteResult(
           success: false, errorCode: ErrorCodes.serverUnreachable);
     }
@@ -100,7 +103,8 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
 
   @override
   Future<HttpWriteResult> createIngredientUsage(
-      CreateIngredientUsageRequest request) async {
+    CreateIngredientUsageRequest request,
+  ) async {
     var uri =
         Uri.parse("${APIConfiguration.backendBaseUri}/v1/ingredient/usage");
     http.Response response;
@@ -113,7 +117,8 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
             "amount": request.amount,
           }),
           headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
+            HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+            HttpHeaders.authorizationHeader: 'Bearer ${request.userToken}',
           });
     } on SocketException catch (_) {
       log.warning("Could not create ingredientUsage: Server unreachable");
@@ -131,7 +136,8 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
 
   @override
   Future<HttpWriteResult> updateIngredientUsage(
-      UpdateIngredientUsageRequest request) async {
+    UpdateIngredientUsageRequest request,
+  ) async {
     var uri = Uri.parse(
         "${APIConfiguration.backendBaseUri}/v1/ingredient/usage/${request.ingredientUsageId}");
 
@@ -144,7 +150,8 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
             "amount": request.amount,
           }),
           headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
+            HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+            HttpHeaders.authorizationHeader: 'Bearer ${request.userToken}',
           });
     } on SocketException catch (_) {
       log.warning("Could not update ingredientUsage: Server unreachable");
@@ -162,12 +169,19 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
 
   @override
   Future<HttpWriteResult> deleteIngredientUsage(
-      String ingredientUsageId) async {
+    String ingredientUsageId,
+    String userToken,
+  ) async {
     var uri = Uri.parse(
         "${APIConfiguration.backendBaseUri}/v1/ingredient/usage/$ingredientUsageId");
     http.Response response;
     try {
-      response = await http.delete(uri);
+      response = await http.delete(
+        uri,
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer $userToken',
+        },
+      );
     } on SocketException catch (_) {
       log.warning("Could not delete ingredientUsage by id: Server unreachable");
       return HttpWriteResult(
@@ -184,20 +198,18 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
 
   @override
   Future<HttpWriteResult> deleteRecipeById(
-      String recipeId, String userToken) async {
+    String recipeId,
+    String userToken,
+  ) async {
     var uri =
         Uri.parse("${APIConfiguration.backendBaseUri}/v1/recipe/$recipeId");
     http.Response response;
     try {
       response = await http.delete(
         uri,
-        body: json.encode(
-          <String, Object>{
-            "userToken": userToken,
-          },
-        ),
         headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
+          HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+          HttpHeaders.authorizationHeader: 'Bearer $userToken',
         },
       );
     } on SocketException catch (_) {
@@ -216,7 +228,8 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
 
   @override
   Future<HttpWriteResult> createPreparationStep(
-      CreatePreparationStepRequest request) async {
+    CreatePreparationStepRequest request,
+  ) async {
     var uri = Uri.parse(
         "${APIConfiguration.backendBaseUri}/v1/recipe/preparationStep");
     http.Response response;
@@ -228,7 +241,8 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
             "description": request.description,
           }),
           headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
+            HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+            HttpHeaders.authorizationHeader: 'Bearer ${request.userToken}',
           });
     } on SocketException catch (_) {
       log.warning("Could not create preparationStep: Server unreachable");
@@ -247,12 +261,19 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
 
   @override
   Future<HttpWriteResult> deletePreparationStep(
-      String preparationStepId) async {
+    String preparationStepId,
+    String userToken,
+  ) async {
     var uri = Uri.parse(
         "${APIConfiguration.backendBaseUri}/v1/recipe/preparationStep/$preparationStepId");
     http.Response response;
     try {
-      response = await http.delete(uri);
+      response = await http.delete(
+        uri,
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer $userToken',
+        },
+      );
     } on SocketException catch (_) {
       log.warning("Could not delete preparationStep by id: Server unreachable");
       return HttpWriteResult(
@@ -269,7 +290,8 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
 
   @override
   Future<HttpWriteResult> updatePreparationStep(
-      UpdatePreparationStepRequest request) async {
+    UpdatePreparationStepRequest request,
+  ) async {
     var uri = Uri.parse(
         "${APIConfiguration.backendBaseUri}/v1/recipe/preparationStep/${request.preparationStepId}");
 
@@ -281,7 +303,8 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
             "description": request.description,
           }),
           headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
+            HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+            HttpHeaders.authorizationHeader: 'Bearer ${request.userToken}',
           });
     } on SocketException catch (_) {
       log.warning("Could not update preparationStep: Server unreachable");

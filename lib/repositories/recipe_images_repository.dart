@@ -75,12 +75,19 @@ class RecipyRecipeImagesRepository extends RecipeImagesRepository {
 
   @override
   Future<HttpWriteResult> addRecipeImage(
-      String recipeId, Uint8List bytes, String fileExtension) async {
+    String recipeId,
+    Uint8List bytes,
+    String fileExtension,
+    String userToken,
+  ) async {
     var uri = Uri.parse("${APIConfiguration.backendBaseUri}/v1/recipe/image");
     http.Response response;
     try {
       var request = http.MultipartRequest("POST", uri);
       request.fields["recipeId"] = recipeId;
+      request.headers.addAll({
+        HttpHeaders.authorizationHeader: 'Bearer $userToken',
+      });
       request.files.add(
         http.MultipartFile.fromBytes(
           "image",
@@ -108,12 +115,18 @@ class RecipyRecipeImagesRepository extends RecipeImagesRepository {
 
   @override
   Future<HttpWriteResult> removeRecipeImage(
-      String recipeId, String imageId) async {
+    String recipeId,
+    String imageId,
+    String userToken,
+  ) async {
     var uri = Uri.parse(
         "${APIConfiguration.backendBaseUri}/v1/recipe/$recipeId/image/$imageId");
     http.Response response;
     try {
-      response = await http.delete(uri);
+      response = await http.delete(
+        uri,
+        headers: {HttpHeaders.authorizationHeader: 'Bearer $userToken'},
+      );
     } on SocketException catch (_) {
       log.warning(
           "Could not delete recipeImage $imageId from recipe $recipeId: Server unreachable");

@@ -1,16 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
-import 'package:recipy_frontend/pages/ingredients/parts/add_ingredient_request.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_model.dart';
-import 'package:recipy_frontend/pages/ingredients/parts/delete_ingredient_request.dart';
-import 'package:recipy_frontend/widgets/executive_textfield.dart';
 import 'package:recipy_frontend/pages/ingredients/parts/ingredient_widget.dart';
+import 'package:recipy_frontend/widgets/executive_textfield.dart';
 import 'package:recipy_frontend/widgets/info_dialog.dart';
 import 'package:recipy_frontend/widgets/process_indicator.dart';
 import 'package:recipy_frontend/widgets/recipy_app_bar.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class IngredientsPage extends ConsumerWidget {
   const IngredientsPage({Key? key}) : super(key: key);
@@ -30,12 +28,13 @@ class IngredientsPage extends ConsumerWidget {
             Expanded(
               child: buildBody(context, model, controller),
             ),
-            ExecutiveTextfield(
-              addFunction: (name) =>
-                  controller.addIngredient(AddIngredientRequest(name: name)),
-              hintText: 'ingredients.add.textfield.hint'.tr(),
-              enabled: !model.isLoading,
-            ),
+            model.canAddIngredients
+                ? ExecutiveTextfield(
+                    addFunction: (name) => controller.addIngredient(name),
+                    hintText: 'ingredients.add.textfield.hint'.tr(),
+                    enabled: !model.isLoading,
+                  )
+                : Container(),
           ],
         ),
       ),
@@ -70,9 +69,11 @@ class IngredientsPage extends ConsumerWidget {
             .map(
               (ingredient) => IngredientWidget(
                 ingredient: ingredient,
-                onDeleteIngredientCallback: () => controller.deleteIngredient(
-                  DeleteIngredientRequest(ingredientId: ingredient.id),
-                ),
+                onDeleteIngredientCallback: model.canDeleteIngredients
+                    ? () => controller.deleteIngredient(
+                          ingredient.id,
+                        )
+                    : null,
               ),
             )
             .toList(),
@@ -85,7 +86,7 @@ abstract class IngredientsController extends StateNotifier<IngredientsModel> {
   IngredientsController(IngredientsModel state) : super(state);
 
   Future<void> refetchIngredients();
-  Future<void> addIngredient(AddIngredientRequest request);
-  void deleteIngredient(DeleteIngredientRequest request);
+  Future<void> addIngredient(String name);
+  void deleteIngredient(String ingredientId);
   void dismissError();
 }

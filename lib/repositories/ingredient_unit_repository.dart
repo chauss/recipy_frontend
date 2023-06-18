@@ -52,7 +52,8 @@ class RecipyIngredientUnitRepository extends IngredientUnitRepository
       response = await http.post(uri,
           body: json.encode(<String, String>{"name": request.name}),
           headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
+            HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+            HttpHeaders.authorizationHeader: 'Bearer ${request.userToken}',
           });
     } on SocketException catch (_) {
       log.warning(
@@ -75,7 +76,13 @@ class RecipyIngredientUnitRepository extends IngredientUnitRepository
         "${APIConfiguration.backendBaseUri}/v1/ingredient/unit/${request.ingredientUnitId}");
     http.Response response;
     try {
-      response = await http.delete(uri);
+      response = await http.delete(
+        uri,
+        headers: <String, String>{
+          HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+          HttpHeaders.authorizationHeader: 'Bearer ${request.userToken}',
+        },
+      );
     } on SocketException catch (_) {
       log.warning("Could not delete ingredientUnit by id: Server unreachable");
       return HttpWriteResult(

@@ -7,7 +7,7 @@ This is the frontend application for Recipy. Recipy is a recipe management softw
 Some classes are annotated with @freezed. When changing them the following command needs to be run to generate the corresponding \*.feezed.dart file:
 
 ```bash
-flutter pub run build_runner build
+dart run build_runner build
 ```
 
 If there is an error message like "Could not find a file named "pubspec.yaml" in "/Users/<username>/.pub-cache/hosted/pub.dartlang..." the following could help troubleshoot:

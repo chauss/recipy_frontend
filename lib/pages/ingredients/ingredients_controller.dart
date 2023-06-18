@@ -1,23 +1,40 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipy_frontend/config/error_config.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
+import 'package:recipy_frontend/models/user.dart';
 import 'package:recipy_frontend/pages/ingredients/parts/add_ingredient_request.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_model.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_page.dart';
 import 'package:recipy_frontend/pages/ingredients/parts/delete_ingredient_request.dart';
+import 'package:recipy_frontend/pages/user/user_management_repository.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
 import 'package:recipy_frontend/storage/in_memory_storage.dart';
 
 class IngredintsControllerImpl extends IngredientsController {
   late IngredientRepository _repository;
+  late UserManagementRepository _userManagementRepository;
 
   IngredintsControllerImpl(IngredientsModel state) : super(state) {
     final container = ProviderContainer();
     _repository = container.read(ingredientRepositoryProvider);
+
+    _userManagementRepository =
+        container.read(userManagementRepositoryProvider);
+
+    _userManagementRepository.addOnUserStateChangedListener(_onUserChanged);
+
     _init();
   }
 
   void _init() async {
     await _fetchIngredients();
+  }
+
+  void _onUserChanged(User? newUser) {
+    state = state.copyWith(
+      canAddIngredients: newUser != null,
+      canDeleteIngredients: newUser != null,
+    );
   }
 
   Future<void> _fetchIngredients() async {
@@ -38,10 +55,22 @@ class IngredintsControllerImpl extends IngredientsController {
   }
 
   @override
-  Future<void> addIngredient(AddIngredientRequest request) async {
+  Future<void> addIngredient(String name) async {
     state = state.copyWith(isLoading: true);
 
-    final result = await _repository.addIngredient(request);
+    User? currentUser = await _userManagementRepository.getCurrentUser();
+    if (currentUser == null) {
+      state = state.copyWith(
+        errorCode: ErrorCodes.couldNotFindUserToAuthorizeActionWith,
+        isLoading: false,
+      );
+      return;
+    }
+
+    final result = await _repository.addIngredient(AddIngredientRequest(
+      name: name,
+      userToken: currentUser.authToken,
+    ));
     if (result.success) {
       await _fetchIngredients();
     } else {
@@ -53,10 +82,23 @@ class IngredintsControllerImpl extends IngredientsController {
   void dismissError() => state = state.copyWith(errorCode: null);
 
   @override
-  Future<void> deleteIngredient(DeleteIngredientRequest request) async {
+  Future<void> deleteIngredient(String ingredientId) async {
     state = state.copyWith(isLoading: true);
 
-    final result = await _repository.deleteIngredientById(request);
+    User? currentUser = await _userManagementRepository.getCurrentUser();
+    if (currentUser == null) {
+      state = state.copyWith(
+        errorCode: ErrorCodes.couldNotFindUserToAuthorizeActionWith,
+        isLoading: false,
+      );
+      return;
+    }
+
+    final result =
+        await _repository.deleteIngredientById(DeleteIngredientRequest(
+      ingredientId: ingredientId,
+      userToken: currentUser.authToken,
+    ));
     if (result.success) {
       await _fetchIngredients();
     } else {

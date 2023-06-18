@@ -49,7 +49,8 @@ class RecipyIngredientRepository extends IngredientRepository
         uri,
         body: json.encode(<String, String>{"name": request.name}),
         headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
+          HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+          HttpHeaders.authorizationHeader: 'Bearer ${request.userToken}',
         },
       );
     } on SocketException catch (_) {
@@ -68,12 +69,18 @@ class RecipyIngredientRepository extends IngredientRepository
 
   @override
   Future<HttpWriteResult> deleteIngredientById(
-      DeleteIngredientRequest request) async {
+    DeleteIngredientRequest request,
+  ) async {
     var uri = Uri.parse(
         "${APIConfiguration.backendBaseUri}/v1/ingredient/${request.ingredientId}");
     http.Response response;
     try {
-      response = await http.delete(uri);
+      response = await http.delete(
+        uri,
+        headers: <String, String>{
+          HttpHeaders.authorizationHeader: 'Bearer ${request.userToken}',
+        },
+      );
     } on SocketException catch (_) {
       log.warning("Could not delete ingredient by id: Server unreachable");
       return HttpWriteResult(

@@ -8,6 +8,8 @@ class IngredientsModel with _$IngredientsModel {
   const factory IngredientsModel({
     @Default([]) List<Ingredient> ingredients,
     @Default(false) bool isLoading,
+    @Default(false) bool canAddIngredients,
+    @Default(false) bool canDeleteIngredients,
     int? errorCode,
   }) = _IngredientsModel;
 }
