@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:recipy_frontend/config/locale_config.dart';
 import 'package:recipy_frontend/config/routes_config.dart';
 import 'package:recipy_frontend/config/theme_config.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     configureLogging();
+    Logger.root.level = Level.ALL;
 
     RecipyInMemoryStorage().refetchIngredients();
     RecipyInMemoryStorage().refetchIngredientUnits();

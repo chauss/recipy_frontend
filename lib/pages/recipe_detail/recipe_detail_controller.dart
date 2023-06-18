@@ -40,12 +40,15 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   }
 
   void _init() async {
+    log.fine("Going to initialize RecipeDetailController...");
     await _fetchRecipe();
     // NOTE: must come after _fetchRecipe because we compare user with the recipe creator
     _onUserChanged(await _userManagementRepository.getCurrentUser());
+    log.info("Initialized RecipeDetailController.");
   }
 
   Future<void> _fetchRecipe() async {
+    log.fine("Going to fetch recipe with id=${state.recipeId}...");
     var result = await _repository.fetchRecipeById(state.recipeId);
 
     result.data?.preparationSteps
@@ -59,10 +62,14 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
       editableUsages: [],
       editableSteps: [],
     );
+    log.info(
+        "Fetched recipe with id=${state.recipeId}. Success=${result.success}. ErrorCode=${result.errorCode}.");
   }
 
   @override
   void enterEditMode() {
+    log.fine(
+        "Going to enter edit mode for recipe with id=${state.recipeId}...");
     var editableSteps = state.recipe?.preparationSteps
             .map((step) => EditablePreparationStep.fromPreparationStep(step))
             .toList() ??
@@ -76,6 +83,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
           .toList(),
       editableSteps: editableSteps,
     );
+    log.info("Entered edit mode for recipe with id=${state.recipeId}...");
   }
 
   @override
@@ -85,10 +93,14 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
       editableSteps: [],
       isEditMode: false,
     );
+    log.info(
+        "Discarded changes from editing recipe with id=${state.recipeId}.");
   }
 
   @override
   Future<void> saveChanges() async {
+    log.fine(
+        "Going to save changes from editing recipe with id=${state.recipeId}...");
     bool somethingChanged = false;
 
     User? currentUser = await _userManagementRepository.getCurrentUser();
@@ -97,6 +109,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
         errorCode: ErrorCodes.couldNotFindUserToAuthorizeActionWith,
         isLoading: false,
       );
+      log.info("Could not save changes. CurrentUser is null.");
       return;
     }
 
@@ -111,6 +124,8 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
     }
 
     if (somethingChanged) {
+      log.fine(
+          "Going to refetch recipe because something changed during editing...");
       await _fetchRecipe();
     } else {
       state = state.copyWith(
@@ -122,16 +137,8 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   }
 
   Future<bool> _saveIngredientUsages(String userToken) async {
+    log.fine("Going to save ingredient usages for recipe ${state.recipeId}...");
     bool somethingChanged = false;
-
-    User? currentUser = await _userManagementRepository.getCurrentUser();
-    if (currentUser == null) {
-      state = state.copyWith(
-        errorCode: ErrorCodes.couldNotFindUserToAuthorizeActionWith,
-        isLoading: false,
-      );
-      return false;
-    }
 
     for (EditableIngredientUsage editableUsage in state.editableUsages) {
       if (!editableUsage.canBeSaved()) {
@@ -141,6 +148,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
       }
     }
 
+    log.fine("Going to update all existing and changed ingredientUsages...");
     for (IngredientUsage existingUsage
         in state.recipe?.ingredientUsages ?? []) {
       try {
@@ -166,16 +174,19 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
           ingredientUnitId: correspondingEditableUsage.ingredientUnitId!,
           userToken: userToken,
         ));
+        log.fine(
+            "Tried to update ingredientUsageId=${existingUsage.id}. Success=${result.success}");
         if (!result.success) {
           throw SaveException(
               message: result.message ?? "", errorCode: result.errorCode ?? -1);
         }
       } on StateError catch (_) {
         // DELETE: EditableUsage has been deleted by user so delete existing on remote
+        log.fine("Going to delete ingredientUsageId=${existingUsage.id}...");
         somethingChanged = true;
         var result = await _repository.deleteIngredientUsage(
           existingUsage.id,
-          currentUser.authToken,
+          userToken,
         );
         if (!result.success) {
           throw SaveException(
@@ -185,6 +196,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
     }
 
     // CREATE: All editableUsages without id are new and need to be created on remote
+    log.fine("Going to create all new ingredientUsages...");
     for (var editableUsage in state.editableUsages) {
       if (editableUsage.id == null) {
         if (!editableUsage.canBeSaved()) {
@@ -208,21 +220,17 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
       }
     }
 
+    log.info(
+        "Successfully updated ingredient usages for recipeId=${state.recipeId}. SomethingChanged=$somethingChanged");
+
     return somethingChanged;
   }
 
   Future<bool> _savePreparationSteps(String userToken) async {
+    log.fine("Going to save preparation steps for recipe ${state.recipeId}...");
     bool somethingChanged = false;
 
-    User? currentUser = await _userManagementRepository.getCurrentUser();
-    if (currentUser == null) {
-      state = state.copyWith(
-        errorCode: ErrorCodes.couldNotFindUserToAuthorizeActionWith,
-        isLoading: false,
-      );
-      return false;
-    }
-
+    log.fine("Going to update existing preparation steps that changed...");
     for (PreparationStep existingStep in state.recipe?.preparationSteps ?? []) {
       try {
         // Throws state error if none was found
@@ -248,10 +256,11 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
         }
       } on StateError catch (_) {
         // DELETE: Existing step does not exist anymore and needs to be deleted on remote
+        log.fine("Going to delete preparationStepId=${existingStep.id}...");
         somethingChanged = true;
         var result = await _repository.deletePreparationStep(
           existingStep.id,
-          currentUser.authToken,
+          userToken,
         );
         if (!result.success) {
           throw SaveException(
@@ -261,6 +270,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
     }
 
     // CREATE: All editable steps without id are new and need to be created on remote
+    log.fine("Going to create all new prepration steps...");
     for (var editableStep in state.editableSteps) {
       if (editableStep.id == null) {
         somethingChanged = true;
@@ -279,11 +289,15 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
       }
     }
 
+    log.info(
+        "Successfully updated prepration steps for recipeId=${state.recipeId}. SomethingChanged=$somethingChanged");
+
     return somethingChanged;
   }
 
   @override
   void addNewIngredientUsage() {
+    log.fine("Adding new ingredient usage...");
     state = state.copyWith(editableUsages: [
       ...state.editableUsages,
       EditableIngredientUsage(amount: "1")
@@ -292,6 +306,8 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
 
   @override
   void updateUsageAmount(EditableIngredientUsage usage, String amount) {
+    log.fine(
+        "Updating ingredient usage amount. IngredientUsageId=${usage.id}. Amount=$amount...");
     for (var editableUsage in state.editableUsages) {
       if (editableUsage == usage) {
         editableUsage.amount = amount;
@@ -303,6 +319,8 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   @override
   void updateUsageIngredient(
       EditableIngredientUsage usage, String? ingredientId) {
+    log.fine(
+        "Updating ingredient usage ingredientId. IngredientUsageId=${usage.id}. IngredientId=$ingredientId...");
     var updatedUsages = state.editableUsages.map((editableUsage) {
       if (editableUsage == usage) {
         editableUsage.ingredientId = ingredientId;
@@ -315,6 +333,8 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   @override
   void updateUsageIngredientUnit(
       EditableIngredientUsage usage, String? ingredientUnitId) {
+    log.fine(
+        "Updating ingredient usage ingredientUnitId. IngredientUsageId=${usage.id}. IngredientUnitId=$ingredientUnitId...");
     var updatedUsages = state.editableUsages.map((editableUsage) {
       if (editableUsage == usage) {
         editableUsage.ingredientUnitId = ingredientUnitId;
@@ -329,6 +349,8 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
 
   @override
   void deleteIngredientUsage(DeleteIngredientUsageRequest request) async {
+    log.fine(
+        "Removing ingredient usage. IngredientUsageId=${request.ingredientUsage.id}...");
     var newUsages = [...state.editableUsages];
     newUsages.remove(request.ingredientUsage);
     state = state.copyWith(editableUsages: newUsages);
@@ -336,6 +358,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
 
   @override
   Future<bool> deleteRecipe() async {
+    log.fine("Going to delete recipe with id=${state.recipeId}...");
     state = state.copyWith(isLoading: true);
     User? currentUser = await _userManagementRepository.getCurrentUser();
     if (currentUser == null) {
@@ -343,6 +366,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
         errorCode: ErrorCodes.couldNotFindUserToAuthorizeActionWith,
         isLoading: false,
       );
+      log.fine("Could not delete recipe. CurrentUser is null.");
       return false;
     }
     var result = await _repository.deleteRecipeById(
@@ -358,11 +382,15 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
         isLoading: false,
       );
     }
+
+    log.fine(
+        "Done deleting recipe with id=${state.recipeId}. Success=${result.success}. ErrorCode=${result.errorCode}");
     return result.success;
   }
 
   @override
   void addNewPreparationStep() {
+    log.fine("Going to add new preparation step...");
     state = state.copyWith(editableSteps: [
       ...state.editableSteps,
       EditablePreparationStep(
@@ -375,6 +403,8 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
 
   @override
   void reorderPreparationSteps(int start, int current) {
+    log.fine(
+        "Going to reorder preparation step. State=$start. Current=$current...");
     var newEditableSteps = [...state.editableSteps];
 
     // e.g. start(4) > current(1)
@@ -411,6 +441,8 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
 
   @override
   void updateStepDescription(EditablePreparationStep step, String description) {
+    log.fine(
+        "Updating prepration step description for prepartionStepId=${step.id}...");
     for (var editableStep in state.editableSteps) {
       if (editableStep == step) {
         editableStep.description = description;
@@ -421,6 +453,8 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
 
   @override
   void deletePreparationStep(DeletePreparationStepRequest request) {
+    log.fine(
+        "Removing prepration step with prepartionStepId=${request.preparationStep.id}...");
     var newEditableSteps = [...state.editableSteps];
     var deletedIndex = newEditableSteps.indexOf(request.preparationStep);
     newEditableSteps.remove(request.preparationStep);
@@ -431,6 +465,7 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   }
 
   void _onUserChanged(User? newUser) {
+    log.info("Logged in user changed. NewUserId=${newUser?.userId}");
     var canDeleteRecipe =
         newUser != null && newUser.userId == state.recipe?.creator;
     state = state.copyWith(
