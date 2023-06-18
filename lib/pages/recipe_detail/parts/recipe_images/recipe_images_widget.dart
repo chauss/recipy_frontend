@@ -114,7 +114,9 @@ class _RecipeImagesWidgetState extends ConsumerState<RecipeImagesWidget> {
   }
 
   void _pickImage(
-      RecipeImagesModel model, RecipeImagesController controller) async {
+    RecipeImagesModel model,
+    RecipeImagesController controller,
+  ) async {
     final ImagePicker picker = ImagePicker();
     try {
       XFile? selectedImage = await picker.pickImage(
