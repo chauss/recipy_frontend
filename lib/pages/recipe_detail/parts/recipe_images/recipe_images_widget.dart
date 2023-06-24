@@ -54,13 +54,8 @@ class _RecipeImagesWidgetState extends ConsumerState<RecipeImagesWidget> {
   ) {
     if (model.loadableRecipeImages.isNotEmpty) {
       return _buildImages([model.loadableRecipeImages.first]).first;
-    } else {
-      return const SizedBox(
-        height: 60,
-        width: double.infinity,
-        child: Icon(Icons.image_not_supported_outlined),
-      );
     }
+    return Container();
   }
 
   Widget _buildImageCarousel(

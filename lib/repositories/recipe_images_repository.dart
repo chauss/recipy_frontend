@@ -14,7 +14,7 @@ import 'package:recipy_frontend/repositories/http_read_result.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
 import 'package:recipy_frontend/storage/recipy_image_cache.dart';
 
-class RecipyRecipeImagesRepository extends RecipeImagesRepository {
+class RecipyRecipeImagesRepository implements RecipeImagesRepository {
   static final log = Logger('RecipyRecipeImagesRepository');
   final RecipyImageCache imageCache = RecipyImageCache();
 

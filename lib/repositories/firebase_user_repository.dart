@@ -5,8 +5,12 @@ import 'package:recipy_frontend/pages/user/profile/profile_controller.dart';
 import 'package:recipy_frontend/pages/user/registration/registration_controller.dart';
 import 'package:recipy_frontend/pages/user/user_management_repository.dart';
 
-class FirebaseUserRepository extends RegistrationRepository
-    with LoginRepository, ProfileRepository, UserManagementRepository {
+class FirebaseUserRepository
+    implements
+        RegistrationRepository,
+        LoginRepository,
+        ProfileRepository,
+        UserManagementRepository {
   final firebase.FirebaseAuth _firebaseAuth = firebase.FirebaseAuth.instance;
 
   // TODO dont return firebase stuff

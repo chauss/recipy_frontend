@@ -63,6 +63,10 @@
       "button": { "hint": "Add recipe" }
     }
   },
+  "my_recipes": {
+    "title": "My recipes",
+    "no_recipes_yet": "Seems like you haven't added any recipes yet.\n\nTime to get started!"
+  },
   "recipe_details": {
     "delete_image": "Delete image",
     "add_image": "Add image",

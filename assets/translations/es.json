@@ -63,6 +63,10 @@
       "button": { "hint": "Añadir receta" }
     }
   },
+  "my_recipes": {
+    "title": "Mis recetas",
+    "no_recipes_yet": "Parece que aún no has añadido ninguna receta.\n\n¡Adelante!"
+  },
   "recipe_details": {
     "delete_image": "Borrar imagen",
     "add_image": "Añadir imagen",

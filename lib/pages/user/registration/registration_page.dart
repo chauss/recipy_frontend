@@ -51,7 +51,7 @@ class RegistrationPage extends ConsumerWidget {
       });
     } else if (model.successfullyRegistered) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
-        Beamer.of(context).beamToNamed(RecipyRoute.userProfile);
+        Beamer.of(context).beamToNamed(RecipyRoute.userMyRecipes);
       });
     }
   }
@@ -106,7 +106,7 @@ class RegistrationPage extends ConsumerWidget {
               message: "user.registration.already_registered.message".tr(),
               hyperlink: "user.registration.already_registered.hyperlink".tr(),
               onHyperlinkTapped: () =>
-                  Beamer.of(context).beamToNamed(RecipyRoute.login),
+                  Beamer.of(context).beamToNamed(RecipyRoute.userLogin),
             ),
           ],
         ),

@@ -1,5 +1,6 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:recipy_frontend/config/routes_config.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_page.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_page.dart';
@@ -8,6 +9,8 @@ import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_page.dart'
 import 'package:recipy_frontend/pages/settings/settings_page.dart';
 
 class HomeLocation extends BeamLocation<BeamState> {
+  static final log = Logger("HomeLocation");
+
   HomeLocation(RouteInformation routeInformation) : super(routeInformation);
 
   @override
@@ -21,7 +24,8 @@ class HomeLocation extends BeamLocation<BeamState> {
 
   @override
   List<BeamPage> buildPages(BuildContext context, BeamState state) {
-    print("Location: ${state.routeInformation.location}");
+    log.info(
+        "Switching to location=${state.routeInformation.location} with parameters=${state.pathParameters}.");
     final pages = [
       const BeamPage(
         key: ValueKey('recipe_overview'),
@@ -31,8 +35,6 @@ class HomeLocation extends BeamLocation<BeamState> {
       ),
     ];
     if (state.pathParameters.containsKey('recipeId')) {
-      print(
-          "build recipeDetailPage for recipe: ${state.pathParameters['recipeId']}");
       pages.add(
         BeamPage(
           key: ValueKey('recipe-${state.pathParameters['recipeId']}'),

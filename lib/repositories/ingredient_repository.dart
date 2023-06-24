@@ -13,8 +13,8 @@ import 'package:recipy_frontend/repositories/http_read_result.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
 import 'package:recipy_frontend/storage/in_memory_storage.dart';
 
-class RecipyIngredientRepository extends IngredientRepository
-    with InMemoryStorageIngredientRepository {
+class RecipyIngredientRepository
+    implements IngredientRepository, InMemoryStorageIngredientRepository {
   static final log = Logger('RecipyIngredientRepository');
 
   @override

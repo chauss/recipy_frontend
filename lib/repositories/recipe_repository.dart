@@ -13,17 +13,23 @@ import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/creat
 import 'package:recipy_frontend/pages/recipe_detail/recipe_detail_controller.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/update_ingredient_usage_request.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_controller.dart';
+import 'package:recipy_frontend/pages/user/my_recipes/my_recipes_controller.dart';
 import 'package:recipy_frontend/repositories/http_read_result.dart';
 import 'package:recipy_frontend/repositories/http_write_result.dart';
 
-class RecipyRecipeRepository extends RecipeOverviewRepository
-    with RecipeDetailRepository {
+class RecipyRecipeRepository
+    implements
+        RecipeOverviewRepository,
+        RecipeDetailRepository,
+        MyRecipesRepository {
   static final log = Logger('RecipyRecipeRepository');
 
   @override
-  Future<HttpReadResult<List<RecipeOverview>>> fetchRecipesAsOverview() async {
-    var uri =
-        Uri.parse("${APIConfiguration.backendBaseUri}/v1/recipes/overview");
+  Future<HttpReadResult<List<RecipeOverview>>> fetchRecipesAsOverview(
+      {String? forUserId}) async {
+    final forUserIdEndpoint = forUserId != null ? "/userId/$forUserId" : "";
+    var uri = Uri.parse(
+        "${APIConfiguration.backendBaseUri}/v1/recipes/overview$forUserIdEndpoint");
     http.Response response;
     try {
       response = await http.get(uri);
@@ -43,6 +49,12 @@ class RecipyRecipeRepository extends RecipeOverviewRepository
     }
     return handleHttpReadFailed(
         log, response, "Failed to fetch recipeOverviews");
+  }
+
+  @override
+  Future<HttpReadResult<List<RecipeOverview>>> fetchRecipesForUserAsOverview(
+      String userId) {
+    return fetchRecipesAsOverview(forUserId: userId);
   }
 
   @override

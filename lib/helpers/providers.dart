@@ -20,6 +20,9 @@ import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_page.dart'
 import 'package:recipy_frontend/pages/settings/settings_controller.dart';
 import 'package:recipy_frontend/pages/settings/settings_model.dart';
 import 'package:recipy_frontend/pages/settings/settings_page.dart';
+import 'package:recipy_frontend/pages/user/my_recipes/my_recipes_controller.dart';
+import 'package:recipy_frontend/pages/user/my_recipes/my_recipes_model.dart';
+import 'package:recipy_frontend/pages/user/my_recipes/my_recipes_page.dart';
 import 'package:recipy_frontend/pages/user/profile/profile_controller.dart';
 import 'package:recipy_frontend/pages/user/profile/profile_model.dart';
 import 'package:recipy_frontend/pages/user/profile/profile_page.dart';
@@ -130,6 +133,21 @@ final StateNotifierProvider<RecipeOverviewController, RecipeOverviewModel>
     recipeOverviewControllerProvider =
     StateNotifierProvider<RecipeOverviewController, RecipeOverviewModel>(
   (ref) => RecipeOverviewControllerImpl(const RecipeOverviewModel()),
+);
+
+// #############################################################################
+// # My Recipes
+// #############################################################################
+final myRecipesRepositoryProvider = Provider<MyRecipesRepository>((ref) {
+  final repository = RecipyRecipeRepository();
+
+  return repository;
+});
+
+final StateNotifierProvider<MyRecipesController, MyRecipesModel>
+    myRecipesControllerProvider =
+    StateNotifierProvider<MyRecipesController, MyRecipesModel>(
+  (ref) => MyRecipesControllerImpl(const MyRecipesModel()),
 );
 
 // #############################################################################
