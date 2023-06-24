@@ -29,8 +29,10 @@ class AppScreenControllerImpl extends AppScreenController {
 
   @override
   void setCurrentIndexPage(int pageIndex) {
-    state = state.copyWith(
-      currentPageIndex: pageIndex,
-    );
+    if (pageIndex != state.currentPageIndex) {
+      state = state.copyWith(
+        currentPageIndex: pageIndex,
+      );
+    }
   }
 }

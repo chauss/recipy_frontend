@@ -1,5 +1,6 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/config/routes_config.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
@@ -14,6 +15,8 @@ class AppScreenPage extends ConsumerWidget {
     AppScreenController controller =
         ref.read(recipyAppScreenControllerProvider.notifier);
     AppScreenModel model = ref.watch(recipyAppScreenControllerProvider);
+
+    react(controller, context);
 
     return Scaffold(
       body: IndexedStack(
@@ -41,6 +44,13 @@ class AppScreenPage extends ConsumerWidget {
         },
       ),
     );
+  }
+
+  void react(AppScreenController controller, BuildContext context) {
+    final uriString = Beamer.of(context).configuration.location!;
+    final currentPage = uriString.startsWith(RecipyRoute.homePrefix) ? 0 : 1;
+    SchedulerBinding.instance.addPostFrameCallback(
+        (_) => controller.setCurrentIndexPage(currentPage));
   }
 }
 

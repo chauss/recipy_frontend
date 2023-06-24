@@ -20,7 +20,7 @@
       "password": { "textfield": { "hint": "Contraseña" } },
       "display_name": { "textfield": { "hint": "Nombre de usuario" } },
       "already_registered": {
-        "message": "¿Ya está registrado? A continuación, vaya directamente al inicio de sesión.",
+        "message": "¿Ya está registrado?\nA continuación, vaya directamente al inicio de sesión.",
         "hyperlink": "inicio de sesión"
       },
       "register": "Registrar"
@@ -30,7 +30,7 @@
       "email": { "textfield": { "hint": "Correo electrónico" } },
       "password": { "textfield": { "hint": "Contraseña" } },
       "not_registered": {
-        "message": "¿Todavía no hay cuenta? Entonces, regístrese ahora.",
+        "message": "¿Todavía no hay cuenta?\nEntonces, regístrese ahora.",
         "hyperlink": "regístrese"
       },
       "login": "Inicio de sesión"

@@ -2,10 +2,10 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipy_frontend/widgets/custom_text_field.dart';
+import 'package:recipy_frontend/widgets/recipy_button.dart';
+import 'package:recipy_frontend/widgets/recipy_text_field.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/widgets/info_dialog.dart';
-import 'package:recipy_frontend/widgets/process_indicator.dart';
 import 'package:recipy_frontend/widgets/recipy_app_bar.dart';
 import 'package:recipy_frontend/config/routes_config.dart';
 import 'package:recipy_frontend/widgets/text_with_hyperlink.dart';
@@ -30,17 +30,16 @@ class RegistrationPage extends ConsumerWidget {
 
     RegistrationModel model = ref.watch(registrationControllerProvider);
 
+    react(model, controller, context);
+
     return Scaffold(
       appBar: RecipyAppBar(title: "user.registration.title".tr()),
       body: buildBody(controller, model, context),
     );
   }
 
-  Widget buildBody(
-    RegistrationController controller,
-    RegistrationModel model,
-    BuildContext context,
-  ) {
+  void react(RegistrationModel model, RegistrationController controller,
+      BuildContext context) {
     if (model.errorCode != null) {
       var dialog = InfoDialog(
         context: context,
@@ -55,72 +54,62 @@ class RegistrationPage extends ConsumerWidget {
         Beamer.of(context).beamToNamed(RecipyRoute.userProfile);
       });
     }
+  }
 
-    return Container(
-      margin: const EdgeInsets.only(left: 24, right: 24),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          CustomTextField(
-            controller: displayNameController,
-            focusNode: displayNameFocusNode,
-            hintText: "user.registration.display_name.textfield.hint".tr(),
-            onSubmitted: (text) =>
-                onDisplayNameSubmitted(text, controller, model),
-          ),
-          const SizedBox(height: 10),
-          CustomTextField(
-            controller: emailController,
-            focusNode: emailFocusNode,
-            hintText: "user.registration.email.textfield.hint".tr(),
-            onSubmitted: (text) => onEmailSubmitted(text, controller, model),
-          ),
-          const SizedBox(height: 10),
-          CustomTextField(
-            controller: passwordController,
-            focusNode: passwordFocusNode,
-            hintText: "user.registration.password.textfield.hint".tr(),
-            onSubmitted: (text) => onPasswordSubmitted(text, controller, model),
-            keyboardType: TextInputType.visiblePassword,
-          ),
-          const SizedBox(height: 20),
-          TextWithHyperLink(
-            message: "user.registration.already_registered.message".tr(),
-            hyperlink: "user.registration.already_registered.hyperlink".tr(),
-            onHyperlinkTapped: () =>
-                Beamer.of(context).beamToNamed(RecipyRoute.login),
-          ),
-          const SizedBox(height: 20),
-          TextButton(
-            onPressed: model.registrationInProgress
-                ? null
-                : () => controller.register(
-                      emailController.text,
-                      passwordController.text,
-                      displayNameController.text,
-                    ),
-            style: TextButton.styleFrom(
-                backgroundColor: Theme.of(context).primaryColor),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "user.registration.register".tr(),
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Colors.white,
-                      ),
-                ),
-                model.registrationInProgress
-                    ? const Padding(
-                        padding: EdgeInsets.only(left: 10),
-                        child: ProcessIndicator(color: Colors.white, size: 20),
-                      )
-                    : Container()
-              ],
+  Widget buildBody(
+    RegistrationController controller,
+    RegistrationModel model,
+    BuildContext context,
+  ) {
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 320),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            RecipyTextField(
+              controller: displayNameController,
+              focusNode: displayNameFocusNode,
+              hintText: "user.registration.display_name.textfield.hint".tr(),
+              onSubmitted: (text) =>
+                  onDisplayNameSubmitted(text, controller, model),
             ),
-          )
-        ],
+            const SizedBox(height: 16),
+            RecipyTextField(
+              controller: emailController,
+              focusNode: emailFocusNode,
+              hintText: "user.registration.email.textfield.hint".tr(),
+              onSubmitted: (text) => onEmailSubmitted(text, controller, model),
+            ),
+            const SizedBox(height: 16),
+            RecipyTextField(
+              controller: passwordController,
+              focusNode: passwordFocusNode,
+              hintText: "user.registration.password.textfield.hint".tr(),
+              onSubmitted: (text) =>
+                  onPasswordSubmitted(text, controller, model),
+              keyboardType: TextInputType.visiblePassword,
+            ),
+            const SizedBox(height: 24),
+            RecipyButton(
+              title: "user.registration.register".tr(),
+              isProcessing: model.registrationInProgress,
+              onPressed: () => controller.register(
+                emailController.text,
+                passwordController.text,
+                displayNameController.text,
+              ),
+            ),
+            const SizedBox(height: 80),
+            TextWithHyperLink(
+              message: "user.registration.already_registered.message".tr(),
+              hyperlink: "user.registration.already_registered.hyperlink".tr(),
+              onHyperlinkTapped: () =>
+                  Beamer.of(context).beamToNamed(RecipyRoute.login),
+            ),
+          ],
+        ),
       ),
     );
   }

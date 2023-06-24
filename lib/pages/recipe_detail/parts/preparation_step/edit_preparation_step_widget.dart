@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/preparation_step/editable_preparation_step.dart';
-import 'package:recipy_frontend/widgets/custom_text_field.dart';
+import 'package:recipy_frontend/widgets/recipy_text_field.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class EditPreparationStepWidget extends StatelessWidget {
@@ -23,7 +23,7 @@ class EditPreparationStepWidget extends StatelessWidget {
     return Column(
       children: [
         buildHeader(context),
-        CustomTextField(
+        RecipyTextField(
           controller: descriptionController,
           isMultiline: true,
           keyboardType: TextInputType.multiline,

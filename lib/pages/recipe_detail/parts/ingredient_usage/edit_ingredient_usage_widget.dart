@@ -5,7 +5,7 @@ import 'package:recipy_frontend/models/ingredient.dart';
 import 'package:recipy_frontend/models/ingredient_unit.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/editable_ingredient_usage.dart';
 import 'package:recipy_frontend/storage/in_memory_storage.dart';
-import 'package:recipy_frontend/widgets/custom_text_field.dart';
+import 'package:recipy_frontend/widgets/recipy_text_field.dart';
 import 'package:recipy_frontend/widgets/recipy_dropdown_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -61,7 +61,7 @@ class EditIngredientUsageWidget extends StatelessWidget {
   Widget buildEditAmountWidget() {
     return SizedBox(
       width: 80,
-      child: CustomTextField(
+      child: RecipyTextField(
         controller: amountController,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))

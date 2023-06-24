@@ -20,7 +20,7 @@
       "password": { "textfield": { "hint": "Passwort" } },
       "display_name": { "textfield": { "hint": "Benutzername" } },
       "already_registered": {
-        "message": "Bereits angemeldet? Dann gehe direkt zum Login.",
+        "message": "Bereits angemeldet?\nDann gehe direkt zum Login.",
         "hyperlink": "Login"
       },
       "register": "Registrieren"
@@ -30,7 +30,7 @@
       "email": { "textfield": { "hint": "E-Mail" } },
       "password": { "textfield": { "hint": "Passwort" } },
       "not_registered": {
-        "message": "Noch nicht angemeldet? Dann registriere dich jetzt.",
+        "message": "Noch nicht angemeldet?\nDann registriere dich jetzt.",
         "hyperlink": "registriere"
       },
       "login": "Login"

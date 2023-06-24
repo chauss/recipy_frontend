@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
-// TODO Rename to RecipyTextField
-class CustomTextField extends StatefulWidget {
+class RecipyTextField extends StatefulWidget {
   final TextEditingController _controller;
   final FocusNode _focusNode;
   final String? _hintText;
@@ -18,7 +17,7 @@ class CustomTextField extends StatefulWidget {
   final bool _isMultiline;
   final int _onChangedDebounceMs;
 
-  CustomTextField({
+  RecipyTextField({
     Key? key,
     TextEditingController? controller,
     FocusNode? focusNode,
@@ -45,10 +44,10 @@ class CustomTextField extends StatefulWidget {
         super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _CustomTextFieldState();
+  State<StatefulWidget> createState() => _RecipyTextFieldState();
 }
 
-class _CustomTextFieldState extends State<CustomTextField> {
+class _RecipyTextFieldState extends State<RecipyTextField> {
   final double _clearButtonWidth = 52;
   StreamSubscription? _keyboardDisplayedStreamSubscription;
   late bool _keyboardIsVisible;
@@ -67,7 +66,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   }
 
   @override
-  void didUpdateWidget(covariant CustomTextField oldWidget) {
+  void didUpdateWidget(covariant RecipyTextField oldWidget) {
     widget._controller.selection = oldWidget._controller.selection;
     super.didUpdateWidget(oldWidget);
   }
@@ -88,6 +87,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             shouldShowClear ? _buildClearButton() : Container(),
           ],
         ),
+        const SizedBox(height: 4),
         _buildUnderline(),
       ],
     );
@@ -114,7 +114,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           textInputAction: widget._textInputAction,
           keyboardType: widget._keyboardType,
           obscureText: widget._keyboardType == TextInputType.visiblePassword,
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: Theme.of(context).textTheme.bodyMedium,
           decoration: InputDecoration.collapsed(hintText: widget._hintText),
           onChanged: (text) {
             _onChangedDebounce?.cancel();

@@ -17,33 +17,32 @@ class UserLocation extends BeamLocation<BeamState> {
 
   @override
   List<BeamPage> buildPages(BuildContext context, BeamState state) {
+    List<BeamPage> beamPages = [];
     if (state.routeInformation.location!.contains("login")) {
-      return [
-        BeamPage(
-          key: const ValueKey('user-login'),
-          title: 'User Login',
-          type: BeamPageType.noTransition,
-          child: LoginPage(),
-        )
-      ];
-    } else if (state.routeInformation.location!.contains("registration")) {
-      return [
-        BeamPage(
+      beamPages.add(BeamPage(
+        key: const ValueKey('user-login'),
+        title: 'User Login',
+        type: BeamPageType.noTransition,
+        child: LoginPage(),
+      ));
+      if (state.routeInformation.location!.contains("registration")) {
+        beamPages.add(BeamPage(
           key: const ValueKey('user-registration'),
           title: 'User Registration',
           type: BeamPageType.noTransition,
           child: RegistrationPage(),
-        )
-      ];
+        ));
+      }
     } else {
-      return [
+      beamPages.add(
         const BeamPage(
           key: ValueKey('user-profile'),
           title: 'UserProfile',
           type: BeamPageType.noTransition,
           child: ProfilePage(),
         ),
-      ];
+      );
     }
+    return beamPages;
   }
 }

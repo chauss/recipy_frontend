@@ -5,13 +5,15 @@ import 'package:recipy_frontend/pages/app_screen/app_screen_page.dart';
 
 class RecipyRoute {
   // home
+  static const String homePrefix = "/home";
   static const String homeRecipeOverview = "/home/overview";
   static const String homeRecipeDetails = "/home/recipe/:recipeId";
   static const String homeSettings = "/home/settings";
   static const String ingredients = "/home/settings/ingredients";
   static const String ingredientUnits = "/home/settings/ingredientUnits";
 
-  static const String registration = "/user/registration";
+  static const String userPrefix = "/user";
+  static const String registration = "/user/login/registration";
   static const String login = "/user/login";
   static const String userProfile = "/user/profile";
 
