@@ -35,6 +35,8 @@ class RecipeDetailPage extends ConsumerWidget {
     RecipeDetailModel model =
         ref.watch(recipeDetailControllerProvider(recipeId));
 
+    react(model, controller, context);
+
     return WillPopScope(
       onWillPop: () => discardChangesWithPrompt(context, controller, model),
       child: Scaffold(
@@ -47,12 +49,8 @@ class RecipeDetailPage extends ConsumerWidget {
     );
   }
 
-  Widget buildBody(RecipeDetailController controller, RecipeDetailModel model,
+  void react(RecipeDetailModel model, RecipeDetailController controller,
       BuildContext context) {
-    if (model.isLoading) {
-      return const ProcessIndicator();
-    }
-
     if (model.errorCode != null) {
       var dialog = InfoDialog(
         context: context,
@@ -63,10 +61,22 @@ class RecipeDetailPage extends ConsumerWidget {
         dialog.show().then((_) => controller.dismissError());
       });
     }
+  }
+
+  Widget buildBody(RecipeDetailController controller, RecipeDetailModel model,
+      BuildContext context) {
+    if (model.isLoading) {
+      return const ProcessIndicator();
+    }
 
     return ListView(
       padding: const EdgeInsets.only(left: 24, right: 24, top: 32),
       children: [
+        Text(
+          model.recipe?.name ?? "",
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+        const SizedBox(height: 8),
         RecipeImagesWidget(
           recipeId: model.recipeId,
           deleteController: deleteImageController,
@@ -74,7 +84,7 @@ class RecipeDetailPage extends ConsumerWidget {
         ),
         Text(
           "recipe_details.heading.ingredients",
-          style: Theme.of(context).textTheme.headlineSmall,
+          style: Theme.of(context).textTheme.headlineMedium,
         ).tr(),
         const SizedBox(height: 8),
         ...buildIngredientUsages(controller, model),
@@ -87,7 +97,7 @@ class RecipeDetailPage extends ConsumerWidget {
         const SizedBox(height: 12),
         Text(
           "recipe_details.heading.preparation",
-          style: Theme.of(context).textTheme.headlineSmall,
+          style: Theme.of(context).textTheme.headlineMedium,
         ).tr(),
         const SizedBox(height: 8),
         ...buildPreparationSteps(controller, model),

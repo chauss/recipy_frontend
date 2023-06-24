@@ -91,7 +91,7 @@
         "textfield": { "hint": "Beschreibe den nächsten Schritt" }
       }
     },
-    "step_number": "Schritt {stepNumber}"
+    "step_number": "· Schritt {stepNumber}"
   },
   "ingredients": {
     "title": "Zutaten",

@@ -20,11 +20,13 @@ ThemeData appTheme = ThemeData(
     titleMedium: const TextStyle(
       color: Colors.white,
     ),
-    // labelLarge: TextStyle(
-    //   color: primaryColorSwatch.shade900,
-    // ),
+    headlineMedium: TextStyle(
+      color: appColorSwatch,
+      fontSize: 24,
+    ),
     headlineSmall: TextStyle(
       color: appColorSwatch.shade400,
+      fontSize: 20,
     ),
     titleLarge: TextStyle(
       color: Colors.white.withOpacity(.8),

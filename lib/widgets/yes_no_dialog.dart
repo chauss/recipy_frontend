@@ -29,7 +29,7 @@ class YesNoDialog {
           TextButton(
             child: Text(
               "common.no",
-              style: TextStyle(color: Theme.of(context).primaryColorDark),
+              style: TextStyle(color: Theme.of(context).primaryColor),
             ).tr(),
             onPressed: () {
               onNoCallback?.call();
@@ -39,7 +39,7 @@ class YesNoDialog {
           TextButton(
             child: Text(
               "common.yes",
-              style: TextStyle(color: Theme.of(context).primaryColorDark),
+              style: TextStyle(color: Theme.of(context).primaryColor),
             ).tr(),
             onPressed: () {
               onYesCallback?.call();

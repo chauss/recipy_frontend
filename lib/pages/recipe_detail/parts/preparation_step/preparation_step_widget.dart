@@ -19,8 +19,9 @@ class PreparationStepWidget extends StatelessWidget {
           "recipe_details.step_number",
           style: Theme.of(context).textTheme.titleMedium,
         ).tr(namedArgs: {'stepNumber': step.stepNumber.toString()}),
+        const SizedBox(height: 2),
         Text(step.description),
-        const SizedBox(height: 16),
+        const SizedBox(height: 18),
       ],
     );
   }

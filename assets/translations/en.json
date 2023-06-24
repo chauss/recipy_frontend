@@ -91,7 +91,7 @@
         "textfield": { "hint": "Describe the next step" }
       }
     },
-    "step_number": "Step {stepNumber}"
+    "step_number": "· Step {stepNumber}"
   },
   "ingredients": {
     "title": "Ingredients",
