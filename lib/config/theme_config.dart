@@ -30,7 +30,7 @@ ThemeData appTheme = ThemeData(
     ),
     titleLarge: TextStyle(
       color: Colors.white.withOpacity(.8),
-      fontSize: 20,
+      fontSize: 22,
     ),
     bodyMedium: const TextStyle(
       color: Colors.white,

@@ -12,33 +12,24 @@ class RecipeOverviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onClick,
+    return InkWell(
+      onTap: onClick,
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         clipBehavior: Clip.hardEdge,
         elevation: 8,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: Stack(
           children: [
-            Expanded(
-              flex: 2,
-              child: RecipeImagesWidget(
-                recipeId: recipeOverview.id,
-                onlyDisplayTitleImage: true,
-              ),
+            RecipeImagesWidget(
+              recipeId: recipeOverview.id,
+              onlyDisplayTitleImage: true,
             ),
-            Flexible(
-              flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 6),
-                child: Center(
-                  child: Text(
-                    recipeOverview.name,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                ),
-              ),
+            Container(
+              color: Colors.black.withOpacity(0.5),
+            ),
+            Center(
+              child: Text(recipeOverview.name,
+                  style: Theme.of(context).textTheme.titleLarge),
             ),
           ],
         ),

@@ -22,6 +22,8 @@ class RecipeOverviewPage extends ConsumerWidget {
 
     RecipeOverviewModel model = ref.watch(recipeOverviewControllerProvider);
 
+    react(model, controller, context);
+
     return Scaffold(
       appBar: RecipyAppBar(
         title: "recipe_overview.title".tr(),
@@ -53,15 +55,8 @@ class RecipeOverviewPage extends ConsumerWidget {
     );
   }
 
-  Widget buildBody(
-    BuildContext context,
-    RecipeOverviewModel model,
-    RecipeOverviewController controller,
-  ) {
-    if (model.isLoading) {
-      return const ProcessIndicator();
-    }
-
+  void react(RecipeOverviewModel model, RecipeOverviewController controller,
+      BuildContext context) {
     if (model.errorCode != null) {
       var dialog = InfoDialog(
         context: context,
@@ -72,12 +67,25 @@ class RecipeOverviewPage extends ConsumerWidget {
         dialog.show().then((_) => controller.dismissError());
       });
     }
+  }
+
+  Widget buildBody(
+    BuildContext context,
+    RecipeOverviewModel model,
+    RecipeOverviewController controller,
+  ) {
+    if (model.isLoading) {
+      return const ProcessIndicator();
+    }
+
     return RefreshIndicator(
         onRefresh: controller.refetchRecipes,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: GridView.count(
             crossAxisCount: 2,
+            mainAxisSpacing: 16,
+            crossAxisSpacing: 16,
             children: model.recipeOverviews
                 .map(
                   (recipeOverview) => RecipeOverviewWidget(

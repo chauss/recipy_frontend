@@ -75,7 +75,7 @@ class _RecipeImagesWidgetState extends ConsumerState<RecipeImagesWidget> {
               enableInfiniteScroll: false,
               onPageChanged: (page, reason) =>
                   controller.changeCurrentImageIndex(page)),
-          items: _buildImages(model.loadableRecipeImages),
+          items: _buildImages(model.loadableRecipeImages, withBorder: true),
         ),
       ],
     );
@@ -99,18 +99,52 @@ class _RecipeImagesWidgetState extends ConsumerState<RecipeImagesWidget> {
     _pickImage(model, controller);
   }
 
-  List<Widget> _buildImages(List<LoadableRecipeImage> loadableImages) {
+  List<Widget> _buildImages(List<LoadableRecipeImage> loadableImages,
+      {bool withBorder = false}) {
+    List<Widget> images = [];
     if (loadableImages.isEmpty) {
-      return [const Icon(Icons.image_not_supported_outlined)];
+      images.add(const Icon(Icons.image_not_supported_outlined));
+    } else {
+      images.addAll(loadableImages.map((loadableImage) {
+        if (loadableImage.isLoading) {
+          return const ProcessIndicator();
+        } else if (loadableImage.loadingFailed) {
+          return const Icon(Icons.broken_image);
+        }
+        return Image.memory(
+          loadableImage.imageBytes!,
+          alignment: Alignment.center,
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.cover,
+        );
+      }).toList());
     }
-    return loadableImages.map((loadableImage) {
-      if (loadableImage.isLoading) {
-        return const ProcessIndicator();
-      } else if (loadableImage.loadingFailed) {
-        return const Icon(Icons.broken_image);
-      }
-      return Image.memory(loadableImage.imageBytes!);
-    }).toList();
+
+    if (withBorder) {
+      images = images
+          .map((image) => Container(
+                decoration: BoxDecoration(
+                    border: Border.all(
+                  color: Colors.transparent,
+                  width: 6,
+                )),
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .secondary
+                        .withOpacity(0.2),
+                    width: 0.5,
+                  )),
+                  child: image,
+                ),
+              ))
+          .toList();
+    }
+
+    return images;
   }
 
   void _pickImage(
