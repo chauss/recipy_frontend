@@ -18,39 +18,47 @@ Future<void> main() async {
   );
   await EasyLocalization.ensureInitialized();
 
+  configureLogging();
+
+  // removes # from path
+  Beamer.setPathUrlStrategy();
+
+  final container = ProviderContainer();
+  final routerDelegate = createDelegte(container);
+
+  RecipyInMemoryStorage().refetchIngredients();
+  RecipyInMemoryStorage().refetchIngredientUnits();
+
   runApp(
-    EasyLocalization(
-        supportedLocales: supportedLocales,
-        path: 'assets/translations',
-        useOnlyLangCode: true,
-        fallbackLocale: fallbackLocale,
-        child: const MyApp()),
+    UncontrolledProviderScope(
+      container: container,
+      child: EasyLocalization(
+          supportedLocales: supportedLocales,
+          path: 'assets/translations',
+          useOnlyLangCode: true,
+          fallbackLocale: fallbackLocale,
+          child: MyApp(routerDelegate: routerDelegate)),
+    ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final BeamerDelegate routerDelegate;
+
+  const MyApp({Key? key, required this.routerDelegate}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    configureLogging();
-    Logger.root.level = Level.ALL;
-
-    RecipyInMemoryStorage().refetchIngredients();
-    RecipyInMemoryStorage().refetchIngredientUnits();
-
-    return ProviderScope(
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        theme: appTheme,
-        routeInformationParser: BeamerParser(),
-        routerDelegate: routerDelegate,
-        backButtonDispatcher: BeamerBackButtonDispatcher(
-          delegate: routerDelegate,
-        ),
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      theme: appTheme,
+      routeInformationParser: BeamerParser(),
+      routerDelegate: routerDelegate,
+      backButtonDispatcher: BeamerBackButtonDispatcher(
+        delegate: routerDelegate,
       ),
     );
   }

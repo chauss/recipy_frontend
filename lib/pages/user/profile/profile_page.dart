@@ -28,7 +28,7 @@ class ProfilePage extends ConsumerWidget {
       ProfileController controller, ProfileModel model, BuildContext context) {
     if (model.successfullyLoggedOut) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
-        context.beamToNamed(RecipyRoute.userLogin);
+        context.beamToNamed(RecipyRoute.login);
       });
     }
     return Container(

@@ -14,9 +14,9 @@ class UserLocation extends BeamLocation<BeamState> {
   UserLocation(RouteInformation routeInformation) : super(routeInformation);
 
   @override
-  List<String> get pathPatterns => [
-        RecipyRoute.userLogin,
-        RecipyRoute.userRegistration,
+  List<Pattern> get pathPatterns => [
+        RecipyRoute.login,
+        RecipyRoute.registration,
         RecipyRoute.userMyRecipes,
         RecipyRoute.userRecipeDetails,
         RecipyRoute.userProfile,
@@ -27,14 +27,14 @@ class UserLocation extends BeamLocation<BeamState> {
     log.info(
         "Switching to location=${state.routeInformation.location} with parameters=${state.pathParameters}.");
     List<BeamPage> beamPages = [];
-    if (state.routeInformation.location!.contains("login")) {
+    if (state.routeInformation.location!.contains(RecipyRoute.login)) {
       beamPages.add(BeamPage(
         key: const ValueKey('user-login'),
         title: 'User Login',
         type: BeamPageType.noTransition,
         child: LoginPage(),
       ));
-      if (state.routeInformation.location!.contains("registration")) {
+      if (state.routeInformation.location!.contains(RecipyRoute.registration)) {
         beamPages.add(BeamPage(
           key: const ValueKey('user-registration'),
           title: 'User Registration',
@@ -45,7 +45,7 @@ class UserLocation extends BeamLocation<BeamState> {
     } else {
       beamPages.add(const BeamPage(
         key: ValueKey('user-my-recipes'),
-        title: 'UserMyRecipes',
+        title: 'My Recipes',
         type: BeamPageType.noTransition,
         child: MyRecipesPage(),
       ));
@@ -53,6 +53,7 @@ class UserLocation extends BeamLocation<BeamState> {
         beamPages.add(
           BeamPage(
             key: ValueKey('recipe-${state.pathParameters['recipeId']}'),
+            // TODO set nice name for tab
             title: "recipe-detail-${state.pathParameters['recipeId']}",
             child: RecipeDetailPage(
               recipeId: state.pathParameters['recipeId']!,
@@ -64,7 +65,7 @@ class UserLocation extends BeamLocation<BeamState> {
         beamPages.add(
           const BeamPage(
             key: ValueKey('user-profile'),
-            title: 'UserProfile',
+            title: 'Profile',
             type: BeamPageType.noTransition,
             child: ProfilePage(),
           ),

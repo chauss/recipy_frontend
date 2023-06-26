@@ -106,7 +106,7 @@ class RegistrationPage extends ConsumerWidget {
               message: "user.registration.already_registered.message".tr(),
               hyperlink: "user.registration.already_registered.hyperlink".tr(),
               onHyperlinkTapped: () =>
-                  Beamer.of(context).beamToNamed(RecipyRoute.userLogin),
+                  Beamer.of(context).beamToNamed(RecipyRoute.login),
             ),
           ],
         ),

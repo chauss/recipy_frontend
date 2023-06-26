@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
+import 'package:logging/logging.dart';
 import 'package:recipy_frontend/models/user.dart';
 import 'package:recipy_frontend/pages/user/login/login_controller.dart';
 import 'package:recipy_frontend/pages/user/profile/profile_controller.dart';
@@ -11,24 +12,32 @@ class FirebaseUserRepository
         LoginRepository,
         ProfileRepository,
         UserManagementRepository {
+  static final log = Logger('FirebaseUserRepository');
   final firebase.FirebaseAuth _firebaseAuth = firebase.FirebaseAuth.instance;
 
   // TODO dont return firebase stuff
   @override
   Future<firebase.UserCredential> register(
       String email, String password) async {
-    return await _firebaseAuth.createUserWithEmailAndPassword(
+    log.info("Registering user...");
+    var userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
+    log.info("Registration done. Resulting UserId=${userCredential.user?.uid}");
+    return userCredential;
   }
 
   @override
   Future<void> login(String email, String password) async {
-    await _firebaseAuth.signInWithEmailAndPassword(
+    log.info("Logging in user...");
+    final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
+    log.info("User Login done. Resulting UserId=${userCredential.user?.uid}");
   }
 
   @override
   Future<User?> getCurrentUser() async {
+    log.fine(
+        "Checking for current user. UserId=${_firebaseAuth.currentUser?.uid}");
     var firebaseUser = _firebaseAuth.currentUser;
     if (firebaseUser != null) {
       return User(
@@ -43,6 +52,7 @@ class FirebaseUserRepository
 
   @override
   Future<void> logoutUser() async {
+    log.info("Logging out user...");
     await _firebaseAuth.signOut();
   }
 
@@ -66,6 +76,8 @@ class FirebaseUserRepository
 
   @override
   bool isUserLoggedIn() {
-    return _firebaseAuth.currentUser != null;
+    final userIsLoggedIn = _firebaseAuth.currentUser != null;
+    log.fine("Checking if user is logged in => $userIsLoggedIn");
+    return userIsLoggedIn;
   }
 }

@@ -97,7 +97,7 @@ class LoginPage extends ConsumerWidget {
               message: "user.login.not_registered.message".tr(),
               hyperlink: "user.login.not_registered.hyperlink".tr(),
               onHyperlinkTapped: () =>
-                  Beamer.of(context).beamToNamed(RecipyRoute.userRegistration),
+                  Beamer.of(context).beamToNamed(RecipyRoute.registration),
             ),
           ],
         ),
