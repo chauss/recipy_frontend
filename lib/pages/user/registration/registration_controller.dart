@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/config/app_config.dart';
-import 'package:recipy_frontend/helpers/providers.dart';
 
 import 'registration_model.dart';
 import 'registration_page.dart';
@@ -9,9 +7,11 @@ import 'registration_page.dart';
 class FirebaseRegistrationController extends RegistrationController {
   late RegistrationRepository _repository;
 
-  FirebaseRegistrationController(RegistrationModel state) : super(state) {
-    final container = ProviderContainer();
-    _repository = container.read(registrationRepositoryProvider);
+  FirebaseRegistrationController(
+    RegistrationModel state,
+    RegistrationRepository registrationRepository,
+  ) : super(state) {
+    _repository = registrationRepository;
   }
 
   @override

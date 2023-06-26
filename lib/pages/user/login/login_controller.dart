@@ -1,6 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipy_frontend/helpers/providers.dart';
 
 import 'login_model.dart';
 import 'login_page.dart';
@@ -8,9 +6,11 @@ import 'login_page.dart';
 class FirebaseLoginController extends LoginController {
   late LoginRepository _repository;
 
-  FirebaseLoginController(LoginModel state) : super(state) {
-    final container = ProviderContainer();
-    _repository = container.read(loginRepositoryProvider);
+  FirebaseLoginController(
+    LoginModel state,
+    LoginRepository loginRepository,
+  ) : super(state) {
+    _repository = loginRepository;
   }
 
   @override

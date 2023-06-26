@@ -19,12 +19,13 @@ class RecipeImagesControllerImpl extends RecipeImagesController {
   late RecipeImagesRepository _repository;
   late UserManagementRepository _userManagementRepository;
 
-  RecipeImagesControllerImpl(RecipeImagesModel state) : super(state) {
-    final container = ProviderContainer();
-    _repository = container.read(recipeImagesRepositoryProvider);
-
-    _userManagementRepository =
-        container.read(userManagementRepositoryProvider);
+  RecipeImagesControllerImpl(
+    RecipeImagesModel state,
+    RecipeImagesRepository recipeImagesRepository,
+    UserManagementRepository userManagementRepository,
+  ) : super(state) {
+    _repository = recipeImagesRepository;
+    _userManagementRepository = userManagementRepository;
 
     _userManagementRepository.addOnUserStateChangedListener(_onUserChanged);
     _init();

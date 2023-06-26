@@ -1,5 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/user.dart';
 import 'package:recipy_frontend/pages/user/profile/profile_page.dart';
 import 'package:recipy_frontend/pages/user/user_management_repository.dart';
@@ -10,12 +8,13 @@ class ProfileControllerImpl extends ProfileController {
   late ProfileRepository _repository;
   late UserManagementRepository _userManagementRepository;
 
-  ProfileControllerImpl(ProfileModel state) : super(state) {
-    final container = ProviderContainer();
-    _repository = container.read(profileRepositoryProvider);
-
-    _userManagementRepository =
-        container.read(userManagementRepositoryProvider);
+  ProfileControllerImpl(
+    ProfileModel state,
+    ProfileRepository profileRepository,
+    UserManagementRepository userManagementRepository,
+  ) : super(state) {
+    _repository = profileRepository;
+    _userManagementRepository = userManagementRepository;
 
     _userManagementRepository.addOnUserStateChangedListener(_onUserChanged);
 

@@ -1,6 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/config/error_config.dart';
-import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/user.dart';
 import 'package:recipy_frontend/pages/ingredients/parts/add_ingredient_request.dart';
 import 'package:recipy_frontend/pages/ingredients/ingredients_model.dart';
@@ -14,13 +12,13 @@ class IngredintsControllerImpl extends IngredientsController {
   late IngredientRepository _repository;
   late UserManagementRepository _userManagementRepository;
 
-  IngredintsControllerImpl(IngredientsModel state) : super(state) {
-    final container = ProviderContainer();
-    _repository = container.read(ingredientRepositoryProvider);
-
-    _userManagementRepository =
-        container.read(userManagementRepositoryProvider);
-
+  IngredintsControllerImpl(
+    IngredientsModel state,
+    IngredientRepository ingredientRepository,
+    UserManagementRepository userManagementRepository,
+  ) : super(state) {
+    _repository = ingredientRepository;
+    _userManagementRepository = userManagementRepository;
     _userManagementRepository.addOnUserStateChangedListener(_onUserChanged);
 
     _init();

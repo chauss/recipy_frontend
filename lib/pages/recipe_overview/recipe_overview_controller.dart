@@ -1,7 +1,5 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:recipy_frontend/config/error_config.dart';
-import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/recipe_overview.dart';
 import 'package:recipy_frontend/models/user.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_model.dart';
@@ -16,11 +14,13 @@ class RecipeOverviewControllerImpl extends RecipeOverviewController {
   late RecipeOverviewRepository _recipeRepository;
   late UserManagementRepository _userManagementRepository;
 
-  RecipeOverviewControllerImpl(RecipeOverviewModel state) : super(state) {
-    final container = ProviderContainer();
-    _recipeRepository = container.read(recipeOverviewRepositoryProvider);
-    _userManagementRepository =
-        container.read(userManagementRepositoryProvider);
+  RecipeOverviewControllerImpl(
+    RecipeOverviewModel state,
+    RecipeOverviewRepository recipeOverviewRepository,
+    UserManagementRepository userManagementRepository,
+  ) : super(state) {
+    _recipeRepository = recipeOverviewRepository;
+    _userManagementRepository = userManagementRepository;
 
     _userManagementRepository.addOnUserStateChangedListener(_onUserChanged);
 

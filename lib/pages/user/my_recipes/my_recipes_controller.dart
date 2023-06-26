@@ -1,6 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
-import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/recipe_overview.dart';
 import 'package:recipy_frontend/models/user.dart';
 import 'package:recipy_frontend/pages/user/my_recipes/my_recipes_page.dart';
@@ -15,13 +13,13 @@ class MyRecipesControllerImpl extends MyRecipesController {
   late MyRecipesRepository _repository;
   late UserManagementRepository _userManagementRepository;
 
-  MyRecipesControllerImpl(MyRecipesModel state) : super(state) {
-    final container = ProviderContainer();
-    _repository = container.read(myRecipesRepositoryProvider);
-
-    _userManagementRepository =
-        container.read(userManagementRepositoryProvider);
-
+  MyRecipesControllerImpl(
+    MyRecipesModel state,
+    MyRecipesRepository myRecipesRepository,
+    UserManagementRepository userManagementRepository,
+  ) : super(state) {
+    _repository = myRecipesRepository;
+    _userManagementRepository = _userManagementRepository;
     _userManagementRepository.addOnUserStateChangedListener(_onUserChanged);
 
     init();

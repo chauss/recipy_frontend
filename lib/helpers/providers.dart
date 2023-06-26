@@ -61,7 +61,10 @@ final registrationRepositoryProvider = Provider<RegistrationRepository>((ref) {
 
 final registrationControllerProvider =
     StateNotifierProvider<RegistrationController, RegistrationModel>(
-  (ref) => FirebaseRegistrationController(const RegistrationModel()),
+  (ref) => FirebaseRegistrationController(
+    const RegistrationModel(),
+    ref.read(registrationRepositoryProvider),
+  ),
 );
 
 // Login
@@ -73,7 +76,10 @@ final loginRepositoryProvider = Provider<LoginRepository>((ref) {
 
 final loginControllerProvider =
     StateNotifierProvider.autoDispose<LoginController, LoginModel>(
-  (ref) => FirebaseLoginController(const LoginModel()),
+  (ref) => FirebaseLoginController(
+    const LoginModel(),
+    ref.read(loginRepositoryProvider),
+  ),
 );
 
 // Profile
@@ -85,7 +91,11 @@ final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
 
 final profileControllerProvider =
     StateNotifierProvider.autoDispose<ProfileController, ProfileModel>(
-  (ref) => ProfileControllerImpl(const ProfileModel()),
+  (ref) => ProfileControllerImpl(
+    const ProfileModel(),
+    ref.read(profileRepositoryProvider),
+    ref.read(userManagementRepositoryProvider),
+  ),
 );
 
 // #############################################################################
@@ -100,7 +110,11 @@ final ingredientRepositoryProvider = Provider<IngredientRepository>((ref) {
 final StateNotifierProvider<IngredientsController, IngredientsModel>
     ingredientsControllerProvider =
     StateNotifierProvider<IngredientsController, IngredientsModel>(
-  (ref) => IngredintsControllerImpl(const IngredientsModel()),
+  (ref) => IngredintsControllerImpl(
+    const IngredientsModel(),
+    ref.read(ingredientRepositoryProvider),
+    ref.read(userManagementRepositoryProvider),
+  ),
 );
 
 // #############################################################################
@@ -116,7 +130,10 @@ final ingredientUnitRepositoryProvider =
 final StateNotifierProvider<IngredientUnitsController, IngredientUnitsModel>
     ingredientUnitControllerProvider =
     StateNotifierProvider<IngredientUnitsController, IngredientUnitsModel>(
-  (ref) => IngredientUnitsControllerImpl(const IngredientUnitsModel()),
+  (ref) => IngredientUnitsControllerImpl(
+    const IngredientUnitsModel(),
+    ref.read(userManagementRepositoryProvider),
+  ),
 );
 
 // #############################################################################
@@ -132,7 +149,11 @@ final recipeOverviewRepositoryProvider =
 final StateNotifierProvider<RecipeOverviewController, RecipeOverviewModel>
     recipeOverviewControllerProvider =
     StateNotifierProvider<RecipeOverviewController, RecipeOverviewModel>(
-  (ref) => RecipeOverviewControllerImpl(const RecipeOverviewModel()),
+  (ref) => RecipeOverviewControllerImpl(
+    const RecipeOverviewModel(),
+    ref.read(recipeOverviewRepositoryProvider),
+    ref.read(userManagementRepositoryProvider),
+  ),
 );
 
 // #############################################################################
@@ -147,7 +168,11 @@ final myRecipesRepositoryProvider = Provider<MyRecipesRepository>((ref) {
 final StateNotifierProvider<MyRecipesController, MyRecipesModel>
     myRecipesControllerProvider =
     StateNotifierProvider<MyRecipesController, MyRecipesModel>(
-  (ref) => MyRecipesControllerImpl(const MyRecipesModel()),
+  (ref) => MyRecipesControllerImpl(
+    const MyRecipesModel(),
+    ref.read(myRecipesRepositoryProvider),
+    ref.read(userManagementRepositoryProvider),
+  ),
 );
 
 // #############################################################################
@@ -163,8 +188,11 @@ final StateNotifierProviderFamily<RecipeDetailController, RecipeDetailModel,
         String> recipeDetailControllerProvider =
     StateNotifierProvider.family<RecipeDetailController, RecipeDetailModel,
         String>(
-  (ref, recipeId) =>
-      RecipeDetailControllerImpl(RecipeDetailModel(recipeId: recipeId)),
+  (ref, recipeId) => RecipeDetailControllerImpl(
+    RecipeDetailModel(recipeId: recipeId),
+    ref.read(recipeDetailRepositoryProvider),
+    ref.read(userManagementRepositoryProvider),
+  ),
 );
 
 // #############################################################################
@@ -173,7 +201,10 @@ final StateNotifierProviderFamily<RecipeDetailController, RecipeDetailModel,
 final StateNotifierProvider<SettingsController, SettingsModel>
     settingsControllerProvider =
     StateNotifierProvider<SettingsController, SettingsModel>(
-  (ref) => SettingsControllerImpl(const SettingsModel()),
+  (ref) => SettingsControllerImpl(
+    const SettingsModel(),
+    ref.read(userManagementRepositoryProvider),
+  ),
 );
 
 // #############################################################################
@@ -202,8 +233,11 @@ final StateNotifierProviderFamily<RecipeImagesController, RecipeImagesModel,
         String> recipeImagesControllerProvider =
     StateNotifierProvider.family<RecipeImagesController, RecipeImagesModel,
         String>(
-  (ref, recipeId) =>
-      RecipeImagesControllerImpl(RecipeImagesModel(recipeId: recipeId)),
+  (ref, recipeId) => RecipeImagesControllerImpl(
+    RecipeImagesModel(recipeId: recipeId),
+    ref.read(recipeImagesRepositoryProvider),
+    ref.read(userManagementRepositoryProvider),
+  ),
 );
 
 // #############################################################################
@@ -212,4 +246,8 @@ final StateNotifierProviderFamily<RecipeImagesController, RecipeImagesModel,
 final StateNotifierProvider<AppScreenController, AppScreenModel>
     recipyAppScreenControllerProvider =
     StateNotifierProvider<AppScreenController, AppScreenModel>(
-        (ref) => AppScreenControllerImpl(const AppScreenModel()));
+  (ref) => AppScreenControllerImpl(
+    const AppScreenModel(),
+    ref.read(userManagementRepositoryProvider),
+  ),
+);
