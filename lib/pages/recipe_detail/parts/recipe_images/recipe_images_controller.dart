@@ -1,9 +1,7 @@
 import 'dart:typed_data';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:recipy_frontend/config/error_config.dart';
-import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/recipe_image.dart';
 import 'package:recipy_frontend/models/user.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/recipe_images/loadable_recipe_image.dart';
