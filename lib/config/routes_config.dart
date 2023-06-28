@@ -1,10 +1,13 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/locations/home_location.dart';
 import 'package:recipy_frontend/locations/user_location.dart';
 import 'package:recipy_frontend/pages/app_screen/app_screen_page.dart';
+
+final _log = Logger("routes_config");
 
 class RecipyRoute {
   // home
@@ -39,17 +42,17 @@ final recipyBeamerLocations = [
   BeamerDelegate(
     initialPath: RecipyRoute.homeRecipeOverview,
     locationBuilder: (routeInformation, _) {
-      if (routeInformation.location!.contains(RecipyRoute.homePrefix)) {
+      if (routeInformation.location!.startsWith(RecipyRoute.homePrefix)) {
         return HomeLocation(routeInformation);
       }
       return NotFound(path: routeInformation.location!);
     },
   ),
   BeamerDelegate(
-    initialPath: RecipyRoute.userMyRecipes,
+    initialPath: RecipyRoute.userProfile,
     locationBuilder: (routeInformation, _) {
-      if (routeInformation.location!.contains(RecipyRoute.userPrefix) ||
-          routeInformation.location!.contains(RecipyRoute.login)) {
+      if (routeInformation.location!.startsWith(RecipyRoute.userPrefix) ||
+          routeInformation.location!.startsWith(RecipyRoute.login)) {
         return UserLocation(routeInformation);
       }
       return NotFound(path: routeInformation.location!);
@@ -66,10 +69,19 @@ BeamerDelegate createDelegte(ProviderContainer container) => BeamerDelegate(
       ),
       guards: [
         BeamGuard(
-            pathPatterns: [RegExp(RecipyRoute.userPrefix)],
+            pathPatterns: ['${RecipyRoute.userPrefix}/**'],
             check: (_, __) => container
                 .read(userManagementRepositoryProvider)
                 .isUserLoggedIn(),
-            beamToNamed: (origin, target) => RecipyRoute.login)
+            beamToNamed: (origin, target) {
+              try {
+                _log.info(
+                    "Guarding route ${target.history.first.routeInformation.location}");
+              } catch (e) {
+                _log.warning("Tried to log guarded route but got error: $e");
+              }
+
+              return RecipyRoute.login;
+            })
       ],
     );

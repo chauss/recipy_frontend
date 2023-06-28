@@ -53,7 +53,6 @@ class UserLocation extends BeamLocation<BeamState> {
       if (state.pathParameters.containsKey('recipeId')) {
         beamPages.add(BeamPage(
           key: ValueKey('recipe-${state.pathParameters['recipeId']}'),
-          // TODO set nice name for tab
           title: "recipe-detail-${state.pathParameters['recipeId']}",
           child: RecipeDetailPage(
             recipeId: state.pathParameters['recipeId']!,

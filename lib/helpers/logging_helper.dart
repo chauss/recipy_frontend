@@ -6,6 +6,6 @@ void configureLogging() {
   Logger.root.onRecord.listen((event) {
     // ignore: avoid_print
     print(
-        '[${event.level.name}] ${DateFormat.Hms().format(event.time)}: ${event.message}');
+        '[${event.level.name}] ${event.loggerName} ${DateFormat.Hms().format(event.time)}: ${event.message}');
   });
 }
