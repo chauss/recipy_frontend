@@ -66,7 +66,7 @@ BeamerDelegate createDelegte(ProviderContainer container) => BeamerDelegate(
       ),
       guards: [
         BeamGuard(
-            pathPatterns: ["${RecipyRoute.userPrefix}/**"],
+            pathPatterns: [RegExp(RecipyRoute.userPrefix)],
             check: (_, __) => container
                 .read(userManagementRepositoryProvider)
                 .isUserLoggedIn(),

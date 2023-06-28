@@ -24,7 +24,7 @@ class MyRecipesPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: RecipyAppBar(
-        title: "my_recipes.title".tr(),
+        title: "user.my_recipes.title".tr(),
         actions: [
           IconButton(
             icon: const Icon(Icons.person),
@@ -65,7 +65,7 @@ class MyRecipesPage extends ConsumerWidget {
         child: SizedBox(
           width: 240,
           child: const Text(
-            "my_recipes.no_recipes_yet",
+            "user.my_recipes.no_recipes_yet",
             textAlign: TextAlign.center,
           ).tr(),
         ),

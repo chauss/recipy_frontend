@@ -1,5 +1,7 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/ingredient_usage.dart';
@@ -60,6 +62,13 @@ class RecipeDetailPage extends ConsumerWidget {
       SchedulerBinding.instance.addPostFrameCallback((_) {
         dialog.show().then((_) => controller.dismissError());
       });
+    }
+    if (model.recipe?.name != null) {
+      SystemChrome.setApplicationSwitcherDescription(
+        ApplicationSwitcherDescription(
+            label: model.recipe?.name,
+            primaryColor: Theme.of(context).primaryColor.value),
+      );
     }
   }
 

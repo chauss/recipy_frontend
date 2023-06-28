@@ -7,6 +7,7 @@ import 'package:recipy_frontend/pages/user/login/login_page.dart';
 import 'package:recipy_frontend/pages/user/my_recipes/my_recipes_page.dart';
 import 'package:recipy_frontend/pages/user/profile/profile_page.dart';
 import 'package:recipy_frontend/pages/user/registration/registration_page.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UserLocation extends BeamLocation<BeamState> {
   static final log = Logger("UserLocation");
@@ -30,46 +31,42 @@ class UserLocation extends BeamLocation<BeamState> {
     if (state.routeInformation.location!.contains(RecipyRoute.login)) {
       beamPages.add(BeamPage(
         key: const ValueKey('user-login'),
-        title: 'User Login',
+        title: 'user.login.title'.tr(),
         type: BeamPageType.noTransition,
         child: LoginPage(),
       ));
       if (state.routeInformation.location!.contains(RecipyRoute.registration)) {
         beamPages.add(BeamPage(
           key: const ValueKey('user-registration'),
-          title: 'User Registration',
+          title: 'user.registration.title'.tr(),
           type: BeamPageType.noTransition,
           child: RegistrationPage(),
         ));
       }
     } else {
-      beamPages.add(const BeamPage(
-        key: ValueKey('user-my-recipes'),
-        title: 'My Recipes',
+      beamPages.add(BeamPage(
+        key: const ValueKey('user-my-recipes'),
+        title: 'user.my_recipes.title'.tr(),
         type: BeamPageType.noTransition,
-        child: MyRecipesPage(),
+        child: const MyRecipesPage(),
       ));
       if (state.pathParameters.containsKey('recipeId')) {
-        beamPages.add(
-          BeamPage(
-            key: ValueKey('recipe-${state.pathParameters['recipeId']}'),
-            // TODO set nice name for tab
-            title: "recipe-detail-${state.pathParameters['recipeId']}",
-            child: RecipeDetailPage(
-              recipeId: state.pathParameters['recipeId']!,
-            ),
+        beamPages.add(BeamPage(
+          key: ValueKey('recipe-${state.pathParameters['recipeId']}'),
+          // TODO set nice name for tab
+          title: "recipe-detail-${state.pathParameters['recipeId']}",
+          child: RecipeDetailPage(
+            recipeId: state.pathParameters['recipeId']!,
           ),
-        );
+        ));
       }
       if (state.routeInformation.location!.contains(RecipyRoute.userProfile)) {
-        beamPages.add(
-          const BeamPage(
-            key: ValueKey('user-profile'),
-            title: 'Profile',
-            type: BeamPageType.noTransition,
-            child: ProfilePage(),
-          ),
-        );
+        beamPages.add(BeamPage(
+          key: const ValueKey('user-profile'),
+          title: 'user.profile.title'.tr(),
+          type: BeamPageType.noTransition,
+          child: const ProfilePage(),
+        ));
       }
     }
     return beamPages;

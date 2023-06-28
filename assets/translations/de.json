@@ -42,6 +42,10 @@
       "display_name": "Benutzername",
       "logout": "Logout"
     },
+    "my_recipes": {
+      "title": "Meine Rezepte",
+      "no_recipes_yet": "Sieht so aus als hättest du noch keine Rezepte hinzugefügt.\n\nLos gehts!"
+    },
     "error": {
       "invalid_email": "Die angegebene E-Mail-Adresse ist nicht gültig",
       "email_already_in_use": "Die angegebene E-Mail-Adresse wird bereits verwendet",
@@ -62,10 +66,6 @@
       },
       "button": { "hint": "Rezept hinzufügen" }
     }
-  },
-  "my_recipes": {
-    "title": "Meine Rezepte",
-    "no_recipes_yet": "Sieht so aus als hättest du noch keine Rezepte hinzugefügt.\n\nLos gehts!"
   },
   "recipe_details": {
     "delete_image": "Bild löschen",
