@@ -19,7 +19,7 @@ Future<void> main() async {
 
   configureLogging();
 
-  // removes # from path but does not work out of the box with nginx docker container
+  // removes # from path
   Beamer.setPathUrlStrategy();
 
   final container = ProviderContainer();
