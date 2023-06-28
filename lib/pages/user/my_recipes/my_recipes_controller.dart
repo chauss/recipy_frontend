@@ -19,7 +19,7 @@ class MyRecipesControllerImpl extends MyRecipesController {
     UserManagementRepository userManagementRepository,
   ) : super(state) {
     _repository = myRecipesRepository;
-    _userManagementRepository = _userManagementRepository;
+    _userManagementRepository = userManagementRepository;
     _userManagementRepository.addOnUserStateChangedListener(_onUserChanged);
 
     init();
