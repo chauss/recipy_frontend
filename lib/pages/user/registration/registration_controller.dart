@@ -8,9 +8,8 @@ class FirebaseRegistrationController extends RegistrationController {
   late RegistrationRepository _repository;
 
   FirebaseRegistrationController(
-    RegistrationModel state,
     RegistrationRepository registrationRepository,
-  ) : super(state) {
+  ) : super(const RegistrationModel()) {
     _repository = registrationRepository;
   }
 

@@ -14,10 +14,9 @@ class MyRecipesControllerImpl extends MyRecipesController {
   late UserManagementRepository _userManagementRepository;
 
   MyRecipesControllerImpl(
-    MyRecipesModel state,
     MyRecipesRepository myRecipesRepository,
     UserManagementRepository userManagementRepository,
-  ) : super(state) {
+  ) : super(const MyRecipesModel()) {
     _repository = myRecipesRepository;
     _userManagementRepository = userManagementRepository;
     _userManagementRepository.addOnUserStateChangedListener(_onUserChanged);

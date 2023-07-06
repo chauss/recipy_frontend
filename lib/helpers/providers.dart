@@ -47,52 +47,41 @@ import '../pages/user/registration/registration_page.dart';
 // General
 final userManagementRepositoryProvider =
     Provider<UserManagementRepository>((ref) {
-  final repository = FirebaseUserRepository();
-
-  return repository;
+  return FirebaseUserRepository();
 });
 
 // Registration
 final registrationRepositoryProvider = Provider<RegistrationRepository>((ref) {
-  final repository = FirebaseUserRepository();
-
-  return repository;
+  return FirebaseUserRepository();
 });
 
 final registrationControllerProvider =
     StateNotifierProvider<RegistrationController, RegistrationModel>(
   (ref) => FirebaseRegistrationController(
-    const RegistrationModel(),
     ref.read(registrationRepositoryProvider),
   ),
 );
 
 // Login
 final loginRepositoryProvider = Provider<LoginRepository>((ref) {
-  final repository = FirebaseUserRepository();
-
-  return repository;
+  return FirebaseUserRepository();
 });
 
 final loginControllerProvider =
     StateNotifierProvider.autoDispose<LoginController, LoginModel>(
   (ref) => FirebaseLoginController(
-    const LoginModel(),
     ref.read(loginRepositoryProvider),
   ),
 );
 
 // Profile
 final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
-  final repository = FirebaseUserRepository();
-
-  return repository;
+  return FirebaseUserRepository();
 });
 
 final profileControllerProvider =
     StateNotifierProvider.autoDispose<ProfileController, ProfileModel>(
   (ref) => ProfileControllerImpl(
-    const ProfileModel(),
     ref.read(profileRepositoryProvider),
     ref.read(userManagementRepositoryProvider),
   ),
@@ -102,16 +91,13 @@ final profileControllerProvider =
 // # Ingredients
 // #############################################################################
 final ingredientRepositoryProvider = Provider<IngredientRepository>((ref) {
-  final repository = RecipyIngredientRepository();
-
-  return repository;
+  return RecipyIngredientRepository();
 });
 
 final StateNotifierProvider<IngredientsController, IngredientsModel>
     ingredientsControllerProvider =
     StateNotifierProvider<IngredientsController, IngredientsModel>(
   (ref) => IngredintsControllerImpl(
-    const IngredientsModel(),
     ref.read(ingredientRepositoryProvider),
     ref.read(userManagementRepositoryProvider),
     ref.read(inMemoryStorageProvider),
@@ -123,16 +109,13 @@ final StateNotifierProvider<IngredientsController, IngredientsModel>
 // #############################################################################
 final ingredientUnitRepositoryProvider =
     Provider<IngredientUnitRepository>((ref) {
-  final repository = RecipyIngredientUnitRepository();
-
-  return repository;
+  return RecipyIngredientUnitRepository();
 });
 
 final StateNotifierProvider<IngredientUnitsController, IngredientUnitsModel>
     ingredientUnitControllerProvider =
     StateNotifierProvider<IngredientUnitsController, IngredientUnitsModel>(
   (ref) => IngredientUnitsControllerImpl(
-    const IngredientUnitsModel(),
     ref.read(userManagementRepositoryProvider),
     ref.read(inMemoryStorageProvider),
   ),
@@ -143,16 +126,13 @@ final StateNotifierProvider<IngredientUnitsController, IngredientUnitsModel>
 // #############################################################################
 final recipeOverviewRepositoryProvider =
     Provider<RecipeOverviewRepository>((ref) {
-  final repository = RecipyRecipeRepository();
-
-  return repository;
+  return RecipyRecipeRepository();
 });
 
 final StateNotifierProvider<RecipeOverviewController, RecipeOverviewModel>
     recipeOverviewControllerProvider =
     StateNotifierProvider<RecipeOverviewController, RecipeOverviewModel>(
   (ref) => RecipeOverviewControllerImpl(
-    const RecipeOverviewModel(),
     ref.read(recipeOverviewRepositoryProvider),
     ref.read(userManagementRepositoryProvider),
   ),
@@ -162,16 +142,13 @@ final StateNotifierProvider<RecipeOverviewController, RecipeOverviewModel>
 // # My Recipes
 // #############################################################################
 final myRecipesRepositoryProvider = Provider<MyRecipesRepository>((ref) {
-  final repository = RecipyRecipeRepository();
-
-  return repository;
+  return RecipyRecipeRepository();
 });
 
 final StateNotifierProvider<MyRecipesController, MyRecipesModel>
     myRecipesControllerProvider =
     StateNotifierProvider<MyRecipesController, MyRecipesModel>(
   (ref) => MyRecipesControllerImpl(
-    const MyRecipesModel(),
     ref.read(myRecipesRepositoryProvider),
     ref.read(userManagementRepositoryProvider),
   ),
@@ -181,9 +158,7 @@ final StateNotifierProvider<MyRecipesController, MyRecipesModel>
 // # Recipe Detail
 // #############################################################################
 final recipeDetailRepositoryProvider = Provider<RecipeDetailRepository>((ref) {
-  final repository = RecipyRecipeRepository();
-
-  return repository;
+  return RecipyRecipeRepository();
 });
 
 final StateNotifierProviderFamily<RecipeDetailController, RecipeDetailModel,
@@ -191,7 +166,7 @@ final StateNotifierProviderFamily<RecipeDetailController, RecipeDetailModel,
     StateNotifierProvider.family<RecipeDetailController, RecipeDetailModel,
         String>(
   (ref, recipeId) => RecipeDetailControllerImpl(
-    RecipeDetailModel(recipeId: recipeId),
+    recipeId,
     ref.read(recipeDetailRepositoryProvider),
     ref.read(userManagementRepositoryProvider),
   ),
@@ -204,7 +179,6 @@ final StateNotifierProvider<SettingsController, SettingsModel>
     settingsControllerProvider =
     StateNotifierProvider<SettingsController, SettingsModel>(
   (ref) => SettingsControllerImpl(
-    const SettingsModel(),
     ref.read(userManagementRepositoryProvider),
   ),
 );
@@ -233,9 +207,7 @@ final inMemoryStorageIngredientUnitRepositoryProvider =
 // # Recipe Images
 // #############################################################################
 final recipeImagesRepositoryProvider = Provider<RecipeImagesRepository>((ref) {
-  final repository = RecipyRecipeImagesRepository();
-
-  return repository;
+  return RecipyRecipeImagesRepository();
 });
 
 final StateNotifierProviderFamily<RecipeImagesController, RecipeImagesModel,
@@ -243,7 +215,7 @@ final StateNotifierProviderFamily<RecipeImagesController, RecipeImagesModel,
     StateNotifierProvider.family<RecipeImagesController, RecipeImagesModel,
         String>(
   (ref, recipeId) => RecipeImagesControllerImpl(
-    RecipeImagesModel(recipeId: recipeId),
+    recipeId,
     ref.read(recipeImagesRepositoryProvider),
     ref.read(userManagementRepositoryProvider),
   ),
@@ -256,7 +228,6 @@ final StateNotifierProvider<AppScreenController, AppScreenModel>
     recipyAppScreenControllerProvider =
     StateNotifierProvider<AppScreenController, AppScreenModel>(
   (ref) => AppScreenControllerImpl(
-    const AppScreenModel(),
     ref.read(userManagementRepositoryProvider),
   ),
 );

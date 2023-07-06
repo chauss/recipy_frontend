@@ -14,11 +14,10 @@ class IngredintsControllerImpl extends IngredientsController {
   late RecipyInMemoryStorage _inMemoryStorage;
 
   IngredintsControllerImpl(
-    IngredientsModel state,
     IngredientRepository ingredientRepository,
     UserManagementRepository userManagementRepository,
     RecipyInMemoryStorage inMemoryStorage,
-  ) : super(state) {
+  ) : super(const IngredientsModel()) {
     _repository = ingredientRepository;
     _userManagementRepository = userManagementRepository;
     _inMemoryStorage = inMemoryStorage;

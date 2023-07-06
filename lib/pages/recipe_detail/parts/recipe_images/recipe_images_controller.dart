@@ -18,10 +18,10 @@ class RecipeImagesControllerImpl extends RecipeImagesController {
   late UserManagementRepository _userManagementRepository;
 
   RecipeImagesControllerImpl(
-    RecipeImagesModel state,
+    String recipeId,
     RecipeImagesRepository recipeImagesRepository,
     UserManagementRepository userManagementRepository,
-  ) : super(state) {
+  ) : super(RecipeImagesModel(recipeId: recipeId)) {
     _repository = recipeImagesRepository;
     _userManagementRepository = userManagementRepository;
 

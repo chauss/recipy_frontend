@@ -26,10 +26,10 @@ class RecipeDetailControllerImpl extends RecipeDetailController {
   late UserManagementRepository _userManagementRepository;
 
   RecipeDetailControllerImpl(
-    RecipeDetailModel state,
+    String recipeId,
     RecipeDetailRepository recipeDetailRepository,
     UserManagementRepository userManagementRepository,
-  ) : super(state) {
+  ) : super(RecipeDetailModel(recipeId: recipeId)) {
     _repository = recipeDetailRepository;
     _userManagementRepository = userManagementRepository;
 

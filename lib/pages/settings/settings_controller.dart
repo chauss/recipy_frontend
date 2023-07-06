@@ -7,9 +7,8 @@ class SettingsControllerImpl extends SettingsController {
   late UserManagementRepository _userManagementRepository;
 
   SettingsControllerImpl(
-    SettingsModel state,
     UserManagementRepository userManagementRepository,
-  ) : super(state) {
+  ) : super(const SettingsModel()) {
     _userManagementRepository = userManagementRepository;
 
     _userManagementRepository.addOnUserStateChangedListener(_onUserChanged);

@@ -1,5 +1,6 @@
 import 'package:recipy_frontend/config/error_config.dart';
 import 'package:recipy_frontend/models/user.dart';
+import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_model.dart';
 import 'package:recipy_frontend/pages/ingredient_units/parts/add_unit_request.dart';
 import 'package:recipy_frontend/pages/ingredient_units/ingredient_units_page.dart';
 import 'package:recipy_frontend/pages/ingredient_units/parts/delete_ingredient_unit_request.dart';
@@ -13,10 +14,9 @@ class IngredientUnitsControllerImpl extends IngredientUnitsController {
   late RecipyInMemoryStorage _inMemoryStorage;
 
   IngredientUnitsControllerImpl(
-    super.state,
     UserManagementRepository userManagementRepository,
     RecipyInMemoryStorage inMemoryStorage,
-  ) {
+  ) : super(const IngredientUnitsModel()) {
     _userManagementRepository = userManagementRepository;
     _inMemoryStorage = inMemoryStorage;
     _userManagementRepository.addOnUserStateChangedListener(_onUserChanged);

@@ -1,12 +1,13 @@
 import 'package:recipy_frontend/models/user.dart';
+import 'package:recipy_frontend/pages/app_screen/app_screen_model.dart';
 import 'package:recipy_frontend/pages/app_screen/app_screen_page.dart';
 import 'package:recipy_frontend/pages/user/user_management_repository.dart';
 
 class AppScreenControllerImpl extends AppScreenController {
   late UserManagementRepository _userManagementRepository;
 
-  AppScreenControllerImpl(
-      super.state, UserManagementRepository userManagementRepository) {
+  AppScreenControllerImpl(UserManagementRepository userManagementRepository)
+      : super(const AppScreenModel()) {
     _userManagementRepository = userManagementRepository;
     _userManagementRepository.addOnUserStateChangedListener(_onUserChanged);
 

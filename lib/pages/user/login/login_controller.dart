@@ -7,9 +7,8 @@ class FirebaseLoginController extends LoginController {
   late LoginRepository _repository;
 
   FirebaseLoginController(
-    LoginModel state,
     LoginRepository loginRepository,
-  ) : super(state) {
+  ) : super(const LoginModel()) {
     _repository = loginRepository;
   }
 

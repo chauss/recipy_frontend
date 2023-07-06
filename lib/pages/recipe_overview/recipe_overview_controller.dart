@@ -15,10 +15,9 @@ class RecipeOverviewControllerImpl extends RecipeOverviewController {
   late UserManagementRepository _userManagementRepository;
 
   RecipeOverviewControllerImpl(
-    RecipeOverviewModel state,
     RecipeOverviewRepository recipeOverviewRepository,
     UserManagementRepository userManagementRepository,
-  ) : super(state) {
+  ) : super(const RecipeOverviewModel()) {
     _recipeRepository = recipeOverviewRepository;
     _userManagementRepository = userManagementRepository;
 

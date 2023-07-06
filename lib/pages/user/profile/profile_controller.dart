@@ -9,10 +9,9 @@ class ProfileControllerImpl extends ProfileController {
   late UserManagementRepository _userManagementRepository;
 
   ProfileControllerImpl(
-    ProfileModel state,
     ProfileRepository profileRepository,
     UserManagementRepository userManagementRepository,
-  ) : super(state) {
+  ) : super(const ProfileModel()) {
     _repository = profileRepository;
     _userManagementRepository = userManagementRepository;
 
