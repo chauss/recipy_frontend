@@ -1,17 +1,17 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/models/ingredient.dart';
 import 'package:recipy_frontend/models/ingredient_unit.dart';
 import 'package:recipy_frontend/repositories/http_read_result.dart';
 
 class RecipyInMemoryStorage {
-  static final RecipyInMemoryStorage _instance =
-      RecipyInMemoryStorage._internal();
+  late InMemoryStorageIngredientRepository _ingredientRepository;
+  late InMemoryStorageIngredientUnitRepository _ingredientUnitRepository;
 
-  RecipyInMemoryStorage._internal();
-
-  factory RecipyInMemoryStorage() {
-    return _instance;
+  RecipyInMemoryStorage(
+    InMemoryStorageIngredientRepository ingredientRepository,
+    InMemoryStorageIngredientUnitRepository ingredientUnitRepository,
+  ) {
+    _ingredientRepository = ingredientRepository;
+    _ingredientUnitRepository = ingredientUnitRepository;
   }
 
   // Ingredients
@@ -20,10 +20,7 @@ class RecipyInMemoryStorage {
   List<Ingredient> getIngredients() => _ingredients;
 
   Future<HttpReadResult<List<Ingredient>>> refetchIngredients() async {
-    final container = ProviderContainer();
-    final repository =
-        container.read(inMemoryStorageIngredientRepositoryProvider);
-    var result = await repository.fetchIngredients();
+    var result = await _ingredientRepository.fetchIngredients();
     if (result.success) {
       _ingredients = result.data!;
     }
@@ -36,10 +33,7 @@ class RecipyInMemoryStorage {
   List<IngredientUnit> getIngredientUnits() => _ingredientUnits;
 
   Future<HttpReadResult<List<IngredientUnit>>> refetchIngredientUnits() async {
-    final container = ProviderContainer();
-    final repository =
-        container.read(inMemoryStorageIngredientUnitRepositoryProvider);
-    var result = await repository.fetchIngredientUnits();
+    var result = await _ingredientUnitRepository.fetchIngredientUnits();
     if (result.success) {
       _ingredientUnits = result.data!;
     }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:recipy_frontend/helpers/in_memory.dart';
 import 'package:recipy_frontend/models/ingredient.dart';
 import 'package:recipy_frontend/models/ingredient_unit.dart';
 import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/editable_ingredient_usage.dart';
-import 'package:recipy_frontend/storage/in_memory_storage.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/with_ingredient_builder.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/with_ingredient_unit_builder.dart';
 import 'package:recipy_frontend/widgets/recipy_text_field.dart';
 import 'package:recipy_frontend/widgets/recipy_dropdown_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -17,8 +17,6 @@ class EditIngredientUsageWidget extends StatelessWidget {
   final Function()? onDeleteIngredientUsageCallback;
   final List<String> ingredientIdsToExclude;
 
-  final Ingredient? ingredient;
-  final IngredientUnit? ingredientUnit;
   final TextEditingController amountController;
 
   EditIngredientUsageWidget({
@@ -29,9 +27,7 @@ class EditIngredientUsageWidget extends StatelessWidget {
     required this.onIngredientUnitChanged,
     this.onDeleteIngredientUsageCallback,
     this.ingredientIdsToExclude = const [],
-  })  : ingredient = ingredientFor(usage.ingredientId ?? ""),
-        ingredientUnit = ingredientUnitFor(usage.ingredientUnitId ?? ""),
-        amountController = TextEditingController(text: usage.amount.toString()),
+  })  : amountController = TextEditingController(text: usage.amount.toString()),
         super(key: key);
 
   @override
@@ -73,38 +69,44 @@ class EditIngredientUsageWidget extends StatelessWidget {
   }
 
   Widget buildEditIngredientUsageWidget() {
-    return RecipyDropdownWidget<IngredientUnit>(
-      getDisplayName: (ingredientUnit) => ingredientUnit.name,
-      onSelection: (ingredientUnit) =>
-          onIngredientUnitChanged(ingredientUnit?.id),
-      getAssortment: () {
-        var assortment = RecipyInMemoryStorage().getIngredientUnits();
-        assortment.sort((a, b) => a.name.compareTo(b.name));
-        return assortment;
+    return WithIngredientUnitBuilder(
+      ingredientUnitId: usage.ingredientUnitId,
+      builder: (context, allIngredientUnits, ingredientUnit) {
+        return RecipyDropdownWidget<IngredientUnit>(
+          getDisplayName: (ingredientUnit) => ingredientUnit.name,
+          onSelection: (ingredientUnit) =>
+              onIngredientUnitChanged(ingredientUnit?.id),
+          getAssortment: () => allIngredientUnits,
+          preselection: ingredientUnit,
+          hint: "recipe_details.edit_mode.usage.ingredient_unit.dropdown.hint"
+              .tr(),
+        );
       },
-      preselection: ingredientUnit,
-      hint: "recipe_details.edit_mode.usage.ingredient_unit.dropdown.hint".tr(),
     );
   }
 
   Widget buildIngredientWidget() {
-    return RecipyDropdownWidget<Ingredient>(
-      getDisplayName: (ingredient) => ingredient.name,
-      onSelection: (ingredient) => onIngredientChanged(ingredient?.id),
-      getAssortment: () {
-        var assortment = RecipyInMemoryStorage()
-            .getIngredients()
-            .where(
-              (ing) =>
-                  !ingredientIdsToExclude.contains(ing.id) ||
-                  ing.id == ingredient?.id,
-            )
-            .toList();
-        assortment.sort((a, b) => a.name.compareTo(b.name));
-        return assortment;
+    return WithIngredientBuilder(
+      ingredientId: usage.ingredientId,
+      builder: (context, allIngredients, ingredient) {
+        return RecipyDropdownWidget<Ingredient>(
+          getDisplayName: (ingredient) => ingredient.name,
+          onSelection: (ingredient) => onIngredientChanged(ingredient?.id),
+          getAssortment: () {
+            var assortment = allIngredients
+                .where(
+                  (ing) =>
+                      !ingredientIdsToExclude.contains(ing.id) ||
+                      ing.id == ingredient?.id,
+                )
+                .toList();
+
+            return assortment;
+          },
+          preselection: ingredient,
+          hint: "recipe_details.edit_mode.usage.ingredient.dropdown.hint".tr(),
+        );
       },
-      preselection: ingredient,
-      hint: "recipe_details.edit_mode.usage.ingredient.dropdown.hint".tr(),
     );
   }
 }

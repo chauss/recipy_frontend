@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:recipy_frontend/helpers/in_memory.dart';
-import 'package:recipy_frontend/models/ingredient.dart';
-import 'package:recipy_frontend/models/ingredient_unit.dart';
 import 'package:recipy_frontend/models/ingredient_usage.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/with_ingredient_builder.dart';
+import 'package:recipy_frontend/pages/recipe_detail/parts/ingredient_usage/with_ingredient_unit_builder.dart';
 
 class IngredientUsageWidget extends StatelessWidget {
   final IngredientUsage usage;
-  final Ingredient ingredient;
-  final IngredientUnit ingredientUnit;
 
-  IngredientUsageWidget({
+  const IngredientUsageWidget({
     Key? key,
     required this.usage,
-  })  : ingredient = ingredientFor(usage.ingredientId)!,
-        ingredientUnit = ingredientUnitFor(usage.ingredientUnitId)!,
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,21 +26,24 @@ class IngredientUsageWidget extends StatelessWidget {
       padding: const EdgeInsets.only(right: 6),
       child: SizedBox(
         width: 100,
-        child: RichText(
-          textAlign: TextAlign.end,
-          text: TextSpan(
-            style:
-                Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 18),
-            children: <TextSpan>[
-              TextSpan(text: "${getAmountAsString()} "),
-              TextSpan(
-                text: ingredientUnit.name,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge
-                    ?.copyWith(fontSize: 16),
-              ),
-            ],
+        child: WithIngredientUnitBuilder(
+          ingredientUnitId: usage.ingredientUnitId,
+          builder: (context, allIngredientUnits, ingredientUnit) => RichText(
+            textAlign: TextAlign.end,
+            text: TextSpan(
+              style:
+                  Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 18),
+              children: <TextSpan>[
+                TextSpan(text: "${getAmountAsString()} "),
+                TextSpan(
+                  text: ingredientUnit?.name ?? "",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge
+                      ?.copyWith(fontSize: 16),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -53,12 +51,17 @@ class IngredientUsageWidget extends StatelessWidget {
   }
 
   Widget buildIngredientWidget() {
-    return SizedBox(
-      width: 120,
-      child: Text(
-        ingredient.name,
-        style: const TextStyle(fontSize: 18),
-      ),
+    return WithIngredientBuilder(
+      ingredientId: usage.ingredientId,
+      builder: (context, allIngredients, ingredient) {
+        return SizedBox(
+          width: 120,
+          child: Text(
+            ingredient?.name ?? "",
+            style: const TextStyle(fontSize: 18),
+          ),
+        );
+      },
     );
   }
 

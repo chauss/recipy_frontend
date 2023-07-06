@@ -114,6 +114,7 @@ final StateNotifierProvider<IngredientsController, IngredientsModel>
     const IngredientsModel(),
     ref.read(ingredientRepositoryProvider),
     ref.read(userManagementRepositoryProvider),
+    ref.read(inMemoryStorageProvider),
   ),
 );
 
@@ -133,6 +134,7 @@ final StateNotifierProvider<IngredientUnitsController, IngredientUnitsModel>
   (ref) => IngredientUnitsControllerImpl(
     const IngredientUnitsModel(),
     ref.read(userManagementRepositoryProvider),
+    ref.read(inMemoryStorageProvider),
   ),
 );
 
@@ -210,6 +212,13 @@ final StateNotifierProvider<SettingsController, SettingsModel>
 // #############################################################################
 // # Storage
 // #############################################################################
+final inMemoryStorageProvider = Provider<RecipyInMemoryStorage>((ref) {
+  return RecipyInMemoryStorage(
+    ref.read(inMemoryStorageIngredientRepositoryProvider),
+    ref.read(inMemoryStorageIngredientUnitRepositoryProvider),
+  );
+});
+
 final inMemoryStorageIngredientRepositoryProvider =
     Provider<InMemoryStorageIngredientRepository>((ref) {
   return RecipyIngredientRepository();

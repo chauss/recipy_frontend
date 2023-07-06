@@ -5,7 +5,7 @@ import 'package:recipy_frontend/config/locale_config.dart';
 import 'package:recipy_frontend/config/routes_config.dart';
 import 'package:recipy_frontend/config/theme_config.dart';
 import 'package:recipy_frontend/helpers/logging_helper.dart';
-import 'package:recipy_frontend/storage/in_memory_storage.dart';
+import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:beamer/beamer.dart';
 import 'firebase_options.dart';
@@ -24,9 +24,10 @@ Future<void> main() async {
 
   final container = ProviderContainer();
   final routerDelegate = createDelegte(container);
+  final inMemoryStorage = container.read(inMemoryStorageProvider);
 
-  RecipyInMemoryStorage().refetchIngredients();
-  RecipyInMemoryStorage().refetchIngredientUnits();
+  inMemoryStorage.refetchIngredients();
+  inMemoryStorage.refetchIngredientUnits();
 
   runApp(
     UncontrolledProviderScope(

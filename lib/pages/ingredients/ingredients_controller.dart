@@ -11,14 +11,17 @@ import 'package:recipy_frontend/storage/in_memory_storage.dart';
 class IngredintsControllerImpl extends IngredientsController {
   late IngredientRepository _repository;
   late UserManagementRepository _userManagementRepository;
+  late RecipyInMemoryStorage _inMemoryStorage;
 
   IngredintsControllerImpl(
     IngredientsModel state,
     IngredientRepository ingredientRepository,
     UserManagementRepository userManagementRepository,
+    RecipyInMemoryStorage inMemoryStorage,
   ) : super(state) {
     _repository = ingredientRepository;
     _userManagementRepository = userManagementRepository;
+    _inMemoryStorage = inMemoryStorage;
     _userManagementRepository.addOnUserStateChangedListener(_onUserChanged);
 
     _init();
@@ -38,7 +41,7 @@ class IngredintsControllerImpl extends IngredientsController {
   Future<void> _fetchIngredients() async {
     state = state.copyWith(isLoading: true);
 
-    var result = await RecipyInMemoryStorage().refetchIngredients();
+    var result = await _inMemoryStorage.refetchIngredients();
 
     if (result.success) {
       state = state.copyWith(ingredients: result.data!, isLoading: false);
