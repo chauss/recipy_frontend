@@ -5,11 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/config/routes_config.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/pages/recipe_overview/recipe_overview_model.dart';
-import 'package:recipy_frontend/widgets/info_dialog.dart';
+import 'package:recipy_frontend/providers/device_info_provider/device_info_provider.dart';
+import 'package:recipy_frontend/widgets/dialogs/info_dialog.dart';
 import 'package:recipy_frontend/widgets/process_indicator.dart';
 import 'package:recipy_frontend/widgets/recipe_overview_widget.dart';
 import 'package:recipy_frontend/widgets/recipy_app_bar.dart';
-import 'package:recipy_frontend/widgets/text_field_dialog.dart';
+import 'package:recipy_frontend/widgets/dialogs/text_field_dialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class RecipeOverviewPage extends ConsumerWidget {
@@ -82,20 +83,23 @@ class RecipeOverviewPage extends ConsumerWidget {
         onRefresh: controller.refetchRecipes,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: GridView.count(
-            crossAxisCount: 2,
-            mainAxisSpacing: 16,
-            crossAxisSpacing: 16,
-            children: model.recipeOverviews
-                .map(
-                  (recipeOverview) => RecipeOverviewWidget(
-                    recipeOverview: recipeOverview,
-                    onClick: () => context.beamToNamed(
-                        RecipyRoute.recipeDetailsRouteForId(
-                            context, recipeOverview.id)),
-                  ),
-                )
-                .toList(),
+          child: Consumer(
+            builder: (context, ref, child) => GridView.count(
+              crossAxisCount:
+                  ref.watch(deviceInfoProvider).screenWithSmallWidth ? 2 : 3,
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+              children: model.recipeOverviews
+                  .map(
+                    (recipeOverview) => RecipeOverviewWidget(
+                      recipeOverview: recipeOverview,
+                      onClick: () => context.beamToNamed(
+                          RecipyRoute.recipeDetailsRouteForId(
+                              context, recipeOverview.id)),
+                    ),
+                  )
+                  .toList(),
+            ),
           ),
         ));
   }

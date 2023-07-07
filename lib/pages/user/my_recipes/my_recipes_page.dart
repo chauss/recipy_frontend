@@ -4,7 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/config/routes_config.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
-import 'package:recipy_frontend/widgets/info_dialog.dart';
+import 'package:recipy_frontend/widgets/dialogs/info_dialog.dart';
 import 'package:recipy_frontend/widgets/process_indicator.dart';
 import 'package:recipy_frontend/widgets/recipe_overview_widget.dart';
 import 'package:recipy_frontend/widgets/recipy_app_bar.dart';

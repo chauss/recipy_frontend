@@ -8,6 +8,8 @@ import 'package:recipy_frontend/helpers/logging_helper.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:beamer/beamer.dart';
+import 'package:recipy_frontend/providers/device_info_provider/device_info_provider_widget.dart';
+import 'package:recipy_frontend/widgets/web_container_widget.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -33,11 +35,16 @@ Future<void> main() async {
     UncontrolledProviderScope(
       container: container,
       child: EasyLocalization(
-          supportedLocales: supportedLocales,
-          path: 'assets/translations',
-          useOnlyLangCode: true,
-          fallbackLocale: fallbackLocale,
-          child: MyApp(routerDelegate: routerDelegate)),
+        supportedLocales: supportedLocales,
+        path: 'assets/translations',
+        useOnlyLangCode: true,
+        fallbackLocale: fallbackLocale,
+        child: DeviceInfoProviderWidget(
+          child: WebContainerWidget(
+            child: MyApp(routerDelegate: routerDelegate),
+          ),
+        ),
+      ),
     ),
   );
 }

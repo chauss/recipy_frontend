@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipy_frontend/widgets/recipy_button.dart';
 import 'package:recipy_frontend/widgets/recipy_text_field.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
-import 'package:recipy_frontend/widgets/info_dialog.dart';
+import 'package:recipy_frontend/widgets/dialogs/info_dialog.dart';
 import 'package:recipy_frontend/widgets/recipy_app_bar.dart';
 import 'package:recipy_frontend/config/routes_config.dart';
 import 'package:recipy_frontend/widgets/text_with_hyperlink.dart';
