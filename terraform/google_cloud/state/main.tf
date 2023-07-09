@@ -8,15 +8,7 @@ terraform {
 }
 
 provider "google" {
-  project = var.projectId
+  project = var.project_id
 }
 
-resource "google_storage_bucket" "state_bucket" {
-  project                     = var.projectId
-  name                        = "tf-state-recipy"
-  location                    = "EU"
-  uniform_bucket_level_access = true
-  versioning {
-    enabled = true
-  }
-}
+

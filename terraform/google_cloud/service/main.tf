@@ -8,8 +8,8 @@ terraform {
 }
 
 provider "google" {
-  project = var.projectId
-  region  = "europe-west3"
+  project = var.project_id
+  region  = local.region
 }
 
 data "terraform_remote_state" "network" {

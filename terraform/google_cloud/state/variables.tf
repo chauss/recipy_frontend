@@ -1,2 +1,2 @@
-variable "projectId" {}
+variable "project_id" {}
 

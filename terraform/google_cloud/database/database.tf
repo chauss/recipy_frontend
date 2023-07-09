@@ -1,5 +1,5 @@
 resource "google_sql_database_instance" "recipy_instance" {
-  name             = var.database_instance_name
+  name             = local.database_instance_name
   database_version = "POSTGRES_15"
   settings {
     tier              = "db-f1-micro" # This machine type is only for testing purposes
@@ -14,13 +14,13 @@ resource "google_sql_database_instance" "recipy_instance" {
   deletion_protection = "false"
 }
 
-resource "google_sql_user" "users" {
+resource "google_sql_user" "default_user" {
   name     = var.database_username
   instance = google_sql_database_instance.recipy_instance.name
-  password = var.database_password
+  type     = "CLOUD_IAM_USER"
 }
 
 resource "google_sql_database" "database" {
-  name     = var.database_name
+  name     = local.database_name
   instance = google_sql_database_instance.recipy_instance.name
 }
