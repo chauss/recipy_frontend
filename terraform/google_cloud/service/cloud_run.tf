@@ -53,19 +53,19 @@ resource "google_cloud_run_service" "recipy_backend_service" {
         }
         env {
           name  = "CLOUD_SQL_INSTANCE_CONNECTION_NAME"
-          value = data.terraform_remote_state.database.outputs.database_instance_name
+          value = data.terraform_remote_state.database.outputs.database_instance_connection_name
         }
         env {
           name  = "DB_NAME"
           value = data.terraform_remote_state.database.outputs.database_name
         }
         env {
-          name  = "DATA_IMAGES_PATH"
+          name  = "RECIPY_DATA_IMAGES_PATH"
           value = local.image_data_path
         }
         env {
-          name  = "GOOGLE_APPLICATION_CREDENTIALS"
-          value = "todo"
+          name  = "RECIPY_ENCRYPTION_FIREBASE_SECRET_KEY"
+          value = var.firebase_credentials_decryption_key
         }
         env {
           name  = "DB_ACCESS_SA"
@@ -75,9 +75,10 @@ resource "google_cloud_run_service" "recipy_backend_service" {
     }
     metadata {
       annotations = {
-        "autoscaling.knative.dev/minScale"        = "1"
+        "autoscaling.knative.dev/minScale"        = "0"
         "autoscaling.knative.dev/maxScale"        = "1"
-        "run.googleapis.com/cpu-throttling"       = false
+        "run.googleapis.com/cpu-throttling"       = true
+        # "run.googleapis.com/cloudsql-instances"   = data.terraform_remote_state.database.outputs.database_instance_connection_name
         "run.googleapis.com/vpc-access-egress"    = "all"                                                                 # enforce egress via vpc
         "run.googleapis.com/vpc-access-connector" = data.terraform_remote_state.network.outputs.vpc_access_connector_name # enforce egress via vpc
       }
