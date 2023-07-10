@@ -9,15 +9,13 @@ resource "google_sql_database_instance" "recipy_instance" {
       ipv4_enabled    = false
       private_network = data.terraform_remote_state.network.outputs.recipy_vpc_id
     }
+    database_flags {
+      name  = "cloudsql.iam_authentication"
+      value = "on"
+    }
   }
 
   deletion_protection = "false"
-}
-
-resource "google_sql_user" "default_user" {
-  name     = var.database_username
-  instance = google_sql_database_instance.recipy_instance.name
-  type     = "CLOUD_IAM_USER"
 }
 
 resource "google_sql_database" "database" {

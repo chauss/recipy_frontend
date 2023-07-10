@@ -14,7 +14,10 @@ resource "google_project_iam_member" "attach_iam_roles_to_service" {
 
 # Create user for the service account in cloud sql
 resource "google_sql_user" "users" {
-  name     = google_service_account.recipy_backend_sa.account_id
+  # Note: Due to the length limit on a database username, for service accounts, Cloud SQL
+  # truncates the .gserviceaccount.com suffix in the email. For example, the username for
+  # the service account sa-name@project-id.iam.gserviceaccount.com becomes sa-name@project-id.iam. 
+  name     = "${google_service_account.recipy_backend_sa.account_id}@${var.project_id}.iam"
   instance = data.terraform_remote_state.database.outputs.database_instance_name
   type     = "CLOUD_IAM_SERVICE_ACCOUNT"
 }
@@ -49,7 +52,7 @@ resource "google_cloud_run_service" "recipy_backend_service" {
           value = data.terraform_remote_state.database.outputs.database_instance_ip_address
         }
         env {
-          name  = "CLOUD_SQL_INSTANCE_NAME"
+          name  = "CLOUD_SQL_INSTANCE_CONNECTION_NAME"
           value = data.terraform_remote_state.database.outputs.database_instance_name
         }
         env {
@@ -63,6 +66,10 @@ resource "google_cloud_run_service" "recipy_backend_service" {
         env {
           name  = "GOOGLE_APPLICATION_CREDENTIALS"
           value = "todo"
+        }
+        env {
+          name  = "DB_ACCESS_SA"
+          value = "${google_service_account.recipy_backend_sa.account_id}@${var.project_id}.iam"
         }
       }
     }
