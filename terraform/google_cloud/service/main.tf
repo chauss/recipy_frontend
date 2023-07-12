@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/google"
       version = "~> 4.29.0"
     }
+    random = {
+      source = "hashicorp/random"
+      version = "3.5.1"
+    }
   }
 }
 
@@ -25,5 +29,13 @@ data "terraform_remote_state" "database" {
   config = {
     bucket = "tf-state-recipy"
     prefix = "database"
+  }
+}
+
+data "terraform_remote_state" "postgres" {
+  backend = "gcs"
+  config = {
+    bucket = "tf-state-recipy"
+    prefix = "postgres"
   }
 }

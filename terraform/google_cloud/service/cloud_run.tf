@@ -1,35 +1,20 @@
-# Service Account for the cloud run service
-resource "google_service_account" "recipy_backend_sa" {
-  account_id   = "recipy-backend-sa"
-  display_name = "recipy-backend-sa"
-}
-
 # Add all specified roles to the service account for the cloud run service
 resource "google_project_iam_member" "attach_iam_roles_to_service" {
-  member   = "serviceAccount:${google_service_account.recipy_backend_sa.email}"
+  member   = "serviceAccount:${data.terraform_remote_state.postgres.outputs.cloud_run_sa_email}"
   for_each = toset(local.sa_roles)
   role     = each.value
   project  = var.project_id
 }
 
-# Create user for the service account in cloud sql
-resource "google_sql_user" "users" {
-  # Note: Due to the length limit on a database username, for service accounts, Cloud SQL
-  # truncates the .gserviceaccount.com suffix in the email. For example, the username for
-  # the service account sa-name@project-id.iam.gserviceaccount.com becomes sa-name@project-id.iam. 
-  name     = "${google_service_account.recipy_backend_sa.account_id}@${var.project_id}.iam"
-  instance = data.terraform_remote_state.database.outputs.database_instance_name
-  type     = "CLOUD_IAM_SERVICE_ACCOUNT"
-}
-
 # Cloud run service
 resource "google_cloud_run_service" "recipy_backend_service" {
+  depends_on = [ google_project_iam_member.attach_iam_roles_to_service ]
   name                       = "recipy-backend"
   location                   = "europe-west3"
   autogenerate_revision_name = true
   template {
     spec {
-      service_account_name = google_service_account.recipy_backend_sa.email
+      service_account_name = data.terraform_remote_state.postgres.outputs.cloud_run_sa_email
       timeout_seconds      = 3600
       containers {
         image = local.image_name
@@ -69,7 +54,7 @@ resource "google_cloud_run_service" "recipy_backend_service" {
         }
         env {
           name  = "DB_ACCESS_SA"
-          value = "${google_service_account.recipy_backend_sa.account_id}@${var.project_id}.iam"
+          value = trimsuffix(data.terraform_remote_state.postgres.outputs.cloud_run_sa_email, ".gserviceaccount.com")
         }
       }
     }

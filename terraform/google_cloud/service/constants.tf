@@ -5,7 +5,9 @@ locals {
   active_spring_profile = "google-cloud"
 
   sa_roles = [
-    "roles/cloudsql.editor",
     "roles/compute.networkUser",
+    "roles/cloudsql.editor",
+    "roles/cloudsql.instanceUser",
+    "roles/iam.serviceAccountTokenCreator",
   ]
 }
