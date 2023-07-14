@@ -44,6 +44,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-### Terraform states ###
-.terraform
-.tfstate.*
+# Terraform
+**/*.tfstate*
+**/.terraform*
