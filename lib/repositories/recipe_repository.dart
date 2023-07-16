@@ -27,9 +27,11 @@ class RecipyRecipeRepository
   @override
   Future<HttpReadResult<List<RecipeOverview>>> fetchRecipesAsOverview(
       {String? forUserId}) async {
+    log.fine("Going to fetch recipes as overview. ForUserId=$forUserId...");
     final forUserIdEndpoint = forUserId != null ? "/userId/$forUserId" : "";
     var uri = Uri.parse(
         "${APIConfiguration.backendBaseUri}/v1/recipes/overview$forUserIdEndpoint");
+    log.finer("Url being called is: $uri");
     http.Response response;
     try {
       response = await http.get(uri);

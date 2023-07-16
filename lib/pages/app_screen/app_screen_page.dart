@@ -2,12 +2,15 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:recipy_frontend/config/routes_config.dart';
 import 'package:recipy_frontend/helpers/providers.dart';
 import 'package:recipy_frontend/pages/app_screen/app_screen_model.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class AppScreenPage extends ConsumerWidget {
+  static final log = Logger('AppScreenControllerImpl');
+
   const AppScreenPage({super.key});
 
   @override
@@ -49,6 +52,7 @@ class AppScreenPage extends ConsumerWidget {
   void react(AppScreenController controller, BuildContext context) {
     final uriString = Beamer.of(context).configuration.location!;
     final currentPage = uriString.startsWith(RecipyRoute.homePrefix) ? 0 : 1;
+    log.info("CurrentPage is $currentPage because uriString is $uriString");
     SchedulerBinding.instance.addPostFrameCallback(
         (_) => controller.setCurrentIndexPage(currentPage));
   }
