@@ -11,7 +11,9 @@ import 'package:easy_localization/easy_localization.dart';
 class AppScreenPage extends ConsumerWidget {
   static final log = Logger('AppScreenControllerImpl');
 
-  const AppScreenPage({super.key});
+  final List<BeamerDelegate> beamerLocationDelegates;
+
+  const AppScreenPage({super.key, required this.beamerLocationDelegates});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,8 +27,8 @@ class AppScreenPage extends ConsumerWidget {
       body: IndexedStack(
         index: model.currentPageIndex,
         children: [
-          Beamer(routerDelegate: recipyBeamerLocations[0]),
-          Beamer(routerDelegate: recipyBeamerLocations[1])
+          Beamer(routerDelegate: beamerLocationDelegates[0]),
+          Beamer(routerDelegate: beamerLocationDelegates[1])
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -42,7 +44,7 @@ class AppScreenPage extends ConsumerWidget {
           ),
         ],
         onTap: (idx) {
-          recipyBeamerLocations[idx].update(rebuild: false);
+          beamerLocationDelegates[idx].update(rebuild: false);
           controller.setCurrentIndexPage(idx);
         },
       ),

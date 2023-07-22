@@ -38,37 +38,27 @@ class RecipyRoute {
   }
 }
 
-final recipyBeamerLocations = [
-  BeamerDelegate(
-    initialPath: RecipyRoute.homeRecipeOverview,
-    locationBuilder: (routeInformation, _) {
-      if (routeInformation.location!.startsWith(RecipyRoute.homePrefix)) {
-        return HomeLocation(routeInformation);
-      }
-      return NotFound(path: routeInformation.location!);
-    },
-  ),
-  BeamerDelegate(
-    initialPath: RecipyRoute.userProfile,
-    locationBuilder: (routeInformation, _) {
-      if (routeInformation.location!.startsWith(RecipyRoute.userPrefix) ||
-          routeInformation.location!.startsWith(RecipyRoute.login)) {
-        return UserLocation(routeInformation);
-      }
-      return NotFound(path: routeInformation.location!);
-    },
-  )
-];
-
-BeamerDelegate createDelegte(ProviderContainer container) => BeamerDelegate(
-      initialPath: RecipyRoute.homeRecipeOverview,
-      locationBuilder: RoutesLocationBuilder(
-        routes: {
-          '*': (context, state, data) => const AppScreenPage(),
+List<BeamerDelegate> createBeamLocations(ProviderContainer container) => [
+      BeamerDelegate(
+        initialPath: RecipyRoute.homeRecipeOverview,
+        locationBuilder: (routeInformation, _) {
+          if (routeInformation.location!.startsWith(RecipyRoute.homePrefix)) {
+            return HomeLocation(routeInformation);
+          }
+          return NotFound(path: routeInformation.location!);
         },
       ),
-      guards: [
-        BeamGuard(
+      BeamerDelegate(
+        initialPath: RecipyRoute.userProfile,
+        locationBuilder: (routeInformation, _) {
+          if (routeInformation.location!.startsWith(RecipyRoute.userPrefix) ||
+              routeInformation.location!.startsWith(RecipyRoute.login)) {
+            return UserLocation(routeInformation);
+          }
+          return NotFound(path: routeInformation.location!);
+        },
+        guards: [
+          BeamGuard(
             pathPatterns: ['${RecipyRoute.userPrefix}/**'],
             check: (_, __) => container
                 .read(userManagementRepositoryProvider)
@@ -82,6 +72,21 @@ BeamerDelegate createDelegte(ProviderContainer container) => BeamerDelegate(
               }
 
               return RecipyRoute.login;
-            })
-      ],
-    );
+            },
+          )
+        ],
+      )
+    ];
+
+BeamerDelegate createDelegte(ProviderContainer container) {
+  return BeamerDelegate(
+    initialPath: RecipyRoute.homeRecipeOverview,
+    locationBuilder: RoutesLocationBuilder(
+      routes: {
+        '*': (context, state, data) => AppScreenPage(
+              beamerLocationDelegates: createBeamLocations(container),
+            ),
+      },
+    ),
+  );
+}
