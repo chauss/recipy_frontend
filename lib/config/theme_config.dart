@@ -18,8 +18,11 @@ ThemeData appTheme = ThemeData(
   ),
   appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,
+      foregroundColor: Colors.cyan,
       systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
+        statusBarColor: Colors.pink,
+        systemNavigationBarColor: Colors.red,
+        systemNavigationBarDividerColor: Colors.yellow,
       )),
   textTheme: TextTheme(
     titleMedium: const TextStyle(
