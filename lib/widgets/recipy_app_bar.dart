@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:recipy_frontend/widgets/burger_icon.dart';
 
 class RecipyAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -22,6 +23,9 @@ class RecipyAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(title),
       actions: actions,
       elevation: 0,
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarColor: Theme.of(context).colorScheme.background,
+      ),
     );
   }
 
