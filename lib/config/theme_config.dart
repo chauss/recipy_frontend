@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 const appColor = Color(0xFF43A047);
 
@@ -15,7 +16,11 @@ ThemeData appTheme = ThemeData(
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     selectedItemColor: appColorSwatch.shade300,
   ),
-  appBarTheme: const AppBarTheme(backgroundColor: Colors.transparent),
+  appBarTheme: const AppBarTheme(
+      backgroundColor: Colors.transparent,
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+      )),
   textTheme: TextTheme(
     titleMedium: const TextStyle(
       color: Colors.white,
