@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:recipy_frontend/widgets/burger_icon.dart';
@@ -24,13 +25,16 @@ class RecipyAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: actions,
       elevation: 0,
       systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarColor: Theme.of(context).colorScheme.background,
+        statusBarColor: Theme.of(context).scaffoldBackgroundColor,
       ),
     );
   }
 
   Widget _getLeadingWidget(BuildContext context) {
     if (ModalRoute.of(context)?.canPop ?? false) {
+      if (kIsWeb) {
+        return Container();
+      }
       return const BackButton();
     } else {
       return BurgerIcon(controller: iconController);
