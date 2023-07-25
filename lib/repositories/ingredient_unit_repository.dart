@@ -26,8 +26,9 @@ class RecipyIngredientUnitRepository
     http.Response response;
     try {
       response = await http.get(uri);
-    } on SocketException catch (_) {
-      log.warning("Could not fetch ingredientUnits: Server unreachable");
+    } catch (e) {
+      log.warning(
+          "Could not fetch ingredientUnits: Server unreachable? Error: $e");
       return HttpReadResult(
           success: false, errorCode: ErrorCodes.serverUnreachable);
     }
@@ -57,9 +58,9 @@ class RecipyIngredientUnitRepository
             HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
             HttpHeaders.authorizationHeader: 'Bearer ${request.userToken}',
           });
-    } on SocketException catch (_) {
+    } catch (e) {
       log.warning(
-          "Could not add ingredientUnit \"${request.name}\": Server unreachable");
+          "Could not add ingredientUnit \"${request.name}\": Server unreachable? Error: $e");
       return HttpWriteResult(
           success: false, errorCode: ErrorCodes.serverUnreachable);
     }
@@ -85,7 +86,9 @@ class RecipyIngredientUnitRepository
           HttpHeaders.authorizationHeader: 'Bearer ${request.userToken}',
         },
       );
-    } on SocketException catch (_) {
+    } catch (e) {
+      log.warning(
+          "Could not delete ingredientUnit by id \"${request.ingredientUnitId}\": Server unreachable? Error: $e");
       log.warning("Could not delete ingredientUnit by id: Server unreachable");
       return HttpWriteResult(
           success: false, errorCode: ErrorCodes.serverUnreachable);

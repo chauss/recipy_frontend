@@ -23,8 +23,8 @@ class RecipyIngredientRepository
     http.Response response;
     try {
       response = await http.get(uri);
-    } on SocketException catch (_) {
-      log.warning("Could not fetch ingredients: Server unreachable");
+    } catch (e) {
+      log.warning("Could not fetch ingredients: Server unreachable? Error: $e");
       return HttpReadResult(
           success: false, errorCode: ErrorCodes.serverUnreachable);
     }
@@ -53,9 +53,9 @@ class RecipyIngredientRepository
           HttpHeaders.authorizationHeader: 'Bearer ${request.userToken}',
         },
       );
-    } on SocketException catch (_) {
+    } catch (e) {
       log.warning(
-          "Could not add ingredient \"${request.name}\": Server unreachable");
+          "Could not add ingredient \"${request.name}\": Server unreachable? Error: $e");
       return HttpWriteResult(
           success: false, errorCode: ErrorCodes.serverUnreachable);
     }
@@ -81,8 +81,9 @@ class RecipyIngredientRepository
           HttpHeaders.authorizationHeader: 'Bearer ${request.userToken}',
         },
       );
-    } on SocketException catch (_) {
-      log.warning("Could not delete ingredient by id: Server unreachable");
+    } catch (e) {
+      log.warning(
+          "Could not delete ingredient by id \"${request.ingredientId}\": Server unreachable? Error: $e");
       return HttpWriteResult(
           success: false, errorCode: ErrorCodes.serverUnreachable);
     }

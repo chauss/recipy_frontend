@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 const appColor = Color(0xFF43A047);
 
@@ -17,13 +16,8 @@ ThemeData appTheme = ThemeData(
     selectedItemColor: appColorSwatch.shade300,
   ),
   appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.transparent,
-      foregroundColor: Colors.cyan,
-      systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarColor: Colors.pink,
-        systemNavigationBarColor: Colors.red,
-        systemNavigationBarDividerColor: Colors.yellow,
-      )),
+    backgroundColor: Colors.transparent,
+  ),
   textTheme: TextTheme(
     titleMedium: const TextStyle(
       color: Colors.white,

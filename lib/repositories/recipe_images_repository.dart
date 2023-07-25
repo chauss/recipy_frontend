@@ -31,8 +31,9 @@ class RecipyRecipeImagesRepository implements RecipeImagesRepository {
     http.Response response;
     try {
       response = await http.get(uri);
-    } on SocketException catch (_) {
-      log.warning("Could not fetch image for recipe: Server unreachable");
+    } catch (e) {
+      log.warning(
+          "Could not fetch image \"$imageId\" for recipe \"$recipeId\": Server unreachable? Error: $e");
       return HttpReadResult(
           success: false, errorCode: ErrorCodes.serverUnreachable);
     }
@@ -53,9 +54,9 @@ class RecipyRecipeImagesRepository implements RecipeImagesRepository {
     http.Response response;
     try {
       response = await http.get(uri);
-    } on SocketException catch (_) {
+    } catch (e) {
       log.warning(
-          "Could not fetch recipeImages for recipe: Server unreachable");
+          "Could not fetch recipeImages for recipe \"$recipeId\": Server unreachable? Error: $e");
       return HttpReadResult(
           success: false, errorCode: ErrorCodes.serverUnreachable);
     }
@@ -98,9 +99,9 @@ class RecipyRecipeImagesRepository implements RecipeImagesRepository {
       );
 
       response = await http.Response.fromStream(await request.send());
-    } on SocketException catch (_) {
+    } catch (e) {
       log.warning(
-          "Could not add (recipe)Image to recipe $recipeId: Server unreachable");
+          "Could not add (recipe)Image for recipe \"$recipeId\": Server unreachable? Error: $e");
       return HttpWriteResult(
           success: false, errorCode: ErrorCodes.serverUnreachable);
     }
@@ -127,9 +128,9 @@ class RecipyRecipeImagesRepository implements RecipeImagesRepository {
         uri,
         headers: {HttpHeaders.authorizationHeader: 'Bearer $userToken'},
       );
-    } on SocketException catch (_) {
+    } catch (e) {
       log.warning(
-          "Could not delete recipeImage $imageId from recipe $recipeId: Server unreachable");
+          "Could not delete (recipe)Image \"$imageId\" for recipe \"$recipeId\": Server unreachable? Error: $e");
       return HttpWriteResult(
           success: false, errorCode: ErrorCodes.serverUnreachable);
     }
